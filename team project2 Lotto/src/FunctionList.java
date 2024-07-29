@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import sun.misc.JavaObjectInputStreamAccess;
+
 public class FunctionList extends JFrame {
 
 //	public FunctionList() {
@@ -54,16 +56,21 @@ public class FunctionList extends JFrame {
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
-	public List<Integer> resultLottoNumber() {
+	public List<String> resultLottoNumber() {
 
-		List<Integer> result = new ArrayList<>();
+		List<Integer> list = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 
-		while (result.size() < 8) {
+		while (list.size() < 8) {
 			Random random = new Random();
 			Integer num = random.nextInt(45) + 1;
-			if (!result.contains(num)) {
-				result.add(num);
+			if (!list.contains(num)) {
+				list.add(num);
 			}
+		}
+		
+		for (int i = 0; i < list.size(); i++) {
+			result.add(String.valueOf(list.get(i)));
 		}
 		return result;
 	}
