@@ -13,19 +13,17 @@ import java.awt.Font;
 // 기본 구성요소 : 로또번호를 정하는 창, 로또의 결과값이 나오는 창, 결과를 출력하는 창
 // 로또번호를 정하는 창은 메인에서 1 ~ 5사이의 값을 받아와서 해당 개수만큼 구현해야 함.
 
-public class DialogPnl extends JFrame {
+public class DialogPnl extends JDialog{
 	private int lottoCount; // 메인 화면에서 선택할 로또 개수
 
 	public DialogPnl() {
 
-//		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
-
+		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
+		
 		CardLayout cardLayout = new CardLayout();
 
-		System.out.println("실행");
-
 		JPanel pnlCenter = new JPanel(); // 모든 패널이 다 포함되는 패널(토대, 밑바탕)
-		pnlCenter.setLayout(cardLayout);
+		pnlCenter.setLayout(cardLayout); // 토대가 되는 패널은 card Layout
 		JPanel pnlBuyLotto = new JPanel(); // 로또 구매 창 패널
 		pnlBuyLotto.setLayout(null); // 로또 구매 창 패널은 Absolute Layout
 		JPanel pnlNumberCheck = new JPanel(); // 당첨 숫자 확인 창 패널
@@ -91,7 +89,8 @@ public class DialogPnl extends JFrame {
 		JLabel lblBonusNum = new JLabel("7"); // 보너스 번호 레이블
 		lblBonusNum.setLocation(408, 287);
 		lblBonusNum.setSize(40, 40);
-		
+
+		// 결과 확인 버튼은 카드레이아웃 확인때문에 임의로 넣어놨는데 없애도 됨
 		JButton btnResult = new JButton("결과 확인"); // 결과 확인 버튼
 		btnResult.setFont(new Font("굴림", Font.PLAIN, 15));
 		btnResult.setLocation(320, 352);
@@ -111,7 +110,6 @@ public class DialogPnl extends JFrame {
 		JLabel lblFall = new JLabel("낙첨"); // 낙첨 레이블
 		JLabel lblWin = new JLabel("n등 당첨"); // n등 당첨 레이블, n은 바뀔 수 있게
 //		JLabel lblWin = new JLabel(n + "등 당첨"); // 나중에 n을 바꿔줌(n을 count로 받아서)
-		
 
 		JButton btnAgain = new JButton("다시하기"); // 다시하기 버튼
 		btnAgain.setLocation(17, 353);
@@ -158,7 +156,7 @@ public class DialogPnl extends JFrame {
 		pnlCenter.add(pnlNumberCheck, "NumberCheck");
 		pnlCenter.add(pnlResultCheck, "ResultCheck");
 
-//		pack(); // 다이얼로그 창 크기가 알아서 조절되게
+		pack(); // 다이얼로그 창 크기가 알아서 조절되게
 
 		getContentPane().add(pnlCenter); // 패널에 컴포넌트들을 붙임
 
@@ -174,7 +172,7 @@ public class DialogPnl extends JFrame {
 		btnAgain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// 다이얼로그 창 닫고 기본창(메인창)이 보여지도록
 
 			}
@@ -184,13 +182,13 @@ public class DialogPnl extends JFrame {
 		btnClose.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// 다이얼로그 창과 기본창이 한 번에 닫아질 수 있도록
 				// 아니면 다이얼로그 창만 닫아질 수 있도록
 				dispose();
 			}
 		});
-		
+
 		// 결과 확인 버튼 누르면 결과 확인 패널로 넘어감
 		// 이 버튼은 필요없으면 나중에 없애면 됨
 		btnResult.addActionListener(new ActionListener() {

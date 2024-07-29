@@ -111,7 +111,7 @@ public class FunctionList extends JFrame {
 	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option) {
 
 		if (option.equals("auto")) {
-			
+
 			btn.addActionListener(new ActionListener() {
 
 				@Override
@@ -123,6 +123,7 @@ public class FunctionList extends JFrame {
 					selectCheckBox(checkBoxList, 0);
 				}
 			});
+
 		} else if (option.equals("semiAuto")) {
 			btn.addActionListener(new ActionListener() {
 
@@ -138,13 +139,14 @@ public class FunctionList extends JFrame {
 					selectCheckBox(checkBoxList, count);
 				}
 			});
-		} else if(option.equals("self")) {
+
+		} else if (option.equals("self")) {
 			btn.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					changecheckBoxEnableToTrue(checkBoxList);
-					
+
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
@@ -152,8 +154,6 @@ public class FunctionList extends JFrame {
 			});
 		}
 	}
-
-	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void selectCheckBox(List<JCheckBox> checkBoxList, int count) {
@@ -166,6 +166,7 @@ public class FunctionList extends JFrame {
 			}
 		}
 	}
+
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
 		for (int i = 0; i < checkBoxList.size(); i++) {
