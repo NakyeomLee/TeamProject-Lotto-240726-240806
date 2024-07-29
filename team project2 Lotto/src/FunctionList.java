@@ -77,12 +77,15 @@ public class FunctionList extends JFrame {
 	// 순차적으로 번호를 보여줄 수 있도록 visible이 false인 Label들을 true로 1초마다 바꾸어주는 메소드 입니다.
 	// resultLottoNumber()메소드를 활용하여 7개의 Label을 구성한 뒤
 	// 해당 7개의 Label을 순서대로 괄호 안에 넣어주세요.
-	// 해당 7개 Label의 setVisible은 반드시 false로 작성하셔야 합니다.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5, JLabel lbl6,
 			JLabel lbl7) {
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7));
-
+		
+		for (JLabel lbl : list) {
+			lbl.setVisible(false);
+		}
+		 
 		Timer timer = new Timer(1000, new ActionListener() {
 
 			@Override
