@@ -170,7 +170,7 @@ public class DialogPnl extends JDialog {
 		});
 
 		pack();
-		setSize(500, 500);
+		//setSize(500, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
