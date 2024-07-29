@@ -48,10 +48,10 @@ public class DialogPnl extends JDialog {
 
 		JPanel includeSendButtonPanel = new JPanel(); // 번호 제출 버튼이 포함될 패널
 
-		JButton outoButton = new JButton(); // 자동 버튼
-		JButton selfButton = new JButton(); // 수동 버튼
-		JButton halfOutoButton = new JButton(); // 반자동 버튼
-		JButton sendButton = new JButton(); // 번호 제출 버튼
+		JButton outoButton = new JButton("자동"); // 자동 버튼
+		JButton selfButton = new JButton("수동"); // 수동 버튼
+		JButton halfOutoButton = new JButton("반자동"); // 반자동 버튼
+		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
 
 		// 당첨 숫자 확인 창 패널에 들어갈 요소들
 		JLabel loadingLabel = new JLabel("결과 추첨 중..."); // 결과 추첨 중 레이블
