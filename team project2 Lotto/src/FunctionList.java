@@ -15,47 +15,47 @@ import javax.swing.Timer;
 
 public class FunctionList extends JFrame {
 
-	public FunctionList() {
-		JPanel pnl = new JPanel();
-		List<String> list = resultLottoNumber();
-		List<JLabel> lblList = new ArrayList<>();
-		for (int i = 0; i < 7; i++) {
-			JLabel lbl = new JLabel(list.get(i));
-			lbl.setVisible(false);
-			lblList.add(lbl);
-			pnl.add(lbl);
-		}
-		JButton btn1 = new JButton("자동");
-		JButton btn2 = new JButton("수동");
-		JButton btn3 = new JButton("반자동");
-		pnl.add(btn1);
-		pnl.add(btn2);
-		pnl.add(btn3);
-		List<JCheckBox> checkBoxList = new ArrayList<>();
-		for (int i = 0; i < 45; i++) {
-			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
-			checkBox.setEnabled(false);
-			checkBoxList.add(checkBox);
-			pnl.add(checkBox);
-		}
-		
-			
-		checkLimit(checkBoxList);
-		
-		
-		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
-		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
-		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
-		
-		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
-				lblList.get(4), lblList.get(5), lblList.get(6));
-
-
-		add(pnl);
-		setSize(500, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-	}
+//	public FunctionList() {
+//		JPanel pnl = new JPanel();
+//		List<String> list = resultLottoNumber();
+//		List<JLabel> lblList = new ArrayList<>();
+//		for (int i = 0; i < 7; i++) {
+//			JLabel lbl = new JLabel(list.get(i));
+//			lbl.setVisible(false);
+//			lblList.add(lbl);
+//			pnl.add(lbl);
+//		}
+//		JButton btn1 = new JButton("자동");
+//		JButton btn2 = new JButton("수동");
+//		JButton btn3 = new JButton("반자동");
+//		pnl.add(btn1);
+//		pnl.add(btn2);
+//		pnl.add(btn3);
+//		List<JCheckBox> checkBoxList = new ArrayList<>();
+//		for (int i = 0; i < 45; i++) {
+//			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
+//			checkBox.setEnabled(false);
+//			checkBoxList.add(checkBox);
+//			pnl.add(checkBox);
+//		}
+//		
+//			
+//		checkLimit(checkBoxList);
+//		
+//		
+//		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
+//		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
+//		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
+//		
+//		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
+//				lblList.get(4), lblList.get(5), lblList.get(6));
+//
+//
+//		add(pnl);
+//		setSize(500, 500);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//
+//	}
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
@@ -82,10 +82,10 @@ public class FunctionList extends JFrame {
 	// resultLottoNumber()메소드를 활용하여 7개의 Label을 구성한 뒤
 	// 해당 7개의 Label을 순서대로 괄호 안에 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
-	public void changeToLabelVisible(JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5, JLabel lbl6,
-			JLabel lbl7) {
+	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5, JLabel lbl6,
+			JLabel lbl7, JButton btn) {
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7));
-		
+		btn.setVisible(false);
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
@@ -108,6 +108,8 @@ public class FunctionList extends JFrame {
 						}
 					}
 					if (allVisible) {
+						textLbl.setText("결과를 확인해주세요");
+						btn.setVisible(true);
 						((Timer) arg0.getSource()).stop();
 					}
 				}
@@ -214,12 +216,12 @@ public class FunctionList extends JFrame {
 	
 	
 
-	public static void main(String[] args) {
-		new FunctionList().setVisible(true);
+//	public static void main(String[] args) {
+//		new FunctionList().setVisible(true);
 
 		
 //		List<Integer> list = f.resultLottoNumber();
 //		System.out.println(list);
 
-	}
+//	}
 }
