@@ -128,7 +128,6 @@ public class MainPnl extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("인생역전 로또!");
 		lblNewLabel_1.setHorizontalAlignment(JLabel.RIGHT);
 		panel_2.add(lblNewLabel_1);
-		System.out.println("ㅁㄴㅇㄹ");
 
 	}
 
