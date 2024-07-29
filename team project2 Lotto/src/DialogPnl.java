@@ -46,7 +46,9 @@ public class DialogPnl extends JDialog {
 		// 로또 구매 창 패널에 들어갈 요소들
 		JLabel textLabel = new JLabel("인생역전 로또"); // 인생 역전 로또 레이블
 		buyLottoPanel.add(textLabel);
-
+		
+		List<List<JCheckBox>> resultShow = new ArrayList<>(); // 결과 확인 창에서 쓰일 리스트(사용자가 체크한 번호를 담음)
+		
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 			JPanel includeNumChoicePanel = new JPanel(); // 번호 선택 패널, 자동 수동 반자동 버튼들이 들어있는 패널이 포함될 패널
 //			includeNumChoicePanel.setLayout(null);
@@ -64,18 +66,24 @@ public class DialogPnl extends JDialog {
 				checkNumList.add(checkNumBox);
 				numChoicePanel.add(checkNumBox);
 			}
+			resultShow.add(checkNumList);
 
-			JButton outoButton = new JButton("자동"); // 자동 버튼
+			JButton autoButton = new JButton("자동"); // 자동 버튼
 			JButton selfButton = new JButton("수동"); // 수동 버튼
-			JButton halfOutoButton = new JButton("반자동"); // 반자동 버튼
+			JButton halfAutoButton = new JButton("반자동"); // 반자동 버튼
+			
+			functionList.autoOrSemiAutoBtnFuntion(autoButton, checkNumList, "auto");
+			functionList.autoOrSemiAutoBtnFuntion(selfButton, checkNumList, "self");
+			functionList.autoOrSemiAutoBtnFuntion(halfAutoButton, checkNumList, "semiAuto");
+			functionList.checkLimit(checkNumList);
 
 			// 로또 구매 창 패널에 요소들 add
 			buyLottoPanel.add(includeNumChoicePanel);
 			includeNumChoicePanel.add(includeButtonsPanel);
 			includeNumChoicePanel.add(numChoicePanel);
-			includeButtonsPanel.add(outoButton);
+			includeButtonsPanel.add(autoButton);
 			includeButtonsPanel.add(selfButton);
-			includeButtonsPanel.add(halfOutoButton);
+			includeButtonsPanel.add(halfAutoButton);
 		}
 
 		JPanel includeSendButtonPanel = new JPanel(); // 번호 제출 버튼이 포함될 패널
@@ -95,6 +103,8 @@ public class DialogPnl extends JDialog {
 		JLabel winNumLabel6 = new JLabel(result.get(5)); // 여섯번째 당첨 번호 레이블
 		JLabel bonusNumLabel = new JLabel(result.get(6)); // 보너스 번호 레이블
 
+		JButton resultCheck = new JButton("결과 확인");
+
 		// 결과 확인 패널에 들어갈 요소들
 		// 값을 받아와서 넣어야 하는 레이블은 파라미터를 비워놨음
 		JLabel text2Label = new JLabel("인생역전 로또 제 n회 결과"); // n이 다시하기 버튼을 누를 때마다 바뀌어야함
@@ -106,9 +116,7 @@ public class DialogPnl extends JDialog {
 		JLabel choiceNumLabel4 = new JLabel(); // 사용자가 선택한 네번째 번호 레이블
 		JLabel choiceNumLabel5 = new JLabel(); // 사용자가 선택한 다섯번째 번호 레이블
 		JLabel choiceNumLabel6 = new JLabel(); // 사용자가 선택한 여섯번째 번호 레이블
-		JLabel fallLabel = new JLabel("낙첨"); // 낙첨 레이블
-		JLabel winLabel = new JLabel("n등 당첨"); // n등 당첨 레이블, n은 바뀔 수 있게
-//		JLabel winLabel = new JLabel(n + "등 당첨"); // 나중에 n을 바꿔줌(n을 count로 받아서)
+		JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 / 나중에 n을 바꿔줌(n을 count로 받아서)
 
 		JButton againButton = new JButton("다시하기"); // 다시하기 버튼
 		JButton closeButton = new JButton("종료"); // 종료 버튼
@@ -122,6 +130,7 @@ public class DialogPnl extends JDialog {
 		numberCheckPanel.add(winNumLabel5);
 		numberCheckPanel.add(winNumLabel6);
 		numberCheckPanel.add(bonusNumLabel);
+		numberCheckPanel.add(resultCheck);
 
 		// 결과 확인 패널에 들어갈 요소들 add
 		resultCheckPanel.add(text2Label);
@@ -132,7 +141,6 @@ public class DialogPnl extends JDialog {
 		resultCheckPanel.add(choiceNumLabel4);
 		resultCheckPanel.add(choiceNumLabel5);
 		resultCheckPanel.add(choiceNumLabel6);
-		resultCheckPanel.add(fallLabel);
 		resultCheckPanel.add(againButton);
 		resultCheckPanel.add(closeButton);
 
@@ -148,8 +156,15 @@ public class DialogPnl extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(centerPanel, "NumberCheck");
 
-				functionList.changeToLabelVisible(winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4, winNumLabel5,
-						winNumLabel6, bonusNumLabel);
+				functionList.changeToLabelVisible(loadingLabel, winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4,
+						winNumLabel5, winNumLabel6, bonusNumLabel, resultCheck);
+			}
+		});
+
+		resultCheck.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cardLayout.show(centerPanel, "ResultCheck");
 			}
 		});
 
@@ -161,7 +176,7 @@ public class DialogPnl extends JDialog {
 			}
 		});
 
-		// 종료 버튼 누르면 다이얼로그 창 닫힘
+		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -170,7 +185,7 @@ public class DialogPnl extends JDialog {
 		});
 
 		pack();
-		//setSize(500, 500);
+		// setSize(500, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
