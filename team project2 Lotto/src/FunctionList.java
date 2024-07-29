@@ -15,43 +15,47 @@ import javax.swing.Timer;
 
 public class FunctionList extends JFrame {
 
-//	public FunctionList() {
-//		JPanel pnl = new JPanel();
-//		List<Integer> list = resultLottoNumber();
-//		List<JLabel> lblList = new ArrayList<>();
-//		for (int i = 0; i < 7; i++) {
-//			JLabel lbl = new JLabel(String.valueOf(list.get(i)));
-//			lbl.setVisible(false);
-//			lblList.add(lbl);
-//			pnl.add(lbl);
-//		}
-//		JButton btn1 = new JButton("자동");
-//		JButton btn2 = new JButton("수동");
-//		JButton btn3 = new JButton("반자동");
-//		pnl.add(btn1);
-//		pnl.add(btn2);
-//		pnl.add(btn3);
-//		List<JCheckBox> checkBoxList = new ArrayList<>();
-//		for (int i = 0; i < 45; i++) {
-//			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
-//			checkBox.setEnabled(false);
-//			checkBoxList.add(checkBox);
-//			pnl.add(checkBox);
-//		}
-//		
-//		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
-//		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
-//		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
-//		
-//		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
-//				lblList.get(4), lblList.get(5), lblList.get(6));
-//
-//
-//		add(pnl);
-//		setSize(500, 500);
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//
-//	}
+	public FunctionList() {
+		JPanel pnl = new JPanel();
+		List<String> list = resultLottoNumber();
+		List<JLabel> lblList = new ArrayList<>();
+		for (int i = 0; i < 7; i++) {
+			JLabel lbl = new JLabel(list.get(i));
+			lbl.setVisible(false);
+			lblList.add(lbl);
+			pnl.add(lbl);
+		}
+		JButton btn1 = new JButton("자동");
+		JButton btn2 = new JButton("수동");
+		JButton btn3 = new JButton("반자동");
+		pnl.add(btn1);
+		pnl.add(btn2);
+		pnl.add(btn3);
+		List<JCheckBox> checkBoxList = new ArrayList<>();
+		for (int i = 0; i < 45; i++) {
+			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
+			checkBox.setEnabled(false);
+			checkBoxList.add(checkBox);
+			pnl.add(checkBox);
+		}
+		
+			
+		checkLimit(checkBoxList);
+		
+		
+		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
+		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
+		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
+		
+		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
+				lblList.get(4), lblList.get(5), lblList.get(6));
+
+
+		add(pnl);
+		setSize(500, 500);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+	}
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
@@ -163,6 +167,31 @@ public class FunctionList extends JFrame {
 			});
 		}
 	}
+	
+	
+	// 해당 메소드를 실행 시키면, 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
+	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
+	public void checkLimit(List<JCheckBox> checkBoxList) {
+		Timer timer = new Timer (1, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int count = 0;
+				for (JCheckBox box : checkBoxList) {
+					if (box.isSelected()) {
+						count++;
+					}
+				}
+				if (count == 6) {
+					for (JCheckBox box : checkBoxList) {
+						box.setEnabled(false);
+					}
+				}
+			}
+		});
+		timer.start();
+	}
+	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void selectCheckBox(List<JCheckBox> checkBoxList, int count) {
@@ -182,13 +211,15 @@ public class FunctionList extends JFrame {
 			checkBoxList.get(i).setEnabled(true);
 		}
 	}
+	
+	
 
-//	public static void main(String[] args) {
-//		new FunctionList().setVisible(true);
-//
-//		
+	public static void main(String[] args) {
+		new FunctionList().setVisible(true);
+
+		
 //		List<Integer> list = f.resultLottoNumber();
 //		System.out.println(list);
-//
-//	}
+
+	}
 }
