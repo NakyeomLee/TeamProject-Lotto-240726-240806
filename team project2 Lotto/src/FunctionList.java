@@ -85,7 +85,7 @@ public class FunctionList extends JFrame {
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
-		
+		 
 		Timer timer = new Timer(1000, new ActionListener() {
 
 			@Override
