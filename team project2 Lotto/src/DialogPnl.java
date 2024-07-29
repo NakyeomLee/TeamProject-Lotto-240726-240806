@@ -126,7 +126,9 @@ public class DialogPnl extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				cardLayout.show(centerPanel, "NumberCheck");
 
-				functionList.changeToLabelVisible(winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4, winNumLabel5,
+				functionList.changeToLabelVisible(
+						winNumLabel1, winNumLabel2, winNumLabel3
+						, winNumLabel4, winNumLabel5,
 						winNumLabel6, bonusNumLabel);
 			}
 		});
