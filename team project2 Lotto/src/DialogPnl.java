@@ -14,9 +14,9 @@ import java.awt.Font;
 // 로또번호를 정하는 창은 메인에서 1 ~ 5사이의 값을 받아와서 해당 개수만큼 구현해야 함.
 
 public class DialogPnl extends JDialog{
-	private int lottoCount; // 메인 화면에서 선택할 로또 개수
-
-	public DialogPnl() {
+	public DialogPnl(int lottoCount, JFrame mainPnl) {
+		
+		FunctionList functionList = new FunctionList();
 
 		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
 		
@@ -199,10 +199,10 @@ public class DialogPnl extends JDialog{
 		});
 
 		setSize(500, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	public static void main(String[] args) {
-		new DialogPnl().setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		new DialogPnl(int lottoCount, JFrame mainPnl).setVisible(true);
+//	}
 }
