@@ -45,6 +45,7 @@ public class DialogPnl extends JDialog {
 
 		// 로또 구매 창 패널에 들어갈 요소들
 		JLabel textLabel = new JLabel("인생역전 로또"); // 인생 역전 로또 레이블
+		buyLottoPanel.add(textLabel);
 
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 			JPanel includeNumChoicePanel = new JPanel(); // 번호 선택 패널, 자동 수동 반자동 버튼들이 들어있는 패널이 포함될 패널
@@ -57,8 +58,11 @@ public class DialogPnl extends JDialog {
 
 			// 사용자가 선택할 번호 체크박스 (1 ~ 45)
 			List<JCheckBox> checkNumList = new ArrayList<>();
+
 			for (int j = 1; j <= 45; j++) {
-				checkNumList.add(new JCheckBox(String.valueOf(j)));
+				JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
+				checkNumList.add(checkNumBox);
+				numChoicePanel.add(checkNumBox);
 			}
 
 			JButton outoButton = new JButton("자동"); // 자동 버튼
@@ -77,6 +81,9 @@ public class DialogPnl extends JDialog {
 		JPanel includeSendButtonPanel = new JPanel(); // 번호 제출 버튼이 포함될 패널
 
 		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
+
+		buyLottoPanel.add(includeSendButtonPanel);
+		includeSendButtonPanel.add(sendButton);
 
 		// 당첨 숫자 확인 창 패널에 들어갈 요소들
 		JLabel loadingLabel = new JLabel("결과 추첨 중..."); // 결과 추첨 중 레이블
@@ -105,11 +112,6 @@ public class DialogPnl extends JDialog {
 
 		JButton againButton = new JButton("다시하기"); // 다시하기 버튼
 		JButton closeButton = new JButton("종료"); // 종료 버튼
-
-		// 로또 구매 창 패널에 요소들 add
-		buyLottoPanel.add(textLabel);
-		buyLottoPanel.add(includeSendButtonPanel);
-		includeSendButtonPanel.add(sendButton);
 
 		// 당첨 숫자 확인 창 패널에 요소들 add
 		numberCheckPanel.add(loadingLabel);
@@ -171,8 +173,5 @@ public class DialogPnl extends JDialog {
 		setSize(500, 500);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-//	public static void main(String[] args) {
-//		new DialogPnl(int lottoCount, JFrame mainPnl).setVisible(true);
-//	}
 	}
 }
