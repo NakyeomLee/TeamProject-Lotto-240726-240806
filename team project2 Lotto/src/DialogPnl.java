@@ -199,7 +199,7 @@ public class DialogPnl extends JDialog{
 		});
 
 		setSize(500, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 //	public static void main(String[] args) {
