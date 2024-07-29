@@ -57,6 +57,7 @@ public class FunctionList extends JFrame {
 //
 //	}
 
+			
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
 	public List<String> resultLottoNumber() {
@@ -80,7 +81,9 @@ public class FunctionList extends JFrame {
 
 	// 순차적으로 번호를 보여줄 수 있도록 visible이 false인 Label들을 true로 1초마다 바꾸어주는 메소드 입니다.
 	// resultLottoNumber()메소드를 활용하여 7개의 Label을 구성한 뒤
-	// 해당 7개의 Label을 순서대로 괄호 안에 넣어주세요.
+	// 첫 Label에는 결과메세지를 출력할 Label을 넣어주고,
+	// 이후 순차적으로 보여줄 7개의 Label을 순서대로 괄호 안에 넣어주세요.
+	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5, JLabel lbl6,
 			JLabel lbl7, JButton btn) {
@@ -194,7 +197,20 @@ public class FunctionList extends JFrame {
 		timer.start();
 	}
 	
-
+	
+	// 체크박스 리스트를 집어넣으면, 체크가 되어 있는 체크박스들의 숫자만 추려서
+	// Integer형의 새로운 리스트로 반환하는 메소드입니다.
+	public List<Integer> returnCheckBoxListToIntegerList(List<JCheckBox> list) {
+		List<Integer> result = new ArrayList<>();
+		
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).isSelected()) {
+				result.add(i+1);
+			}
+		}
+		return result;
+	} 
+	
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void selectCheckBox(List<JCheckBox> checkBoxList, int count) {
 		while (count < 6) {
