@@ -12,44 +12,54 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-
 public class FunctionList extends JFrame {
 
 //	public FunctionList() {
 //		JPanel pnl = new JPanel();
-//		List<String> list = resultLottoNumber();
-//		List<JLabel> lblList = new ArrayList<>();
-//		for (int i = 0; i < 7; i++) {
-//			JLabel lbl = new JLabel(list.get(i));
-//			lbl.setVisible(false);
-//			lblList.add(lbl);
-//			pnl.add(lbl);
-//		}
+//
+//		List<String> list = new ArrayList<>();
+//		list.add("5");
+//		list.add("15");
+//		list.add("31");
+//		list.add("28");
+//		list.add("17");
+//		list.add("35");
+//		list.add("3");
+//
 //		JButton btn1 = new JButton("자동");
 //		JButton btn2 = new JButton("수동");
 //		JButton btn3 = new JButton("반자동");
+//		JButton btn4 = new JButton("확인");
+//		JLabel lbl = new JLabel("asdf");
+//		lbl.setBounds(0, 0, 100, 100);
+//		pnl.add(lbl);
 //		pnl.add(btn1);
 //		pnl.add(btn2);
 //		pnl.add(btn3);
+//		pnl.add(btn4);
 //		List<JCheckBox> checkBoxList = new ArrayList<>();
-//		for (int i = 0; i < 45; i++) {
+//		for (int i = 1; i < 46; i++) {
 //			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
 //			checkBox.setEnabled(false);
 //			checkBoxList.add(checkBox);
 //			pnl.add(checkBox);
 //		}
-//		
-//			
+//		btn4.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				setLabelTextToResult(lbl, returnCheckBoxListToIntegerList(checkBoxList), list);
+//			}
+//		});
+//
 //		checkLimit(checkBoxList);
-//		
-//		
+//
 //		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
 //		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
 //		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
-//		
-//		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
-//				lblList.get(4), lblList.get(5), lblList.get(6));
 //
+////		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
+//		// lblList.get(4), lblList.get(5), lblList.get(6));
 //
 //		add(pnl);
 //		setSize(500, 500);
@@ -57,7 +67,6 @@ public class FunctionList extends JFrame {
 //
 //	}
 
-			
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
 	public List<String> resultLottoNumber() {
@@ -72,7 +81,7 @@ public class FunctionList extends JFrame {
 				list.add(num);
 			}
 		}
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			result.add(String.valueOf(list.get(i)));
 		}
@@ -85,14 +94,14 @@ public class FunctionList extends JFrame {
 	// 이후 순차적으로 보여줄 7개의 Label을 순서대로 괄호 안에 넣어주세요.
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
-	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5, JLabel lbl6,
-			JLabel lbl7, JButton btn) {
+	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
+			JLabel lbl6, JLabel lbl7, JButton btn) {
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7));
 		btn.setVisible(false);
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
-		 
+
 		Timer timer = new Timer(1000, new ActionListener() {
 
 			@Override
@@ -172,13 +181,12 @@ public class FunctionList extends JFrame {
 			});
 		}
 	}
-	
-	
+
 	// 해당 메소드를 실행 시키면, 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
 	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
 	public void checkLimit(List<JCheckBox> checkBoxList) {
-		Timer timer = new Timer (1, new ActionListener() {
-			
+		Timer timer = new Timer(1, new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int count = 0;
@@ -196,21 +204,55 @@ public class FunctionList extends JFrame {
 		});
 		timer.start();
 	}
-	
-	
+
 	// 체크박스 리스트를 집어넣으면, 체크가 되어 있는 체크박스들의 숫자만 추려서
 	// Integer형의 새로운 리스트로 반환하는 메소드입니다.
 	public List<Integer> returnCheckBoxListToIntegerList(List<JCheckBox> list) {
 		List<Integer> result = new ArrayList<>();
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).isSelected()) {
-				result.add(i+1);
+				result.add(i + 1);
 			}
 		}
 		return result;
-	} 
-	
+	}
+
+	// 로또 결과와 사용자의 입력값에 따라 Label의 텍스트를 변경시켜주는 메소드 입니다.
+	// 텍스트를 변경시킬 Label, 사용자의 입력 값 리스트를 <Integer>의 형태로, 로또 결과 리스트를 <String>의 형태로 넣어주시면 되며
+	// 사용자의 입력 값 리스트는 원래 List<JCheckBox>의 형태일 것이기에
+	// returnCheckBoxListToIntegerList메소드를 이용하여 Integer형 리스트를 반환 받아 사용하시면 됩니다.
+	public void setLabelTextToResult(JLabel lbl, List<Integer> userList, List<String> resultStrList) {
+		List<Integer> resultList = new ArrayList<>();
+		for (int i = 0; i < resultStrList.size() - 1; i++) {
+			resultList.add(Integer.valueOf(resultStrList.get(i)));
+		}
+
+		Integer bonusNum = Integer.valueOf(resultStrList.get(resultStrList.size() - 1));
+		boolean containBonusNum = userList.contains(bonusNum);
+
+		int count = 0;
+		for (Integer num : userList) {
+			if (resultList.contains(num)) {
+				count++;
+			}
+		}
+
+		if (count == 6) {
+			lbl.setText("1등 당첨");
+		} else if (count == 5 && containBonusNum) {
+			lbl.setText("2등 당첨");
+		} else if (count == 5) {
+			lbl.setText("3등 당첨");
+		} else if (count == 4) {
+			lbl.setText("4등 당첨");
+		} else if (count == 3) {
+			lbl.setText("5등 당첨");
+		} else {
+			lbl.setText("망했습니다.");
+		}
+	}
+
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void selectCheckBox(List<JCheckBox> checkBoxList, int count) {
 		while (count < 6) {
@@ -229,15 +271,12 @@ public class FunctionList extends JFrame {
 			checkBoxList.get(i).setEnabled(true);
 		}
 	}
-	
-	
 
 //	public static void main(String[] args) {
 //		new FunctionList().setVisible(true);
-
-		
-//		List<Integer> list = f.resultLottoNumber();
-//		System.out.println(list);
-
+//
+////		List<Integer> list = f.resultLottoNumber();
+////		System.out.println(list);
+//
 //	}
 }
