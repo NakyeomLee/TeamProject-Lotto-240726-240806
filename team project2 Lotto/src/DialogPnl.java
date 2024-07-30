@@ -34,8 +34,9 @@ public class DialogPnl extends JDialog {
 
 	class BallLabel extends JLabel {
 
-		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList) {
+		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
 
+			FunctionList functionList = new FunctionList();
 			if (ballCount <= 13) {
 				if (ballCount == 6 || ballCount == 13) {
 					setIcon(new ImageIcon(MainPnl.class.getResource("/image/BonusBall.png")));// 레이블에 이미지 불러옴
@@ -43,44 +44,15 @@ public class DialogPnl extends JDialog {
 					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ball2.png")));// 레이블에 이미지 불러옴
 				}
 			} else {
-				List<Integer> sortWinnerList = new ArrayList<>();
 
-				for (int i = 0; i < 6; i++) {
-					sortWinnerList.add(Integer.parseInt(winnerList.get(i)));
-				}
-				int bonusNum = Integer.parseInt(winnerList.get(6));
-
-				if (findBtnList.get(0) == 1) {
-					if (sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoCorrect.png")));// 레이블에 이미지 불러옴
-					} else {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoWrong.png")));// 레이블에 이미지 불러옴
+				if (functionList.check2ndPlace(winnerList, intList)) {
+					makeLabel(number, findBtnList, winnerList);
+					int bonusNum = Integer.parseInt(winnerList.get(6));
+					if (number == bonusNum) {
+						setIcon(new ImageIcon(MainPnl.class.getResource("/image/BonusBall.png")));
 					}
-				} else if (findBtnList.get(0) == 2) {
-					if (sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfCorrect.png")));// 레이블에 이미지 불러옴
-					} else {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfWrong.png")));// 레이블에 이미지 불러옴
-					}
-
-				} else if (findBtnList.get(0) == 3) {
-					List<Integer> semiAutoList = new ArrayList<>();
-
-					for (int i = 1; i < findBtnList.size(); i++) {
-						semiAutoList.add(findBtnList.get(i));
-					}
-					System.out.println(semiAutoList);
-					if (semiAutoList.contains(number) && sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoCorrect.png")));// 레이블에 이미지 불러옴
-					} else if (semiAutoList.contains(number) && !sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoWrong.png")));// 레이블에 이미지 불러옴
-						
-					} else if (!semiAutoList.contains(number) && sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfCorrect.png")));// 레이블에 이미지 불러옴
-					} else if (!semiAutoList.contains(number) && !sortWinnerList.contains(number)) {
-						setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfWrong.png")));// 레이블에 이미지 불러옴
-
-					}
+				} else {
+					makeLabel(number, findBtnList, winnerList);
 				}
 			}
 
@@ -92,6 +64,55 @@ public class DialogPnl extends JDialog {
 			setHorizontalAlignment(SwingConstants.CENTER); // 레이블 자체의 수평 위치를 중간으로
 			setVerticalAlignment(SwingConstants.CENTER); // 레이블 자체의 수 위치를 중간으로
 			ballCount++;
+		}
+
+		private void makeLabel(int number, List<Integer> findBtnList, List<String> winnerList) {
+			List<Integer> sortWinnerList = new ArrayList<>();
+
+			for (int i = 0; i < 6; i++) {
+				sortWinnerList.add(Integer.parseInt(winnerList.get(i)));
+			}
+			
+
+			if (findBtnList.get(0) == 1) {
+				if (sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoCorrect.png")));// 레이블에 이미지
+																									// 불러옴
+				} else {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoWrong.png")));// 레이블에 이미지
+																									// 불러옴
+				}
+			} else if (findBtnList.get(0) == 2) {
+				if (sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfCorrect.png")));// 레이블에 이미지
+																									// 불러옴
+				} else {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfWrong.png")));// 레이블에 이미지
+																									// 불러옴
+				}
+
+			} else if (findBtnList.get(0) == 3) {
+				List<Integer> semiAutoList = new ArrayList<>();
+
+				for (int i = 1; i < findBtnList.size(); i++) {
+					semiAutoList.add(findBtnList.get(i));
+				}
+				if (semiAutoList.contains(number) && sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoCorrect.png")));// 레이블에 이미지
+																									// 불러옴
+				} else if (semiAutoList.contains(number) && !sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballAutoWrong.png")));// 레이블에 이미지
+																									// 불러옴
+
+				} else if (!semiAutoList.contains(number) && sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfCorrect.png")));// 레이블에 이미지
+																									// 불러옴
+				} else if (!semiAutoList.contains(number) && !sortWinnerList.contains(number)) {
+					setIcon(new ImageIcon(MainPnl.class.getResource("/image/ballSelfWrong.png")));// 레이블에 이미지
+																									// 불러옴
+
+				}
+			}
 		}
 	}
 
@@ -191,7 +212,7 @@ public class DialogPnl extends JDialog {
 // 당첨 숫자 확인 창------------------------------------------------------------------------------------------------
 
 		List<String> result = functionList.resultLottoNumber(); // 당첨 번호를 넣을 List
-
+		
 		JPanel numberCheckPanel = new JPanel(); // 당첨 숫자 확인 창 패널
 		numberCheckPanel.setLayout(new BorderLayout(0, 0));
 
@@ -221,22 +242,22 @@ public class DialogPnl extends JDialog {
 		JButton resultCheck = new JButton("결과 확인");
 		numberCheckBtnPanel.add(resultCheck);
 
-		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(result.get(0)), null, null);
+		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
-		BallLabel winNumLabel2 = new BallLabel(Integer.parseInt(result.get(1)), null, null);
+		BallLabel winNumLabel2 = new BallLabel(Integer.parseInt(result.get(1)), null, null, null);
 
-		BallLabel winNumLabel3 = new BallLabel(Integer.parseInt(result.get(2)), null, null);
+		BallLabel winNumLabel3 = new BallLabel(Integer.parseInt(result.get(2)), null, null, null);
 
-		BallLabel winNumLabel4 = new BallLabel(Integer.parseInt(result.get(3)), null, null);
+		BallLabel winNumLabel4 = new BallLabel(Integer.parseInt(result.get(3)), null, null, null);
 
-		BallLabel winNumLabel5 = new BallLabel(Integer.parseInt(result.get(4)), null, null);
+		BallLabel winNumLabel5 = new BallLabel(Integer.parseInt(result.get(4)), null, null, null);
 
-		BallLabel winNumLabel6 = new BallLabel(Integer.parseInt(result.get(5)), null, null);
+		BallLabel winNumLabel6 = new BallLabel(Integer.parseInt(result.get(5)), null, null, null);
 
 		JLabel plusLabel = new JLabel();
 		plusLabel.setIcon(new ImageIcon(MainPnl.class.getResource("/image/plus.png")));// 레이블에 이미지 불러옴
 
-		BallLabel bonusNumLabel = new BallLabel(Integer.parseInt(result.get(6)), null, null);
+		BallLabel bonusNumLabel = new BallLabel(Integer.parseInt(result.get(6)), null, null, null);
 
 		getContentPane().add(centerPanel);
 		numberCheckBallPanel.add(winNumLabel1);
@@ -273,19 +294,19 @@ public class DialogPnl extends JDialog {
 		JPanel winNumPanel = new JPanel(); // 당첨 숫자 레이블들 포함될 패널
 		thirdPageCenterPanel.add(winNumPanel);
 
-		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null);
+		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
-		BallLabel winNum2 = new BallLabel(Integer.parseInt(result.get(1)), null, null);
+		BallLabel winNum2 = new BallLabel(Integer.parseInt(result.get(1)), null, null, null);
 
-		BallLabel winNum3 = new BallLabel(Integer.parseInt(result.get(2)), null, null);
+		BallLabel winNum3 = new BallLabel(Integer.parseInt(result.get(2)), null, null, null);
 
-		BallLabel winNum4 = new BallLabel(Integer.parseInt(result.get(3)), null, null);
+		BallLabel winNum4 = new BallLabel(Integer.parseInt(result.get(3)), null, null, null);
 
-		BallLabel winNum5 = new BallLabel(Integer.parseInt(result.get(4)), null, null);
+		BallLabel winNum5 = new BallLabel(Integer.parseInt(result.get(4)), null, null, null);
 
-		BallLabel winNum6 = new BallLabel(Integer.parseInt(result.get(5)), null, null);
+		BallLabel winNum6 = new BallLabel(Integer.parseInt(result.get(5)), null, null, null);
 
-		BallLabel bonusNum = new BallLabel(Integer.parseInt(result.get(6)), null, null);
+		BallLabel bonusNum = new BallLabel(Integer.parseInt(result.get(6)), null, null, null);
 
 		winNumPanel.add(winNum1);
 		winNumPanel.add(winNum2);
@@ -353,13 +374,10 @@ public class DialogPnl extends JDialog {
 							JLabel autoOrSemiautoLabel = new JLabel("반자동");
 							includeLabelsPanel.add(autoOrSemiautoLabel);
 						}
-						// 1 자동 4 5 6 7 8 9
-						// 2 수동
-						// 3 반자동 7 8 9
-						// 각 로또 별 사용자가 선택한 번호를 보여줄 레이블
 						for (int j = 0; j < intList.size(); j++) {
 
-							BallLabel resultCheckLable = new BallLabel(intList.get(j), findBtnList.get(i), result);
+							BallLabel resultCheckLable = new BallLabel(intList.get(j), findBtnList.get(i), result,
+									intList);
 							includeLabelsPanel.add(resultCheckLable);
 
 						}

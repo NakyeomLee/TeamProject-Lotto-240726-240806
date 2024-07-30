@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 
 
@@ -51,7 +50,7 @@ public class FunctionList extends JFrame {
 			lbl.setVisible(false);
 		}
 
-		Timer timer = new Timer(700, new ActionListener() {
+		Timer timer = new Timer(600, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -107,15 +106,26 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					changecheckBoxEnableToTrue(checkBoxList);
-					int count = 0;
-					for (int i = 0; i < checkBoxList.size(); i++) {
-						if (checkBoxList.get(i).isSelected()) {
-							count++;
+					int check = 0;
+					
+					for (int i = 0; i< checkBoxList.size(); i++) {
+						if (checkBoxList.get(i).isEnabled()) {
+							check++;
 						}
 					}
-					List<Integer> list = selectCheckBox(checkBoxList, count);
-					listComposition(findBtn, list, 3);
+					if (check == 0) {
+						changecheckBoxEnableToTrue(checkBoxList);
+					} else {
+						changecheckBoxEnableToTrue(checkBoxList);
+						int count = 0;
+						for (int i = 0; i < checkBoxList.size(); i++) {
+							if (checkBoxList.get(i).isSelected()) {
+								count++;
+							}
+						}
+						List<Integer> list = selectCheckBox(checkBoxList, count);
+						listComposition(findBtn, list, 3);
+					}
 				}
 			});
 
@@ -243,6 +253,28 @@ public class FunctionList extends JFrame {
 		Collections.sort(result);
 		return result;
 	}
+	
+	// 해당 메소드를 사용하였을 때
+	// 2등에 해당하면 true를 반환
+	// 그 외에는 false를 반환하는 메소드입니다.
+	// 2등의 경우 보너스 점수를 활용해야 하는 특이사항 발생으로 인하여 작성하였습니다.
+	public boolean check2ndPlace(List<String> winnerList, List<Integer> intList) {
+		List<Integer> changeList = new ArrayList<>();
+		for (int i = 0; i < winnerList.size()-1; i++) {
+			changeList.add(Integer.valueOf(winnerList.get(i)));
+		}
+		int count = 0;
+		for (int i = 0; i < intList.size(); i++) {
+			if (changeList.contains(intList.get(i))) {
+				count++;
+			}
+		}
+		
+		if (count == 5) {
+			return true;
+		}
+		return false;
+	}
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
@@ -259,6 +291,8 @@ public class FunctionList extends JFrame {
 			findBtn.add(num);
 		}
 	}
+	
+	
 	
 
 }

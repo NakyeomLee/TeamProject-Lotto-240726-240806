@@ -77,10 +77,6 @@ public class MainPnl extends JFrame {
 		JLabel lblLottoCount = new JLabel("알아서 사세요");
 		panel_1.add(lblLottoCount);
 
-//		String[] items = { "로또 수량을 선택하세요.", "1", "2", "3", "4", "5" };
-//		JComboBox combo = new JComboBox();
-//		panel_1.add(combo);
-
 		String[] items = { "로또 수량을 선택하세요.", "1", "2", "3", "4", "5" };
 		JComboBox<String> combo = new JComboBox<>(items);
 		panel_1.add(combo);
@@ -102,7 +98,6 @@ public class MainPnl extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				if (combo.getSelectedIndex() != 0) {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
