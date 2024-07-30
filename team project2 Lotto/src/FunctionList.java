@@ -82,8 +82,8 @@ public class FunctionList extends JFrame {
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
-	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option) {
-
+	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option,String findBtn) {
+		
 		if (option.equals("auto")) {
 
 			btn.addActionListener(new ActionListener() {

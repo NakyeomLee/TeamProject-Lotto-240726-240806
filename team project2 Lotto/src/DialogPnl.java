@@ -95,6 +95,8 @@ public class DialogPnl extends JDialog {
 		JPanel firstPageCenterPanel = new JPanel(); // 메인창에서 사용자가 선택한 수량에 따라 로또 1 ~ 5개 펼쳐질 패널(밑바탕)
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
 
+		List<String> findBtnList = new ArrayList<>();
+		
 		// 메인 창에서 사용자가 선택한 로또 개수대로 번호 선택 패널 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 
@@ -131,10 +133,12 @@ public class DialogPnl extends JDialog {
 			includeNumChoicePanel.add(numChoicePanel, "Center");
 
 			firstPageCenterPanel.add(includeNumChoicePanel);
-
-			functionList.autoOrSemiAutoBtnFuntion(autoButton, checkNumList, "auto");
-			functionList.autoOrSemiAutoBtnFuntion(selfButton, checkNumList, "self");
-			functionList.autoOrSemiAutoBtnFuntion(halfAutoButton, checkNumList, "semiAuto");
+			
+			String findBtn = "";
+			functionList.autoOrSemiAutoBtnFuntion(autoButton, checkNumList, "auto",findBtn);
+			functionList.autoOrSemiAutoBtnFuntion(selfButton, checkNumList, "self",findBtn);
+			functionList.autoOrSemiAutoBtnFuntion(halfAutoButton, checkNumList, "semiAuto",findBtn);
+			
 			functionList.checkLimit(checkNumList);
 
 			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
