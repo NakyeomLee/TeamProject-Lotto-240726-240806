@@ -100,8 +100,9 @@ public class MainPnl extends JFrame {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
 					System.out.println(lottoCountInteger);
-					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, MainPnl.this);
+					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
 					dialogPnl.setVisible(true);
+					lottoPlayCount++;
 				}
 				else {
 					JOptionPane.showMessageDialog(MainPnl.this, "숫자를 선택해주세요.");
