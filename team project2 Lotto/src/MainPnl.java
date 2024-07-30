@@ -91,6 +91,13 @@ public class MainPnl extends JFrame {
 		JButton btnNewButton = new JButton("로또 사러 가기!");
 		southPanel.add(btnNewButton);
 
+		JPanel northPanel = new JPanel();
+		getContentPane().add(northPanel, BorderLayout.NORTH);
+		northPanel.setLayout(new BorderLayout(0, 0));
+
+		JLabel lblNewLabel = new JLabel("제 " + lottoPlayCount + "회 인생 역전 로또");
+		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
+
 		btnNewButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -103,22 +110,14 @@ public class MainPnl extends JFrame {
 					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
 					dialogPnl.setVisible(true);
 					lottoPlayCount++;
-				}
-				else {
+					lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
+					revalidate();
+					repaint();
+				} else {
 					JOptionPane.showMessageDialog(MainPnl.this, "숫자를 선택해주세요.");
 				}
 			}
 		});
-
-		JPanel northPanel = new JPanel();
-		getContentPane().add(northPanel, BorderLayout.NORTH);
-		northPanel.setLayout(new BorderLayout(0, 0));
-
-		JLabel lblNewLabel = new JLabel("제 " + lottoPlayCount + "회 인생 역전 로또");
-		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
-
-		revalidate();
-		repaint();
 
 		northPanel.add(lblNewLabel);
 
