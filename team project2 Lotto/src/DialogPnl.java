@@ -49,7 +49,7 @@ public class DialogPnl extends JDialog {
 		}
 	}
 
-	public DialogPnl(int lottoCount, JFrame mainPnl) {
+	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl) {
 
 		FunctionList functionList = new FunctionList();
 
@@ -202,8 +202,7 @@ public class DialogPnl extends JDialog {
 
 		// 결과 확인 패널에 들어갈 요소들
 		// 값을 받아와서 넣어야 하는 레이블은 파라미터를 비워놨음
-		JLabel text2Label = new JLabel("인생역전 로또 제 n회 결과"); // n이 다시하기 버튼을 누를 때마다 바뀌어야함
-//		JLabel text2Label = new JLabel("인생역전 로또 제 " + n + "회 결과"); // 나중에 n을 바꿔줌(n을 count로 받아서)
+		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과"); 
 		resultCheckPanel.add(text2Label, new BorderLayout().NORTH);
 		text2Label.setHorizontalAlignment(JLabel.CENTER); // 북쪽에 위치한 레이블이 항상 중간에 위치
 
@@ -253,12 +252,14 @@ public class DialogPnl extends JDialog {
 
 		getContentPane().add(centerPanel); // 패널에 컴포넌트들을 붙임
 
-		// 번호 제출 버튼 누르면 당첨 번호 확인 패널로 넘어감
+		// 번호 제출 버튼을 눌렀을 때
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(centerPanel, "NumberCheck");
+				
+				cardLayout.show(centerPanel, "NumberCheck"); // 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
 
+				// 
 				functionList.changeToLabelVisible(loadingLabel, winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4,
 						winNumLabel5, winNumLabel6, bonusNumLabel, resultCheck);
 
@@ -282,13 +283,14 @@ public class DialogPnl extends JDialog {
 						includeLabelsPanel.add(resultCheckLable);
 					}
 
-					JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 레이블 / 나중에 n을 바꿔줌(n을 count로 받아서)
+					JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 레이블 
 					includeLabelsPanel.add(winLabel);
+
+					functionList.setLabelTextToResult(winLabel, intList, result); // winLabel에 글자를 바꿔줄 메소드
 
 					thirdPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 					thirdPageCenterPanel.repaint(); // 바뀐 사항을 다시 그려줌
 				}
-
 			}
 		});
 
@@ -296,7 +298,7 @@ public class DialogPnl extends JDialog {
 		againButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				dispose(); // 다이얼로그 창 닫힘
 			}
 		});
 
@@ -304,7 +306,8 @@ public class DialogPnl extends JDialog {
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				dispose(); // 다이얼로그 창 닫힘
+//				setDefaultCloseOperation(EXIT_ON_CLOSE); // 기본 창 닫힘
 			}
 		});
 
