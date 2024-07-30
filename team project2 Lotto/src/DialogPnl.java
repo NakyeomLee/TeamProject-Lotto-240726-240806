@@ -12,6 +12,7 @@ import javax.swing.border.Border;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -25,62 +26,59 @@ public class DialogPnl extends JDialog {
 	public DialogPnl(int lottoCount, JFrame mainPnl) {
 
 		FunctionList functionList = new FunctionList();
-		List<String> result = functionList.resultLottoNumber();
 
 		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
 
 		CardLayout cardLayout = new CardLayout();
-		BorderLayout borderLayout = new BorderLayout();
-		GridLayout gridLayout = new GridLayout();
 
-		JPanel centerPanel = new JPanel(); // 모든 패널이 다 포함되는 패널(밑바탕)
+		JPanel centerPanel = new JPanel(); // 다이얼로그 창에서 모든 페이지가 다 포함되는 패널(밑바탕)
 		centerPanel.setLayout(cardLayout);
 
+// 로또 구매 창------------------------------------------------------------------------------------------------
+
 		JPanel buyLottoPanel = new JPanel(); // 로또 구매 창 패널
-		buyLottoPanel.setLayout(borderLayout);
-
-		JPanel numberCheckPanel = new JPanel(); // 당첨 숫자 확인 창 패널
-//		numberCheckPanel.setLayout(null);
-
-		JPanel resultCheckPanel = new JPanel(); // 결과 확인 창 패널
-//		resultCheckPanel.setLayout(null);
+		buyLottoPanel.setLayout(new BorderLayout());
 
 		// 로또 구매 창 패널에 들어갈 요소들
-		JLabel textLabel = new JLabel("인생역전 로또"); // 인생 역전 로또 레이블
-		buyLottoPanel.add(textLabel, borderLayout.NORTH);
+		JLabel textLabel = new JLabel("인생역전 로또"); // "인생 역전 로또" 레이블
+		buyLottoPanel.add(textLabel, new BorderLayout().NORTH);
 		textLabel.setHorizontalAlignment(JLabel.RIGHT);
 
-		JPanel westPanel = new JPanel();
-		buyLottoPanel.add(westPanel, borderLayout.WEST);
+		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
+		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
 		westPanel.setPreferredSize(new Dimension(50, 500));
-		
-		JPanel eastPanel = new JPanel();
-		buyLottoPanel.add(eastPanel, borderLayout.EAST);
+
+		JPanel eastPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(동쪽)
+		buyLottoPanel.add(eastPanel, new BorderLayout().EAST);
 		eastPanel.setPreferredSize(new Dimension(50, 500));
 
-		List<List<JCheckBox>> resultShow = new ArrayList<>(); // 결과 확인 창에서 쓰일 리스트(사용자가 체크한 번호를 담음)
+		List<List<JCheckBox>> resultShow = new ArrayList<>(); // 결과 확인 창에서 쓰일 List(사용자가 선택한 번호를 담음)
 
-		JPanel firstPageCenterPanel = new JPanel(); // 번호 선택의 밑바탕 패널
-		buyLottoPanel.add(firstPageCenterPanel, borderLayout.CENTER);
+		JPanel firstPageCenterPanel = new JPanel(); // 메인창에서 사용자가 선택한 수량에 따라 로또 1 ~ 5개 펼쳐질 패널(밑바탕)
+		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
 
+		// 메인 창에서 사용자가 선택한 로또 개수대로 번호 선택 패널 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 
-			firstPageCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10));
+			firstPageCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10)); // GridLayout
+
 			JPanel includeNumChoicePanel = new JPanel(); // 번호 선택 패널, 자동 수동 반자동 버튼들이 들어있는 패널이 포함될 패널
+			includeNumChoicePanel.setLayout(new BorderLayout());
 
 			JPanel includeButtonsPanel = new JPanel(); // 자동 수동 반자동 버튼들 포함될 패널
+
 			JPanel numChoicePanel = new JPanel(); // 번호 선택 패널
-			includeNumChoicePanel.setLayout(new BorderLayout());
 			numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
 
-			List<JCheckBox> checkNumList = new ArrayList<>();
+			List<JCheckBox> checkNumList = new ArrayList<>(); // 번호 선택 체크박스를 담은 List
 
+			// 사용자가 선택할 번호 체크박스 (1 ~ 45)
 			for (int j = 1; j <= 45; j++) {
 				JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
-				checkNumList.add(checkNumBox);
-				numChoicePanel.add(checkNumBox);
+				checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 담고
+				numChoicePanel.add(checkNumBox); // 번호 선택 체크박스를 패널에도 담고
 			}
-			resultShow.add(checkNumList);
+			resultShow.add(checkNumList); // 사용자가 선택한 번호를 담는 List에 사용자가 선택한 번호 체크박스를 담는 List를 add
 
 			JButton autoButton = new JButton("자동"); // 자동 버튼
 			JButton selfButton = new JButton("수동"); // 수동 버튼
@@ -96,24 +94,26 @@ public class DialogPnl extends JDialog {
 
 			firstPageCenterPanel.add(includeNumChoicePanel);
 
-			// 사용자가 선택할 번호 체크박스 (1 ~ 45)
-
 			functionList.autoOrSemiAutoBtnFuntion(autoButton, checkNumList, "auto");
 			functionList.autoOrSemiAutoBtnFuntion(selfButton, checkNumList, "self");
 			functionList.autoOrSemiAutoBtnFuntion(halfAutoButton, checkNumList, "semiAuto");
 			functionList.checkLimit(checkNumList);
 
-			firstPageCenterPanel.revalidate();
-			firstPageCenterPanel.repaint();
-//			setSize(lottoCount*250, 500);
+			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
+			firstPageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
 		}
 
 		JPanel includeSendButtonPanel = new JPanel(); // 번호 제출 버튼이 포함될 패널
+		buyLottoPanel.add(includeSendButtonPanel, new BorderLayout().SOUTH);
 
-		buyLottoPanel.add(includeSendButtonPanel, borderLayout.SOUTH);
 		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
-
 		includeSendButtonPanel.add(sendButton);
+
+// 당첨 숫자 확인 창------------------------------------------------------------------------------------------------
+
+		List<String> result = functionList.resultLottoNumber(); // 당첨 번호를 넣을 List
+
+		JPanel numberCheckPanel = new JPanel(); // 당첨 숫자 확인 창 패널
 
 		// 당첨 숫자 확인 창 패널에 들어갈 요소들
 		JLabel loadingLabel = new JLabel("결과 추첨 중..."); // 결과 추첨 중 레이블
@@ -127,22 +127,6 @@ public class DialogPnl extends JDialog {
 
 		JButton resultCheck = new JButton("결과 확인");
 
-		// 결과 확인 패널에 들어갈 요소들
-		// 값을 받아와서 넣어야 하는 레이블은 파라미터를 비워놨음
-		JLabel text2Label = new JLabel("인생역전 로또 제 n회 결과"); // n이 다시하기 버튼을 누를 때마다 바뀌어야함
-//		JLabel text2Label = new JLabel("인생역전 로또 제 " + n + "회 결과"); // 나중에 n을 바꿔줌(n을 count로 받아서)
-		JLabel countLabel = new JLabel(); // 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
-		JLabel choiceNumLabel1 = new JLabel(); // 사용자가 선택한 첫번째 번호 레이블
-		JLabel choiceNumLabel2 = new JLabel(); // 사용자가 선택한 두번째 번호 레이블
-		JLabel choiceNumLabel3 = new JLabel(); // 사용자가 선택한 세번째 번호 레이블
-		JLabel choiceNumLabel4 = new JLabel(); // 사용자가 선택한 네번째 번호 레이블
-		JLabel choiceNumLabel5 = new JLabel(); // 사용자가 선택한 다섯번째 번호 레이블
-		JLabel choiceNumLabel6 = new JLabel(); // 사용자가 선택한 여섯번째 번호 레이블
-		JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 / 나중에 n을 바꿔줌(n을 count로 받아서)
-
-		JButton againButton = new JButton("다시하기"); // 다시하기 버튼
-		JButton closeButton = new JButton("종료"); // 종료 버튼
-
 		// 당첨 숫자 확인 창 패널에 요소들 add
 		numberCheckPanel.add(loadingLabel);
 		numberCheckPanel.add(winNumLabel1);
@@ -154,17 +138,48 @@ public class DialogPnl extends JDialog {
 		numberCheckPanel.add(bonusNumLabel);
 		numberCheckPanel.add(resultCheck);
 
-		// 결과 확인 패널에 들어갈 요소들 add
-		resultCheckPanel.add(text2Label);
-		resultCheckPanel.add(countLabel);
-		resultCheckPanel.add(choiceNumLabel1);
-		resultCheckPanel.add(choiceNumLabel2);
-		resultCheckPanel.add(choiceNumLabel3);
-		resultCheckPanel.add(choiceNumLabel4);
-		resultCheckPanel.add(choiceNumLabel5);
-		resultCheckPanel.add(choiceNumLabel6);
-		resultCheckPanel.add(againButton);
-		resultCheckPanel.add(closeButton);
+// 결과 확인 창------------------------------------------------------------------------------------------------
+
+		JPanel resultCheckPanel = new JPanel(); // 결과 확인 창 패널
+
+		// 결과 확인 패널에 들어갈 요소들
+		// 값을 받아와서 넣어야 하는 레이블은 파라미터를 비워놨음
+		JLabel text2Label = new JLabel("인생역전 로또 제 n회 결과"); // n이 다시하기 버튼을 누를 때마다 바뀌어야함
+//		JLabel text2Label = new JLabel("인생역전 로또 제 " + n + "회 결과"); // 나중에 n을 바꿔줌(n을 count로 받아서)
+		resultCheckPanel.add(text2Label, new BorderLayout().NORTH);
+		
+		JPanel thirdPageCenterPanel = new JPanel(); // 당첨 숫자 패널, includeLabelsPanel이 포함될 패널
+		resultCheckPanel.add(thirdPageCenterPanel);
+
+		for (int i = 0; i < lottoCount; i++) {
+			JPanel includeLabelsPanel = new JPanel(); // 로또 개수, 사용자 선택 번호, 당첨 결과 레이블들 포함될 패널
+			resultCheckPanel.add(includeLabelsPanel);
+
+			List<Integer> intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
+			Collections.sort(intList);
+
+			JLabel countLabel = new JLabel(String.valueOf(i + 1)); // 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
+			includeLabelsPanel.add(countLabel);
+
+			for (int j = 0; j < intList.size(); j++) {
+				JLabel lbl = new JLabel(String.valueOf(intList.get(j)));
+				includeLabelsPanel.add(lbl);
+			}
+
+			JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 / 나중에 n을 바꿔줌(n을 count로 받아서)
+			includeLabelsPanel.add(winLabel);
+		}
+
+		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
+		resultCheckPanel.add(includeButtonsPanel2, new BorderLayout().SOUTH);
+
+		JButton againButton = new JButton("다시하기"); // 다시하기 버튼
+		JButton closeButton = new JButton("종료"); // 종료 버튼
+
+		includeButtonsPanel2.add(againButton);
+		includeButtonsPanel2.add(closeButton);
+
+// ------------------------------------------------------------------------------------------------
 
 		centerPanel.add(buyLottoPanel, "BuyLotto");
 		centerPanel.add(numberCheckPanel, "NumberCheck");
@@ -206,8 +221,7 @@ public class DialogPnl extends JDialog {
 			}
 		});
 
-		pack();
-		// setSize(500, 500);
+		pack(); // 다이얼로그 창 크기 알아서 조절 되도록
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
