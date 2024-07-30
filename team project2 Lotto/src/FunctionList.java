@@ -82,8 +82,8 @@ public class FunctionList extends JFrame {
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
-	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option,String findBtn) {
-		
+	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option, List<Integer> findBtn) {
+
 		if (option.equals("auto")) {
 
 			btn.addActionListener(new ActionListener() {
@@ -94,7 +94,9 @@ public class FunctionList extends JFrame {
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
-					selectCheckBox(checkBoxList, 0);
+					List<Integer> list = selectCheckBox(checkBoxList, 0);
+					String resultStr = "자동";
+					
 				}
 			});
 
@@ -221,15 +223,20 @@ public class FunctionList extends JFrame {
 	}
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
-	private void selectCheckBox(List<JCheckBox> checkBoxList, int count) {
+	// 추가 건의사항을 구현하기 위하여 반환 타입을 List<Integer>로 변경
+	private List<Integer> selectCheckBox(List<JCheckBox> checkBoxList, int count) {
+		List<Integer> result = new ArrayList<>();
 		while (count < 6) {
 			Random random = new Random();
 			int index = random.nextInt(45);
 			if (!checkBoxList.get(index).isSelected()) {
 				checkBoxList.get(index).setSelected(true);
 				count++;
+				result.add(index + 1);
 			}
 		}
+
+		return result;
 	}
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
