@@ -294,20 +294,11 @@ public class DialogPnl extends JDialog {
 			}
 		});
 
-//		// 다시하기 버튼 누르면 다이얼로그 창 닫히고 메인 창(기본 창)으로 넘어감
-//		againButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				dispose(); // 다이얼로그 창 닫힘
-//			}
-//		});
-
 		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dispose(); // 다이얼로그 창 닫힘
-				// 기본 창 닫힘
+				System.exit(0); // 기본 창 닫힘
 			}
 		});
 
