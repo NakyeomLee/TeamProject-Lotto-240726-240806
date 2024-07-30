@@ -91,7 +91,7 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					changecheckBoxEnableToTrue(checkBoxList);
+				//	changecheckBoxEnableToTrue(checkBoxList);
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
@@ -113,8 +113,13 @@ public class FunctionList extends JFrame {
 							check++;
 						}
 					}
+					
 					if (check == 0) {
+						for (JCheckBox box : checkBoxList) {
+							box.setSelected(false);
+						}
 						changecheckBoxEnableToTrue(checkBoxList);
+						
 					} else {
 						changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;

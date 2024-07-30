@@ -101,7 +101,6 @@ public class MainPnl extends JFrame {
 				if (combo.getSelectedIndex() != 0) {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
-					System.out.println(lottoCountInteger);
 					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
 					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
 						
