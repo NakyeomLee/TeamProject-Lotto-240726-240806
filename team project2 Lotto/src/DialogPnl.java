@@ -29,6 +29,7 @@ import java.awt.GridLayout;
 public class DialogPnl extends JDialog {
 
 	int ballCount = 0;
+	private JButton againButton;
 
 	class BallLabel extends JLabel {
 
@@ -202,7 +203,7 @@ public class DialogPnl extends JDialog {
 
 		// 결과 확인 패널에 들어갈 요소들
 		// 값을 받아와서 넣어야 하는 레이블은 파라미터를 비워놨음
-		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과"); 
+		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
 		resultCheckPanel.add(text2Label, new BorderLayout().NORTH);
 		text2Label.setHorizontalAlignment(JLabel.CENTER); // 북쪽에 위치한 레이블이 항상 중간에 위치
 
@@ -238,7 +239,7 @@ public class DialogPnl extends JDialog {
 		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
 		resultCheckPanel.add(includeButtonsPanel2, new BorderLayout().SOUTH);
 
-		JButton againButton = new JButton("다시하기"); // 다시하기 버튼
+		againButton = new JButton("다시하기");
 		JButton closeButton = new JButton("종료"); // 종료 버튼
 
 		includeButtonsPanel2.add(againButton);
@@ -256,10 +257,10 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				cardLayout.show(centerPanel, "NumberCheck"); // 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
 
-				// 
+				//
 				functionList.changeToLabelVisible(loadingLabel, winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4,
 						winNumLabel5, winNumLabel6, bonusNumLabel, resultCheck);
 
@@ -272,7 +273,6 @@ public class DialogPnl extends JDialog {
 
 					List<Integer> intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
 					Collections.sort(intList);
-					System.out.println(intList);
 
 					JLabel countLabel = new JLabel(String.valueOf(i + 1)); // 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
 					includeLabelsPanel.add(countLabel);
@@ -283,7 +283,7 @@ public class DialogPnl extends JDialog {
 						includeLabelsPanel.add(resultCheckLable);
 					}
 
-					JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 레이블 
+					JLabel winLabel = new JLabel(); // n등 당첨, 낙첨 레이블
 					includeLabelsPanel.add(winLabel);
 
 					functionList.setLabelTextToResult(winLabel, intList, result); // winLabel에 글자를 바꿔줄 메소드
@@ -294,25 +294,33 @@ public class DialogPnl extends JDialog {
 			}
 		});
 
-		// 다시하기 버튼 누르면 다이얼로그 창 닫히고 메인 창(기본 창)으로 넘어감
-		againButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose(); // 다이얼로그 창 닫힘
-			}
-		});
+//		// 다시하기 버튼 누르면 다이얼로그 창 닫히고 메인 창(기본 창)으로 넘어감
+//		againButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				dispose(); // 다이얼로그 창 닫힘
+//			}
+//		});
 
 		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
 		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose(); // 다이얼로그 창 닫힘
-//				setDefaultCloseOperation(EXIT_ON_CLOSE); // 기본 창 닫힘
+				// 기본 창 닫힘
 			}
 		});
 
 		pack(); // 다이얼로그 창 크기 알아서 조절 되도록
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+	}
+
+	public JButton getAgainButton() {
+		return againButton;
+	}
+
+	public void setAgainButton(JButton againButton) {
+		this.againButton = againButton;
 	}
 }
