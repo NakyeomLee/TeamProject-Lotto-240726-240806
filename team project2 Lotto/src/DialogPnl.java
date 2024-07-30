@@ -1,14 +1,18 @@
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,6 +27,29 @@ import java.awt.GridLayout;
 // 로또번호를 정하는 창은 메인에서 1 ~ 5사이의 값을 받아와서 해당 개수만큼 구현해야 함.
 
 public class DialogPnl extends JDialog {
+	
+	int ballCount = 0;
+
+	class BallLabel extends JLabel {
+
+		public BallLabel(int number) {
+			if (ballCount == 6) {
+				setIcon(new ImageIcon(MainPnl.class.getResource("/image/BonusBall.png")));// 레이블에 이미지 불러옴
+			} else {
+				setIcon(new ImageIcon(MainPnl.class.getResource("/image/ball3.png")));// 레이블에 이미지 불러옴
+			}
+			setHorizontalTextPosition(JLabel.CENTER); // 레이블의 텍스트 가로 부분을 가운데로 고정
+			setVerticalTextPosition(JLabel.CENTER);// 레이블의 텍스트 세로 부분을 가운데로 고정
+			setFont(new Font("Serif", Font.BOLD, 20)); // 폰트 설정
+			setForeground(Color.WHITE); // 글자색깔 설정
+			setText(String.valueOf(number)); // 글자 설정
+			setHorizontalAlignment(SwingConstants.CENTER); // 레이블 자체의 수평 위치를 중간으로
+			setVerticalAlignment(SwingConstants.CENTER); // 레이블 자체의 수 위치를 중간으로
+			ballCount++;
+		}
+	}
+	
+	
 	public DialogPnl(int lottoCount, JFrame mainPnl) {
 
 		FunctionList functionList = new FunctionList();
@@ -114,29 +141,61 @@ public class DialogPnl extends JDialog {
 		List<String> result = functionList.resultLottoNumber(); // 당첨 번호를 넣을 List
 
 		JPanel numberCheckPanel = new JPanel(); // 당첨 숫자 확인 창 패널
+		numberCheckPanel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel numberCheckCenterPanel = new JPanel();
+		numberCheckPanel.add(numberCheckCenterPanel, BorderLayout.CENTER);
+		numberCheckCenterPanel.setLayout(new BorderLayout(0, 0));
 
-		// 당첨 숫자 확인 창 패널에 들어갈 요소들
-		JLabel loadingLabel = new JLabel("결과 추첨 중..."); // 결과 추첨 중 레이블
-		JLabel winNumLabel1 = new JLabel(result.get(0)); // 첫번째 당첨 번호 레이블
-		JLabel winNumLabel2 = new JLabel(result.get(1)); // 두번째 당첨 번호 레이블
-		JLabel winNumLabel3 = new JLabel(result.get(2)); // 세번째 당첨 번호 레이블
-		JLabel winNumLabel4 = new JLabel(result.get(3)); // 네번째 당첨 번호 레이블
-		JLabel winNumLabel5 = new JLabel(result.get(4)); // 다섯번째 당첨 번호 레이블
-		JLabel winNumLabel6 = new JLabel(result.get(5)); // 여섯번째 당첨 번호 레이블
-		JLabel bonusNumLabel = new JLabel(result.get(6)); // 보너스 번호 레이블
+		JLabel lblNewLabel = new JLabel("New label");
+		numberCheckCenterPanel.add(lblNewLabel);
 
+		JPanel numberCheckSouthPanel = new JPanel();
+		numberCheckPanel.add(numberCheckSouthPanel, BorderLayout.SOUTH);
+		numberCheckSouthPanel.setLayout(new GridLayout(2, 0, 5, 5));
+
+		JPanel numberCheckBallPanel = new JPanel();
+		numberCheckSouthPanel.add(numberCheckBallPanel);
+		
+		JPanel numberCheckBtnPanel = new JPanel();
+		numberCheckSouthPanel.add(numberCheckBtnPanel);
+		
+		JLabel loadingLabel = new JLabel("결과 추첨 중...");
+		numberCheckBtnPanel.add(loadingLabel);
+		
 		JButton resultCheck = new JButton("결과 확인");
+		numberCheckBtnPanel.add(resultCheck);
 
-		// 당첨 숫자 확인 창 패널에 요소들 add
-		numberCheckPanel.add(loadingLabel);
-		numberCheckPanel.add(winNumLabel1);
-		numberCheckPanel.add(winNumLabel2);
-		numberCheckPanel.add(winNumLabel3);
-		numberCheckPanel.add(winNumLabel4);
-		numberCheckPanel.add(winNumLabel5);
-		numberCheckPanel.add(winNumLabel6);
-		numberCheckPanel.add(bonusNumLabel);
-		numberCheckPanel.add(resultCheck);
+		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(result.get(0)));
+
+		BallLabel winNumLabel2 = new BallLabel(Integer.parseInt(result.get(1)));
+
+		BallLabel winNumLabel3 = new BallLabel(Integer.parseInt(result.get(2)));
+
+		BallLabel winNumLabel4 = new BallLabel(Integer.parseInt(result.get(3)));
+
+		BallLabel winNumLabel5 = new BallLabel(Integer.parseInt(result.get(4)));
+
+		BallLabel winNumLabel6 = new BallLabel(Integer.parseInt(result.get(5)));
+
+		BallLabel bonusNumLabel = new BallLabel(Integer.parseInt(result.get(6)));
+
+
+		getContentPane().add(centerPanel);
+		numberCheckBallPanel.add(winNumLabel1);
+		numberCheckBallPanel.add(winNumLabel2);
+		numberCheckBallPanel.add(winNumLabel3);
+		numberCheckBallPanel.add(winNumLabel4);
+		numberCheckBallPanel.add(winNumLabel5);
+		numberCheckBallPanel.add(winNumLabel6);
+		numberCheckBallPanel.add(bonusNumLabel);
+		
+		resultCheck.addActionListener(new ActionListener() {
+	         @Override
+	         public void actionPerformed(ActionEvent e) {
+	            cardLayout.show(centerPanel, "ResultCheck");
+	         }
+	      });
 
 // 결과 확인 창------------------------------------------------------------------------------------------------
 
@@ -195,13 +254,6 @@ public class DialogPnl extends JDialog {
 
 				functionList.changeToLabelVisible(loadingLabel, winNumLabel1, winNumLabel2, winNumLabel3, winNumLabel4,
 						winNumLabel5, winNumLabel6, bonusNumLabel, resultCheck);
-			}
-		});
-
-		resultCheck.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cardLayout.show(centerPanel, "ResultCheck");
 			}
 		});
 
