@@ -257,7 +257,10 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+//				if (checkNumList.size != 6) {
+//					
+//				} else {
+ 
 				cardLayout.show(centerPanel, "NumberCheck"); // 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
 
 				//
@@ -292,6 +295,7 @@ public class DialogPnl extends JDialog {
 					thirdPageCenterPanel.repaint(); // 바뀐 사항을 다시 그려줌
 				}
 			}
+//			}
 		});
 
 		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
