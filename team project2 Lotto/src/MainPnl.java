@@ -108,8 +108,15 @@ public class MainPnl extends JFrame {
 					int lottoCountInteger = Integer.parseInt(lottoCount);
 					System.out.println(lottoCountInteger);
 					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
+					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							lottoPlayCount++;
+							dialogPnl.dispose();
+						}
+					});
 					dialogPnl.setVisible(true);
-					lottoPlayCount++;
 					lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
 					revalidate();
 					repaint();
