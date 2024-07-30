@@ -147,8 +147,11 @@ public class DialogPnl extends JDialog {
 		numberCheckPanel.add(numberCheckCenterPanel, BorderLayout.CENTER);
 		numberCheckCenterPanel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblNewLabel = new JLabel("New label");
-		numberCheckCenterPanel.add(lblNewLabel);
+		JLabel lblLottoRaffle = new JLabel();
+		lblLottoRaffle.setIcon(new ImageIcon(DialogPnl.class.getResource("/image/lottoRaffle.gif")));
+
+		lblLottoRaffle.setHorizontalAlignment(JLabel.CENTER);
+		numberCheckCenterPanel.add(lblLottoRaffle);
 
 		JPanel numberCheckSouthPanel = new JPanel();
 		numberCheckPanel.add(numberCheckSouthPanel, BorderLayout.SOUTH);
@@ -257,10 +260,12 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				setSize(650, 550);
+
 //				if (checkNumList.size != 6) {
 //					
 //				} else {
- 
+
 				cardLayout.show(centerPanel, "NumberCheck"); // 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
 
 				//
