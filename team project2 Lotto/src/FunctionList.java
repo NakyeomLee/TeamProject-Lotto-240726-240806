@@ -14,59 +14,6 @@ import javax.swing.Timer;
 
 public class FunctionList extends JFrame {
 
-//	public FunctionList() {
-//		JPanel pnl = new JPanel();
-//
-//		List<String> list = new ArrayList<>();
-//		list.add("5");
-//		list.add("15");
-//		list.add("31");
-//		list.add("28");
-//		list.add("17");
-//		list.add("35");
-//		list.add("3");
-//
-//		JButton btn1 = new JButton("자동");
-//		JButton btn2 = new JButton("수동");
-//		JButton btn3 = new JButton("반자동");
-//		JButton btn4 = new JButton("확인");
-//		JLabel lbl = new JLabel("asdf");
-//		lbl.setBounds(0, 0, 100, 100);
-//		pnl.add(lbl);
-//		pnl.add(btn1);
-//		pnl.add(btn2);
-//		pnl.add(btn3);
-//		pnl.add(btn4);
-//		List<JCheckBox> checkBoxList = new ArrayList<>();
-//		for (int i = 1; i < 46; i++) {
-//			JCheckBox checkBox = new JCheckBox(String.valueOf(i));
-//			checkBox.setEnabled(false);
-//			checkBoxList.add(checkBox);
-//			pnl.add(checkBox);
-//		}
-//		btn4.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				setLabelTextToResult(lbl, returnCheckBoxListToIntegerList(checkBoxList), list);
-//			}
-//		});
-//
-//		checkLimit(checkBoxList);
-//
-//		autoOrSemiAutoBtnFuntion(btn1, checkBoxList, "auto");
-//		autoOrSemiAutoBtnFuntion(btn2, checkBoxList, "self");
-//		autoOrSemiAutoBtnFuntion(btn3, checkBoxList, "semiAuto");
-//
-////		changeToLabelVisible(lblList.get(0), lblList.get(1), lblList.get(2), lblList.get(3),
-//		// lblList.get(4), lblList.get(5), lblList.get(6));
-//
-//		add(pnl);
-//		setSize(500, 500);
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//
-//	}
-
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
 	public List<String> resultLottoNumber() {
@@ -102,7 +49,7 @@ public class FunctionList extends JFrame {
 			lbl.setVisible(false);
 		}
 
-		Timer timer = new Timer(1000, new ActionListener() {
+		Timer timer = new Timer(700, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -272,11 +219,4 @@ public class FunctionList extends JFrame {
 		}
 	}
 
-//	public static void main(String[] args) {
-//		new FunctionList().setVisible(true);
-//
-////		List<Integer> list = f.resultLottoNumber();
-////		System.out.println(list);
-//
-//	}
 }
