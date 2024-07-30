@@ -2,6 +2,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
 
 public class FunctionList extends JFrame {
 
@@ -94,8 +96,9 @@ public class FunctionList extends JFrame {
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
-					List<Integer> list = selectCheckBox(checkBoxList, 0);
 					
+					List<Integer> list = selectCheckBox(checkBoxList, 0);
+					listComposition(findBtn, list, 1);
 				}
 			});
 
@@ -111,7 +114,8 @@ public class FunctionList extends JFrame {
 							count++;
 						}
 					}
-					selectCheckBox(checkBoxList, count);
+					List<Integer> list = selectCheckBox(checkBoxList, count);
+					listComposition(findBtn, list, 3);
 				}
 			});
 
@@ -125,6 +129,8 @@ public class FunctionList extends JFrame {
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
+					findBtn.clear();
+					findBtn.add(2);
 				}
 			});
 		}
@@ -234,7 +240,7 @@ public class FunctionList extends JFrame {
 				result.add(index + 1);
 			}
 		}
-
+		Collections.sort(result);
 		return result;
 	}
 
@@ -244,5 +250,15 @@ public class FunctionList extends JFrame {
 			checkBoxList.get(i).setEnabled(true);
 		}
 	}
+	
+	//
+	private void listComposition(List<Integer> findBtn, List<Integer> list, int btnDivideNum) {
+		findBtn.clear();
+		findBtn.add(btnDivideNum);
+		for(Integer num : list) {
+			findBtn.add(num);
+		}
+	}
+	
 
 }
