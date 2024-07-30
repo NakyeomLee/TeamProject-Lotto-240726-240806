@@ -42,8 +42,8 @@ public class FunctionList extends JFrame {
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
-			JLabel lbl6, JLabel lbl7, JButton btn) {
-		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, lbl7));
+			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn) {
+		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, plusLbl, bonusLbl));
 		btn.setVisible(false);
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
@@ -166,7 +166,8 @@ public class FunctionList extends JFrame {
 	}
 
 	// 로또 결과와 사용자의 입력값에 따라 Label의 텍스트를 변경시켜주는 메소드 입니다.
-	// 텍스트를 변경시킬 Label, 사용자의 입력 값 리스트를 <Integer>의 형태로, 로또 결과 리스트를 <String>의 형태로 넣어주시면 되며
+	// 텍스트를 변경시킬 Label, 사용자의 입력 값 리스트를 <Integer>의 형태로, 로또 결과 리스트를 <String>의 형태로
+	// 넣어주시면 되며
 	// 사용자의 입력 값 리스트는 원래 List<JCheckBox>의 형태일 것이기에
 	// returnCheckBoxListToIntegerList메소드를 이용하여 Integer형 리스트를 반환 받아 사용하시면 됩니다.
 	public void setLabelTextToResult(JLabel lbl, List<Integer> userList, List<String> resultStrList) {
@@ -198,6 +199,25 @@ public class FunctionList extends JFrame {
 		} else {
 			lbl.setText("망했습니다.");
 		}
+	}
+
+	// 사용자가 모든 번호를 선택하였는지를 체크하는 메소드 입니다.
+	// 사용자가 체크한 모든 정보가 들어있는 List<List<JCheckBox>>를 파라미터값으로 넣어주세요
+	// 만약 모두 6개씩 정상적으로 체크했다면 true를 반환하며,
+	// 나머지 상황에서는 false를 반환합니다.
+	public boolean checkAllSelected(List<List<JCheckBox>> result) {
+		for (int i = 0; i < result.size(); i++) {
+			int count = 0;
+			for (int j = 0; j < result.get(i).size(); j++) {
+				if (result.get(i).get(j).isSelected()) {
+					count++;
+				}
+			}
+			if (count != 6) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
