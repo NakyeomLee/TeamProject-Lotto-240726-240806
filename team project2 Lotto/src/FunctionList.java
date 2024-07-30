@@ -95,7 +95,6 @@ public class FunctionList extends JFrame {
 						checkBoxList.get(i).setSelected(false);
 					}
 					List<Integer> list = selectCheckBox(checkBoxList, 0);
-					String resultStr = "자동";
 					
 				}
 			});
