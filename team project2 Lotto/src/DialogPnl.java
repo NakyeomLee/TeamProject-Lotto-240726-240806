@@ -217,19 +217,34 @@ public class DialogPnl extends JDialog {
 		JPanel winNumPanel = new JPanel(); // 당첨 숫자 레이블들 포함될 패널
 		thirdPageCenterPanel.add(winNumPanel);
 
-		JLabel winNum1 = new JLabel(result.get(0)); // 첫번째 당첨 번호 레이블
+//		JLabel winNum1 = new JLabel(result.get(0)); // 첫번째 당첨 번호 레이블
+//
+//		JLabel winNum2 = new JLabel(result.get(1)); // 두번째 당첨 번호 레이블
+//
+//		JLabel winNum3 = new JLabel(result.get(2)); // 세번째 당첨 번호 레이블
+//
+//		JLabel winNum4 = new JLabel(result.get(3)); // 네번째 당첨 번호 레이블
+//
+//		JLabel winNum5 = new JLabel(result.get(4)); // 다섯번째 당첨 번호 레이블
+//
+//		JLabel winNum6 = new JLabel(result.get(5)); // 여섯번째 당첨 번호 레이블
+//
+//		JLabel bonusNum = new JLabel(result.get(6)); // 보너스 번호 레이블
+		
+		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)));
 
-		JLabel winNum2 = new JLabel(result.get(1)); // 두번째 당첨 번호 레이블
+		BallLabel winNum2 = new BallLabel(Integer.parseInt(result.get(1)));
 
-		JLabel winNum3 = new JLabel(result.get(2)); // 세번째 당첨 번호 레이블
+		BallLabel winNum3 = new BallLabel(Integer.parseInt(result.get(2)));
 
-		JLabel winNum4 = new JLabel(result.get(3)); // 네번째 당첨 번호 레이블
+		BallLabel winNum4 = new BallLabel(Integer.parseInt(result.get(3)));
 
-		JLabel winNum5 = new JLabel(result.get(4)); // 다섯번째 당첨 번호 레이블
+		BallLabel winNum5 = new BallLabel(Integer.parseInt(result.get(4)));
 
-		JLabel winNum6 = new JLabel(result.get(5)); // 여섯번째 당첨 번호 레이블
+		BallLabel winNum6 = new BallLabel(Integer.parseInt(result.get(5)));
 
-		JLabel bonusNum = new JLabel(result.get(6)); // 보너스 번호 레이블
+		BallLabel bonusNum = new BallLabel(Integer.parseInt(result.get(6)));
+
 
 		winNumPanel.add(winNum1);
 		winNumPanel.add(winNum2);
@@ -287,7 +302,8 @@ public class DialogPnl extends JDialog {
 
 					// 각 로또 별 사용자가 선택한 번호를 보여줄 레이블
 					for (int j = 0; j < intList.size(); j++) {
-						JLabel resultCheckLable = new JLabel(String.valueOf(intList.get(j)));
+						BallLabel resultCheckLable = new BallLabel(intList.get(j));
+//						JLabel resultCheckLable = new JLabel(String.valueOf(intList.get(j)));
 						includeLabelsPanel.add(resultCheckLable);
 					}
 
