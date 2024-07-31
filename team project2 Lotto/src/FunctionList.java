@@ -1,6 +1,8 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,7 +51,7 @@ public class FunctionList extends JFrame {
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
-		
+
 		list.get(0).setVisible(true);
 		Timer timer = new Timer(600, new ActionListener() {
 
@@ -85,9 +87,10 @@ public class FunctionList extends JFrame {
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
-	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option,
+	public void autoOrSemiAutoBtnFuntion(Timer timer, JButton btn, List<JCheckBox> checkBoxList, String option,
 			List<Integer> findBtn) {
 
+		
 		if (option.equals("auto")) {
 
 			btn.addActionListener(new ActionListener() {
@@ -95,12 +98,15 @@ public class FunctionList extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// changecheckBoxEnableToTrue(checkBoxList);
+					timer.stop();
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
+						checkBoxList.get(i).setEnabled(false);
 					}
-
+					
 					List<Integer> list = selectCheckBox(checkBoxList, 0);
 					listComposition(findBtn, list, 1);
+					
 				}
 			});
 
@@ -109,6 +115,7 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					timer.start();
 					int check = 0;
 
 					for (int i = 0; i < checkBoxList.size(); i++) {
@@ -124,7 +131,7 @@ public class FunctionList extends JFrame {
 						changecheckBoxEnableToTrue(checkBoxList);
 
 					} else {
-						changecheckBoxEnableToTrue(checkBoxList);
+						// changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;
 						for (int i = 0; i < checkBoxList.size(); i++) {
 							if (checkBoxList.get(i).isSelected()) {
@@ -142,6 +149,7 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					timer.start();
 					changecheckBoxEnableToTrue(checkBoxList);
 
 					for (int i = 0; i < checkBoxList.size(); i++) {
@@ -169,13 +177,23 @@ public class FunctionList extends JFrame {
 				}
 				if (count == 6) {
 					for (JCheckBox box : checkBoxList) {
-						box.setEnabled(false);
+						if (box.isSelected()) {
+							box.setEnabled(true);
+						} else {
+							box.setEnabled(false);
+						}
+					}
+				} else {
+					for (JCheckBox box : checkBoxList) {
+						box.setEnabled(true);
 					}
 				}
 			}
 		});
 		timer.start();
 	}
+
+
 
 	// 체크박스 리스트를 집어넣으면, 체크가 되어 있는 체크박스들의 숫자만 추려서
 	// Integer형의 새로운 리스트로 반환하는 메소드입니다.
@@ -288,6 +306,38 @@ public class FunctionList extends JFrame {
 		}
 		return false;
 	}
+	
+	
+	// 실시간으로 감시하는 타이머를 생성하는 메소드 입니다.
+	public Timer makeTimer(List<JCheckBox> checkBoxList) {
+		Timer timer = new Timer(1, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int count = 0;
+				for (JCheckBox box : checkBoxList) {
+					if (box.isSelected()) {
+						count++;
+					}
+				}
+				if (count == 6) {
+					for (JCheckBox box : checkBoxList) {
+						if (box.isSelected()) {
+							box.setEnabled(true);
+						} else {
+							box.setEnabled(false);
+						}
+					}
+				} else {
+					for (JCheckBox box : checkBoxList) {
+						box.setEnabled(true);
+					}
+				}
+			}
+		});
+		return timer;
+	}
+	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
