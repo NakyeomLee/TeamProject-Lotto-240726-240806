@@ -1,3 +1,4 @@
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
-
 
 public class FunctionList extends JFrame {
 
@@ -43,13 +43,14 @@ public class FunctionList extends JFrame {
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
-			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn ,JButton skipBtn) {
+			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn, JButton skipBtn) {
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, plusLbl, bonusLbl));
 		btn.setVisible(false);
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
-
+		
+		list.get(0).setVisible(true);
 		Timer timer = new Timer(600, new ActionListener() {
 
 			@Override
@@ -84,7 +85,8 @@ public class FunctionList extends JFrame {
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
-	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option, List<Integer> findBtn) {
+	public void autoOrSemiAutoBtnFuntion(JButton btn, List<JCheckBox> checkBoxList, String option,
+			List<Integer> findBtn) {
 
 		if (option.equals("auto")) {
 
@@ -92,11 +94,11 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-				//	changecheckBoxEnableToTrue(checkBoxList);
+					// changecheckBoxEnableToTrue(checkBoxList);
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						checkBoxList.get(i).setSelected(false);
 					}
-					
+
 					List<Integer> list = selectCheckBox(checkBoxList, 0);
 					listComposition(findBtn, list, 1);
 				}
@@ -108,19 +110,19 @@ public class FunctionList extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					int check = 0;
-					
-					for (int i = 0; i< checkBoxList.size(); i++) {
+
+					for (int i = 0; i < checkBoxList.size(); i++) {
 						if (checkBoxList.get(i).isEnabled()) {
 							check++;
 						}
 					}
-					
+
 					if (check == 0) {
 						for (JCheckBox box : checkBoxList) {
 							box.setSelected(false);
 						}
 						changecheckBoxEnableToTrue(checkBoxList);
-						
+
 					} else {
 						changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;
@@ -211,14 +213,19 @@ public class FunctionList extends JFrame {
 
 		if (count == 6) {
 			lbl.setText("1등 당첨");
+			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 5 && containBonusNum) {
 			lbl.setText("2등 당첨");
+			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 5) {
 			lbl.setText("3등 당첨");
+			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 4) {
 			lbl.setText("4등 당첨");
+			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 3) {
 			lbl.setText("5등 당첨");
+			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else {
 			lbl.setText("망했습니다.");
 		}
@@ -259,14 +266,14 @@ public class FunctionList extends JFrame {
 		Collections.sort(result);
 		return result;
 	}
-	
+
 	// 해당 메소드를 사용하였을 때
 	// 2등에 해당하면 true를 반환
 	// 그 외에는 false를 반환하는 메소드입니다.
 	// 2등의 경우 보너스 점수를 활용해야 하는 특이사항 발생으로 인하여 작성하였습니다.
 	public boolean check2ndPlace(List<String> winnerList, List<Integer> intList) {
 		List<Integer> changeList = new ArrayList<>();
-		for (int i = 0; i < winnerList.size()-1; i++) {
+		for (int i = 0; i < winnerList.size() - 1; i++) {
 			changeList.add(Integer.valueOf(winnerList.get(i)));
 		}
 		int count = 0;
@@ -275,7 +282,7 @@ public class FunctionList extends JFrame {
 				count++;
 			}
 		}
-		
+
 		if (count == 5) {
 			return true;
 		}
@@ -288,17 +295,14 @@ public class FunctionList extends JFrame {
 			checkBoxList.get(i).setEnabled(true);
 		}
 	}
-	
+
 	//
 	private void listComposition(List<Integer> findBtn, List<Integer> list, int btnDivideNum) {
 		findBtn.clear();
 		findBtn.add(btnDivideNum);
-		for(Integer num : list) {
+		for (Integer num : list) {
 			findBtn.add(num);
 		}
 	}
-	
-	
-	
 
 }
