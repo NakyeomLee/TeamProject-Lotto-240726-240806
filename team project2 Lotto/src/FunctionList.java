@@ -100,17 +100,10 @@ public class FunctionList extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// changecheckBoxEnableToTrue(checkBoxList);
-					timer.stop();
-					for (int i = 0; i < checkBoxList.size(); i++) {
-						checkBoxList.get(i).setSelected(false);
-						checkBoxList.get(i).setEnabled(false);
-					}
-
-					List<Integer> list = selectCheckBox(checkBoxList, 0);
-					listComposition(findBtn, list, 1);
-					oxLabel.setText("O");
+					autoChoose(timer, checkBoxList, findBtn, oxLabel);
 				}
+
+				
 			});
 
 		} else if (option.equals("semiAuto")) {
@@ -165,6 +158,19 @@ public class FunctionList extends JFrame {
 				}
 			});
 		}
+	}
+	
+	public void autoChoose(Timer timer, List<JCheckBox> checkBoxList, List<Integer> findBtn,
+			JLabel oxLabel) {
+		timer.stop();
+		for (int i = 0; i < checkBoxList.size(); i++) {
+			checkBoxList.get(i).setSelected(false);
+			checkBoxList.get(i).setEnabled(false);
+		}
+
+		List<Integer> list = selectCheckBox(checkBoxList, 0);
+		listComposition(findBtn, list, 1);
+		oxLabel.setText("O");
 	}
 
 	// 체크박스 리스트를 집어넣으면, 체크가 되어 있는 체크박스들의 숫자만 추려서

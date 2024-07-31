@@ -181,6 +181,8 @@ public class DialogPnl extends JDialog {
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
 
 		List<List<Integer>> findBtnList = new ArrayList<>();
+		List<JLabel> labelCollection = new ArrayList<>();
+		List<Timer> timerCollection = new ArrayList<>();
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -202,6 +204,7 @@ public class DialogPnl extends JDialog {
 
 			JPanel printOXPnl = new JPanel();
 			JLabel printOorX = new JLabel("X");
+			labelCollection.add(printOorX);
 			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 50));
 			printOXPnl.add(printOorX);
 			includeNumChoicePanel.add(printOXPnl, "South");
@@ -237,6 +240,7 @@ public class DialogPnl extends JDialog {
 			findBtnList.add(findBtn);
 
 			Timer timer = functionList.makeTimer(checkNumList, printOorX);
+			timerCollection.add(timer);
 
 			// 자동 버튼을 눌렀을때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn, printOorX);
@@ -515,11 +519,23 @@ public class DialogPnl extends JDialog {
 				System.exit(0); // 기본 창 닫힘
 			}
 		});
+		
+		allAutoButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < resultShow.size(); i++) {
+					functionList.autoChoose(timerCollection.get(i), resultShow.get(i), findBtnList.get(i), labelCollection.get(i));
+				}
+			}
+		});
 
 		pack(); // 다이얼로그 창 크기 알아서 조절 되도록
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
+	
+	
 
 	// 필드로 만들어둔 다시하기 버튼(AgainButton)의 getter setter
 	public JButton getAgainButton() {
