@@ -28,33 +28,13 @@ import javax.swing.Timer;
 // 작업자 : 이재민
 // 기본 구성요소 : 콤보박스, 텍스트, DialogPnl을 호출하는 버튼
 
-//다운받은 폰트를 적용하기위한 클래스
-class FontHolderForMain {
-	private Font font;
-
-	public FontHolderForMain() {
-		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, DialogPnl.class.getResourceAsStream("/fonts/EastSeaDokdo-Regular.ttf"));
-		} catch (FontFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public Font getDeriveFont(int style, float size) {
-		return font.deriveFont(style, size);
-	}
-}
 
 public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
-	private FontHolderForMain fontHolderForMain;
+	private FontHolder fontHolder = new FontHolder();
 
 	public MainPnl() {
 		super("인생 역전 로또");
-		
-		fontHolderForMain = new FontHolderForMain();
 		
 		setSize(500, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -101,19 +81,19 @@ public class MainPnl extends JFrame {
 		centerPanel.add(panel_1, BorderLayout.NORTH);
 
 		JLabel lblLottoCount = new JLabel("알아서 사세요.  ");
-		lblLottoCount.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 25));
+		lblLottoCount.setFont(fontHolder.getDeriveFont(Font.BOLD, 25));
 		panel_1.add(lblLottoCount);
 
 		String[] items = { "로또 수량을 선택하세요.", "1", "2", "3", "4", "5" };
 		JComboBox<String> combo = new JComboBox<>(items);
-		combo.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 18));
+		combo.setFont(fontHolder.getDeriveFont(Font.BOLD, 18));
 		panel_1.add(combo);
 
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("로또 사러 가기!");
-		btnNewButton.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 25));
+		btnNewButton.setFont(fontHolder.getDeriveFont(Font.BOLD, 25));
 		southPanel.add(btnNewButton);
 
 		JPanel northPanel = new JPanel();
@@ -121,7 +101,7 @@ public class MainPnl extends JFrame {
 		northPanel.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblNewLabel = new JLabel("제 " + lottoPlayCount + "회 인생 역전 로또");
-		lblNewLabel.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 30));
+		lblNewLabel.setFont(fontHolder.getDeriveFont(Font.BOLD, 30));
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 
 		btnNewButton.addActionListener(new ActionListener() {
@@ -157,7 +137,7 @@ public class MainPnl extends JFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblNewLabel_1 = new JLabel("인생 역전 로또   ");
-		lblNewLabel_1.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 30));
+		lblNewLabel_1.setFont(fontHolder.getDeriveFont(Font.BOLD, 30));
 		lblNewLabel_1.setHorizontalAlignment(JLabel.RIGHT);
 		panel_2.add(lblNewLabel_1);
 

@@ -1,8 +1,10 @@
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class FunctionList extends JFrame {
+	private FontHolder fontHolder = new FontHolder();
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
@@ -83,14 +86,14 @@ public class FunctionList extends JFrame {
 	}
 
 	// 자동 , 반자동, 수동 버튼을 눌렀을 때의 구현 기능 메소드 입니다.
-	// 괄호 안에는 makeTimer 메소드를 통해 반환 받은 타이머, 자동 버튼, List, 옵션을 넣습니다. (List는 체크박스들을 가지고 있어야 합니다.)
+	// 괄호 안에는 makeTimer 메소드를 통해 반환 받은 타이머, 자동 버튼, List, 옵션을 넣습니다. (List는 체크박스들을 가지고
+	// 있어야 합니다.)
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
 	public void autoOrSemiAutoBtnFuntion(Timer timer, JButton btn, List<JCheckBox> checkBoxList, String option,
 			List<Integer> findBtn) {
 
-		
 		if (option.equals("auto")) {
 
 			btn.addActionListener(new ActionListener() {
@@ -103,10 +106,10 @@ public class FunctionList extends JFrame {
 						checkBoxList.get(i).setSelected(false);
 						checkBoxList.get(i).setEnabled(false);
 					}
-					
+
 					List<Integer> list = selectCheckBox(checkBoxList, 0);
 					listComposition(findBtn, list, 1);
-					
+
 				}
 			});
 
@@ -198,22 +201,18 @@ public class FunctionList extends JFrame {
 
 		if (count == 6) {
 			lbl.setText("1등 당첨");
-			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 5 && containBonusNum) {
 			lbl.setText("2등 당첨");
-			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 5) {
 			lbl.setText("3등 당첨");
-			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 4) {
 			lbl.setText("4등 당첨");
-			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else if (count == 3) {
 			lbl.setText("5등 당첨");
-			lbl.setFont(new Font("맑은 고딕", Font.BOLD, 20));
 		} else {
 			lbl.setText("망했습니다.");
 		}
+		lbl.setFont(fontHolder.getDeriveFont(Font.BOLD, 20));
 	}
 
 	// 사용자가 모든 번호를 선택하였는지를 체크하는 메소드 입니다.
@@ -273,8 +272,7 @@ public class FunctionList extends JFrame {
 		}
 		return false;
 	}
-	
-	
+
 	// 실시간으로 감시하는 타이머를 생성하는 메소드 입니다.
 	// 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
 	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
@@ -306,7 +304,6 @@ public class FunctionList extends JFrame {
 		});
 		return timer;
 	}
-	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
