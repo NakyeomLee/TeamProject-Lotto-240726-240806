@@ -31,7 +31,7 @@ import javax.swing.Timer;
 public class DialogPnl extends JDialog {
 
 	int ballCount = 0;
-	private FontHolder fontHolder = new FontHolder();
+	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
 
 	class BallLabel extends JLabel {
@@ -106,6 +106,7 @@ public class DialogPnl extends JDialog {
 
 				// 로또 구매 창에서 반자동 버튼 선택
 			} else if (findBtnList.get(0) == 3) {
+				
 				List<Integer> semiAutoList = new ArrayList<>();
 
 				for (int i = 1; i < findBtnList.size(); i++) {
@@ -161,10 +162,16 @@ public class DialogPnl extends JDialog {
 		textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		northPanel.add(textLabel, "East");
 
+		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널 
+		northPanel.add(spacePanel, "West");
+		
+		JLabel spaceLabel = new JLabel("   "); // 창 벽과 전체 자동 버튼의 사이를 띄우기 위한 레이블
+		spacePanel.add(spaceLabel);
+		
 		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
 		allAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		northPanel.add(allAutoButton, "West");
-
+		spacePanel.add(allAutoButton);
+		
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
 		westPanel.setPreferredSize(new Dimension(50, 500));
@@ -202,8 +209,8 @@ public class DialogPnl extends JDialog {
 			numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
 			includeNumChoicePanel.add(numChoicePanel, "Center");
 
-			JPanel printOXPnl = new JPanel();
-			JLabel printOorX = new JLabel("X");
+			JPanel printOXPnl = new JPanel(); // printOorX 레이블이 포함될 패널
+			JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
 			labelCollection.add(printOorX);
 			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 50));
 			printOXPnl.add(printOorX);
@@ -256,9 +263,33 @@ public class DialogPnl extends JDialog {
 		JPanel includeSendButtonPanel = new JPanel(); // 번호 제출 버튼이 포함될 패널
 		buyLottoPanel.add(includeSendButtonPanel, new BorderLayout().SOUTH);
 
+		JButton preButton = new JButton("이전 장"); // 이전 장 버튼
+		preButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		includeSendButtonPanel.add(preButton);
+
 		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
 		sendButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		includeSendButtonPanel.add(sendButton);
+
+		JButton nextButton = new JButton("다음 장"); // 다음 장 버튼
+		nextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		includeSendButtonPanel.add(nextButton);
+
+//		// 이전 장 버튼 눌렀을 때
+//		preButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
+//		
+//		// 다음 장 버튼 눌렀을 때
+//		nextButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
 
 // <당첨 숫자 확인 창>------------------------------------------------------------------------------------------------
 
@@ -519,13 +550,14 @@ public class DialogPnl extends JDialog {
 				System.exit(0); // 기본 창 닫힘
 			}
 		});
-		
+
 		allAutoButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < resultShow.size(); i++) {
-					functionList.autoChoose(timerCollection.get(i), resultShow.get(i), findBtnList.get(i), labelCollection.get(i));
+					functionList.autoChoose(timerCollection.get(i), resultShow.get(i), findBtnList.get(i),
+							labelCollection.get(i));
 				}
 			}
 		});
@@ -534,8 +566,6 @@ public class DialogPnl extends JDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 	}
-	
-	
 
 	// 필드로 만들어둔 다시하기 버튼(AgainButton)의 getter setter
 	public JButton getAgainButton() {
