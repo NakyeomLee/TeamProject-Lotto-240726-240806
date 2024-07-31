@@ -212,7 +212,7 @@ public class FunctionList extends JFrame {
 		} else {
 			lbl.setText("망했습니다.");
 		}
-		lbl.setFont(fontHolder.getDeriveFont(Font.BOLD, 20));
+		lbl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 	}
 
 	// 사용자가 모든 번호를 선택하였는지를 체크하는 메소드 입니다.
