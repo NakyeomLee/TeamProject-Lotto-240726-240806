@@ -92,7 +92,7 @@ public class FunctionList extends JFrame {
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
 	public void autoOrSemiAutoBtnFuntion(Timer timer, JButton btn, List<JCheckBox> checkBoxList, String option,
-			List<Integer> findBtn) {
+			List<Integer> findBtn, JLabel oxLabel) {
 
 		if (option.equals("auto")) {
 
@@ -109,7 +109,7 @@ public class FunctionList extends JFrame {
 
 					List<Integer> list = selectCheckBox(checkBoxList, 0);
 					listComposition(findBtn, list, 1);
-
+					oxLabel.setText("O");
 				}
 			});
 
@@ -132,7 +132,7 @@ public class FunctionList extends JFrame {
 							box.setSelected(false);
 						}
 						changecheckBoxEnableToTrue(checkBoxList);
-
+						oxLabel.setText("X");
 					} else {
 						// changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;
@@ -143,6 +143,7 @@ public class FunctionList extends JFrame {
 						}
 						List<Integer> list = selectCheckBox(checkBoxList, count);
 						listComposition(findBtn, list, 3);
+						oxLabel.setText("O");
 					}
 				}
 			});
@@ -160,6 +161,7 @@ public class FunctionList extends JFrame {
 					}
 					findBtn.clear();
 					findBtn.add(2);
+					oxLabel.setText("X");
 				}
 			});
 		}
@@ -234,23 +236,6 @@ public class FunctionList extends JFrame {
 		return true;
 	}
 
-	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
-	// 추가 건의사항을 구현하기 위하여 반환 타입을 List<Integer>로 변경
-	private List<Integer> selectCheckBox(List<JCheckBox> checkBoxList, int count) {
-		List<Integer> result = new ArrayList<>();
-		while (count < 6) {
-			Random random = new Random();
-			int index = random.nextInt(45);
-			if (!checkBoxList.get(index).isSelected()) {
-				checkBoxList.get(index).setSelected(true);
-				count++;
-				result.add(index + 1);
-			}
-		}
-		Collections.sort(result);
-		return result;
-	}
-
 	// 해당 메소드를 사용하였을 때
 	// 2등에 해당하면 true를 반환
 	// 그 외에는 false를 반환하는 메소드입니다.
@@ -276,7 +261,7 @@ public class FunctionList extends JFrame {
 	// 실시간으로 감시하는 타이머를 생성하는 메소드 입니다.
 	// 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
 	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
-	public Timer makeTimer(List<JCheckBox> checkBoxList) {
+	public Timer makeTimer(List<JCheckBox> checkBoxList, JLabel oxLabel) {
 		Timer timer = new Timer(1, new ActionListener() {
 
 			@Override
@@ -288,6 +273,7 @@ public class FunctionList extends JFrame {
 					}
 				}
 				if (count == 6) {
+					oxLabel.setText("O");
 					for (JCheckBox box : checkBoxList) {
 						if (box.isSelected()) {
 							box.setEnabled(true);
@@ -296,6 +282,7 @@ public class FunctionList extends JFrame {
 						}
 					}
 				} else {
+					oxLabel.setText("X");
 					for (JCheckBox box : checkBoxList) {
 						box.setEnabled(true);
 					}
@@ -312,7 +299,24 @@ public class FunctionList extends JFrame {
 		}
 	}
 
-	//
+	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
+	// 추가 건의사항을 구현하기 위하여 반환 타입을 List<Integer>로 변경
+	private List<Integer> selectCheckBox(List<JCheckBox> checkBoxList, int count) {
+		List<Integer> result = new ArrayList<>();
+		while (count < 6) {
+			Random random = new Random();
+			int index = random.nextInt(45);
+			if (!checkBoxList.get(index).isSelected()) {
+				checkBoxList.get(index).setSelected(true);
+				count++;
+				result.add(index + 1);
+			}
+		}
+		Collections.sort(result);
+		return result;
+	}
+
+	// 버튼 기능을 구현하는 메소드 내용 중 중복된 내용을 메소드 화
 	private void listComposition(List<Integer> findBtn, List<Integer> list, int btnDivideNum) {
 		findBtn.clear();
 		findBtn.add(btnDivideNum);
