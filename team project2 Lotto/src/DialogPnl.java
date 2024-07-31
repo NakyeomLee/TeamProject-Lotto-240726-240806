@@ -33,7 +33,6 @@ public class DialogPnl extends JDialog {
 	int ballCount = 0;
 	private FontHolder fontHolder = new FontHolder();
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
-	
 
 	class BallLabel extends JLabel {
 
@@ -153,10 +152,18 @@ public class DialogPnl extends JDialog {
 		buyLottoPanel.setLayout(new BorderLayout());
 
 		// 로또 구매 창 패널에 들어갈 요소들
+
+		JPanel northPanel = new JPanel(); // 인생역전로또 레이블, 전체 자동 버튼 포함될 패널
+		buyLottoPanel.add(northPanel, new BorderLayout().NORTH);
+		northPanel.setLayout(new BorderLayout());
+
 		JLabel textLabel = new JLabel("인생 역전 로또   "); // "인생 역전 로또" 레이블
 		textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		buyLottoPanel.add(textLabel, new BorderLayout().NORTH);
-		textLabel.setHorizontalAlignment(JLabel.RIGHT); // 레이블이 항상 북쪽의 맨 오른쪽에 위치
+		northPanel.add(textLabel, "East");
+
+		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
+		allAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		northPanel.add(allAutoButton, "West");
 
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
@@ -192,13 +199,12 @@ public class DialogPnl extends JDialog {
 			JPanel numChoicePanel = new JPanel();
 			numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
 			includeNumChoicePanel.add(numChoicePanel, "Center");
-			
+
 			JPanel printOXPnl = new JPanel();
 			JLabel printOorX = new JLabel("X");
 			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 50));
 			printOXPnl.add(printOorX);
 			includeNumChoicePanel.add(printOXPnl, "South");
-			
 
 			// 번호 선택 체크박스를 담은 List
 			List<JCheckBox> checkNumList = new ArrayList<>();
@@ -231,7 +237,7 @@ public class DialogPnl extends JDialog {
 			findBtnList.add(findBtn);
 
 			Timer timer = functionList.makeTimer(checkNumList, printOorX);
-			
+
 			// 자동 버튼을 눌렀을때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn, printOorX);
 			// 수동 버튼을 눌렀을 때 기능 메소드
@@ -253,16 +259,16 @@ public class DialogPnl extends JDialog {
 // <당첨 숫자 확인 창>------------------------------------------------------------------------------------------------
 
 		// 당첨 번호를 넣을 List
-		
+
 		List<String> winningNumbers = functionList.resultLottoNumber();
 		List<Integer> sortArr = new ArrayList<>();
-		String bonusNumber = winningNumbers.get(winningNumbers.size()-1);
-		
-		for (int i = 0; i < winningNumbers.size()-1; i++) {
+		String bonusNumber = winningNumbers.get(winningNumbers.size() - 1);
+
+		for (int i = 0; i < winningNumbers.size() - 1; i++) {
 			sortArr.add(Integer.valueOf(winningNumbers.get(i)));
 		}
 		Collections.sort(sortArr);
-		
+
 		List<String> result = new ArrayList<>();
 		for (int i = 0; i < sortArr.size(); i++) {
 			result.add(String.valueOf(sortArr.get(i)));
