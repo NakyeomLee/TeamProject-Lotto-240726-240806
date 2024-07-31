@@ -3,6 +3,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,24 +22,37 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
-
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.GridLayout;
+import javax.swing.Timer;
 
 // 작업자 : 이나겸
 // 기본 구성요소 : 로또번호를 정하는 창, 로또의 결과값이 나오는 창, 결과를 출력하는 창
 // 로또번호를 정하는 창은 메인에서 1 ~ 5사이의 값을 받아와서 해당 개수만큼 구현해야 함.
 
+// 다운받은 폰트를 적용하기위한 클래스
+class FontHolderForDialog {
+	private Font font;
+
+	public FontHolderForDialog() {
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, DialogPnl.class.getResourceAsStream("/fonts/EastSeaDokdo-Regular.ttf"));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Font getDeriveFont(int style, float size) {
+		return font.deriveFont(style, size);
+	}
+}
+
 public class DialogPnl extends JDialog {
 
 	int ballCount = 0;
+	private FontHolderForDialog fontHolderForDialog;
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
+	
 
 	class BallLabel extends JLabel {
 
@@ -150,8 +172,9 @@ public class DialogPnl extends JDialog {
 		buyLottoPanel.setLayout(new BorderLayout());
 
 		// 로또 구매 창 패널에 들어갈 요소들
-
-		JLabel textLabel = new JLabel("인생역전 로또"); // "인생 역전 로또" 레이블
+		fontHolderForDialog = new FontHolderForDialog();
+		JLabel textLabel = new JLabel("인생 역전 로또   "); // "인생 역전 로또" 레이블
+		textLabel.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 30));
 		buyLottoPanel.add(textLabel, new BorderLayout().NORTH);
 		textLabel.setHorizontalAlignment(JLabel.RIGHT); // 레이블이 항상 북쪽의 맨 오른쪽에 위치
 
@@ -196,6 +219,7 @@ public class DialogPnl extends JDialog {
 			// 사용자가 선택할 번호 체크박스 (1 ~ 45)
 			for (int j = 1; j <= 45; j++) {
 				JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
+				checkNumBox.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 				checkNumBox.setEnabled(false); // 체크박스 비활성화
 				checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 add
 				numChoicePanel.add(checkNumBox); // 번호 선택 체크박스를 패널에 add
@@ -203,8 +227,11 @@ public class DialogPnl extends JDialog {
 			resultShow.add(checkNumList); // 사용자가 선택한 번호를 담는 List에 번호 선택 체크박스를 담은 List를 add
 
 			JButton autoButton = new JButton("자동"); // 자동 버튼
+			autoButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 			JButton selfButton = new JButton("수동"); // 수동 버튼
+			selfButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 			JButton halfAutoButton = new JButton("반자동"); // 반자동 버튼
+			halfAutoButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 
 			includeButtonsPanel.add(autoButton);
 			includeButtonsPanel.add(selfButton);
@@ -216,12 +243,14 @@ public class DialogPnl extends JDialog {
 			List<Integer> findBtn = new ArrayList<>();
 			findBtnList.add(findBtn);
 
+			Timer timer = functionList.makeTimer(checkNumList);
+			
 			// 자동 버튼을 눌렀을때 기능 메소드
-			functionList.autoOrSemiAutoBtnFuntion(autoButton, checkNumList, "auto", findBtn);
+			functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn);
 			// 수동 버튼을 눌렀을 때 기능 메소드
-			functionList.autoOrSemiAutoBtnFuntion(selfButton, checkNumList, "self", findBtn);
+			functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn);
 			// 반자동 버튼을 눌렀을 때 기능 메소드
-			functionList.autoOrSemiAutoBtnFuntion(halfAutoButton, checkNumList, "semiAuto", findBtn);
+			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn);
 
 			// 자동 or 수동 or 반자동으로 번호 6개를 다 선택하면 체크박스 비활성화시키는 메소드
 			functionList.checkLimit(checkNumList);
@@ -234,6 +263,7 @@ public class DialogPnl extends JDialog {
 		buyLottoPanel.add(includeSendButtonPanel, new BorderLayout().SOUTH);
 
 		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
+		sendButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 		includeSendButtonPanel.add(sendButton);
 
 // <당첨 숫자 확인 창>------------------------------------------------------------------------------------------------
@@ -267,14 +297,16 @@ public class DialogPnl extends JDialog {
 
 		// "결과 추첨 중..." 레이블, 당첨 숫자가 다 나오고 나면 레이블에 적힌 텍스트가 바뀜
 		JLabel loadingLabel = new JLabel("결과 추첨 중...");
+		loadingLabel.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 		numberCheckBtnPanel.add(loadingLabel);
 
 		JButton resultCheckButton = new JButton("결과 확인"); // 결과 확인 버튼
+		resultCheckButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 		numberCheckBtnPanel.add(resultCheckButton);
-		
+
 		JButton skipButton = new JButton("SKIP"); // SKIP 버튼
+		skipButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 		numberCheckBtnPanel.add(skipButton);
-		
 
 		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
@@ -310,7 +342,7 @@ public class DialogPnl extends JDialog {
 				cardLayout.show(centerPanel, "ResultCheck");
 			}
 		});
-		
+
 		// 결과 확인 버튼을 누르면 결과 확인 창으로 넘어감
 		resultCheckButton.addActionListener(new ActionListener() {
 			@Override
@@ -329,6 +361,7 @@ public class DialogPnl extends JDialog {
 
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
 		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
+		text2Label.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 25));
 		resultCheckPanel.add(text2Label, new BorderLayout().NORTH);
 		text2Label.setHorizontalAlignment(JLabel.CENTER); // 레이블이 항상 북쪽의 중간에 위치
 
@@ -368,7 +401,9 @@ public class DialogPnl extends JDialog {
 		resultCheckPanel.add(includeButtonsPanel2, new BorderLayout().SOUTH);
 
 		againButton = new JButton("다시하기"); // 다시하기 버튼
+		againButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 		JButton closeButton = new JButton("종료"); // 종료 버튼
+		closeButton.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 20));
 
 		includeButtonsPanel2.add(againButton);
 		includeButtonsPanel2.add(closeButton);
@@ -396,7 +431,8 @@ public class DialogPnl extends JDialog {
 
 					// 당첨 숫자 확인 창에서 당첨 숫자들이 순차적으로 나타나게 하는 메소드
 					functionList.changeToLabelVisible(loadingLabel, winNumLabel1, winNumLabel2, winNumLabel3,
-							winNumLabel4, winNumLabel5, winNumLabel6, plusLabel, bonusNumLabel, resultCheckButton, skipButton);
+							winNumLabel4, winNumLabel5, winNumLabel6, plusLabel, bonusNumLabel, resultCheckButton,
+							skipButton);
 
 					// 결과 확인 창에서 로또 개수(lottoCount)에 따라 includeLabelsPanel이 보여짐(1 ~ 5개)
 					for (int i = 0; i < lottoCount; i++) {
@@ -412,7 +448,7 @@ public class DialogPnl extends JDialog {
 
 						// 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
 						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ".");
-						countLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+						countLabel.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 15));
 						includeLabelsPanel.add(countLabel);
 
 						// 사용자가 로또 당 선택한 자동 수동 반자동 표시 레이블
@@ -442,7 +478,7 @@ public class DialogPnl extends JDialog {
 						winLabel.setPreferredSize(new Dimension(80, 50));
 						winLabel.setHorizontalTextPosition(JLabel.CENTER);
 						winLabel.setHorizontalAlignment(SwingConstants.CENTER);
-						winLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+//						winLabel.setFont(new Font("/fonts/EastSeaDokdo-Regular.ttf", Font.BOLD, 12));
 						includeLabelsPanel.add(winLabel);
 
 						// winLabel에 글자를 바꿔줄 메소드
@@ -463,7 +499,7 @@ public class DialogPnl extends JDialog {
 				autoOrSemiautoLabel.setPreferredSize(new Dimension(40, 50));
 				autoOrSemiautoLabel.setHorizontalTextPosition(JLabel.CENTER);
 				autoOrSemiautoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				autoOrSemiautoLabel.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+				autoOrSemiautoLabel.setFont(fontHolderForDialog.getDeriveFont(Font.BOLD, 15));
 				includeLabelsPanel.add(autoOrSemiautoLabel);
 			}
 		});
@@ -481,7 +517,7 @@ public class DialogPnl extends JDialog {
 
 	}
 
-	// 필드로 만들어둔 다시하기 버튼(AgainButton) 의 getter setter
+	// 필드로 만들어둔 다시하기 버튼(AgainButton)의 getter setter
 	public JButton getAgainButton() {
 		return againButton;
 	}

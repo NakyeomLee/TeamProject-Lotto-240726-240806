@@ -3,7 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-
+import java.io.IOException;
 import java.util.TimerTask;
 
 import javax.swing.JButton;
@@ -14,6 +14,8 @@ import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -25,11 +27,35 @@ import javax.swing.Timer;
 // 메인 창
 // 작업자 : 이재민
 // 기본 구성요소 : 콤보박스, 텍스트, DialogPnl을 호출하는 버튼
+
+//다운받은 폰트를 적용하기위한 클래스
+class FontHolderForMain {
+	private Font font;
+
+	public FontHolderForMain() {
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, DialogPnl.class.getResourceAsStream("/fonts/EastSeaDokdo-Regular.ttf"));
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Font getDeriveFont(int style, float size) {
+		return font.deriveFont(style, size);
+	}
+}
+
 public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
+	private FontHolderForMain fontHolderForMain;
 
 	public MainPnl() {
-		super("인생역전 로또");
+		super("인생 역전 로또");
+		
+		fontHolderForMain = new FontHolderForMain();
+		
 		setSize(500, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -74,17 +100,20 @@ public class MainPnl extends JFrame {
 		JPanel panel_1 = new JPanel();
 		centerPanel.add(panel_1, BorderLayout.NORTH);
 
-		JLabel lblLottoCount = new JLabel("알아서 사세요");
+		JLabel lblLottoCount = new JLabel("알아서 사세요.  ");
+		lblLottoCount.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 25));
 		panel_1.add(lblLottoCount);
 
 		String[] items = { "로또 수량을 선택하세요.", "1", "2", "3", "4", "5" };
 		JComboBox<String> combo = new JComboBox<>(items);
+		combo.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 18));
 		panel_1.add(combo);
 
 		JPanel southPanel = new JPanel();
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("로또 사러 가기!");
+		btnNewButton.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 25));
 		southPanel.add(btnNewButton);
 
 		JPanel northPanel = new JPanel();
@@ -92,6 +121,7 @@ public class MainPnl extends JFrame {
 		northPanel.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblNewLabel = new JLabel("제 " + lottoPlayCount + "회 인생 역전 로또");
+		lblNewLabel.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 30));
 		lblNewLabel.setHorizontalAlignment(JLabel.CENTER);
 
 		btnNewButton.addActionListener(new ActionListener() {
@@ -103,7 +133,7 @@ public class MainPnl extends JFrame {
 					int lottoCountInteger = Integer.parseInt(lottoCount);
 					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
 					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							lottoPlayCount++;
@@ -126,7 +156,8 @@ public class MainPnl extends JFrame {
 		northPanel.add(panel_2, BorderLayout.NORTH);
 		panel_2.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblNewLabel_1 = new JLabel("인생역전 로또!");
+		JLabel lblNewLabel_1 = new JLabel("인생 역전 로또   ");
+		lblNewLabel_1.setFont(fontHolderForMain.getDeriveFont(Font.BOLD, 30));
 		lblNewLabel_1.setHorizontalAlignment(JLabel.RIGHT);
 		panel_2.add(lblNewLabel_1);
 
