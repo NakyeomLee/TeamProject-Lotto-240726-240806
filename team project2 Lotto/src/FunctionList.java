@@ -83,7 +83,7 @@ public class FunctionList extends JFrame {
 	}
 
 	// 자동 , 반자동, 수동 버튼을 눌렀을 때의 구현 기능 메소드 입니다.
-	// 괄호 안에는 자동 버튼, List, 옵션을 넣습니다. (List는 체크박스들을 가지고 있어야 합니다.)
+	// 괄호 안에는 makeTimer 메소드를 통해 반환 받은 타이머, 자동 버튼, List, 옵션을 넣습니다. (List는 체크박스들을 가지고 있어야 합니다.)
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
@@ -161,39 +161,6 @@ public class FunctionList extends JFrame {
 			});
 		}
 	}
-
-	// 해당 메소드를 실행 시키면, 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
-	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
-	public void checkLimit(List<JCheckBox> checkBoxList) {
-		Timer timer = new Timer(1, new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int count = 0;
-				for (JCheckBox box : checkBoxList) {
-					if (box.isSelected()) {
-						count++;
-					}
-				}
-				if (count == 6) {
-					for (JCheckBox box : checkBoxList) {
-						if (box.isSelected()) {
-							box.setEnabled(true);
-						} else {
-							box.setEnabled(false);
-						}
-					}
-				} else {
-					for (JCheckBox box : checkBoxList) {
-						box.setEnabled(true);
-					}
-				}
-			}
-		});
-		timer.start();
-	}
-
-
 
 	// 체크박스 리스트를 집어넣으면, 체크가 되어 있는 체크박스들의 숫자만 추려서
 	// Integer형의 새로운 리스트로 반환하는 메소드입니다.
@@ -309,6 +276,8 @@ public class FunctionList extends JFrame {
 	
 	
 	// 실시간으로 감시하는 타이머를 생성하는 메소드 입니다.
+	// 해당 메소드 파라미터 값으로 던져준 체크박스 리스트의 체크된 개수가 6개 이상일시
+	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
 	public Timer makeTimer(List<JCheckBox> checkBoxList) {
 		Timer timer = new Timer(1, new ActionListener() {
 
