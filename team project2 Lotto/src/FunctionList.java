@@ -22,7 +22,7 @@ public class FunctionList extends JFrame {
 		List<Integer> list = new ArrayList<>();
 		List<String> result = new ArrayList<>();
 
-		while (list.size() < 8) {
+		while (list.size() < 7) {
 			Random random = new Random();
 			Integer num = random.nextInt(45) + 1;
 			if (!list.contains(num)) {
@@ -43,7 +43,7 @@ public class FunctionList extends JFrame {
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
-			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn) {
+			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn ,JButton skipBtn) {
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, plusLbl, bonusLbl));
 		btn.setVisible(false);
 		for (JLabel lbl : list) {
@@ -69,6 +69,7 @@ public class FunctionList extends JFrame {
 					}
 					if (allVisible) {
 						textLbl.setText("결과를 확인해주세요");
+						skipBtn.setVisible(false);
 						btn.setVisible(true);
 						((Timer) arg0.getSource()).stop();
 					}
