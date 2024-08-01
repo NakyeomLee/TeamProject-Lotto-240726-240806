@@ -201,7 +201,7 @@ public class DialogPnl extends JDialog {
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
 
-		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList);
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {

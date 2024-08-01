@@ -104,7 +104,6 @@ public class FunctionList extends JFrame {
 					autoChoose(timer, checkBoxList, findBtn, oxLabel);
 				}
 
-				
 			});
 
 		} else if (option.equals("semiAuto")) {
@@ -160,9 +159,8 @@ public class FunctionList extends JFrame {
 			});
 		}
 	}
-	
-	public void autoChoose(Timer timer, List<JCheckBox> checkBoxList, List<Integer> findBtn,
-			JLabel oxLabel) {
+
+	public void autoChoose(Timer timer, List<JCheckBox> checkBoxList, List<Integer> findBtn, JLabel oxLabel) {
 		timer.stop();
 		for (int i = 0; i < checkBoxList.size(); i++) {
 			checkBoxList.get(i).setSelected(false);
@@ -298,12 +296,12 @@ public class FunctionList extends JFrame {
 		});
 		return timer;
 	}
-	
+
 	// 사용자가 제출한 번호 내용을 토대로 저장할 수 있는 saveCheckBox을 재구성
 	public void saveCheckBoxNum(List<List<JCheckBox>> saveCheckBox, List<List<JCheckBox>> resultShow) {
 		saveCheckBox.clear();
-					
-		for (int j = 0; j < resultShow.size(); j++ ) {
+
+		for (int j = 0; j < resultShow.size(); j++) {
 
 			List<JCheckBox> newBox = new ArrayList<>();
 			for (int i = 0; i < 45; i++) {
@@ -316,45 +314,40 @@ public class FunctionList extends JFrame {
 			saveCheckBox.add(newBox);
 		}
 	}
-	
+
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
-	public void beforeBtnFunction(JButton beforeBtn, List<List<JCheckBox>> saveCheckBox, List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList) {
+	public void beforeBtnFunction(JButton beforeBtn, List<List<JCheckBox>> saveCheckBox,
+			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection) {
 		beforeBtn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
+
 				for (int i = 0; i < resultShow.size(); i++) {
-					while (findBtnList.get(i).size()!=0) {
+					while (findBtnList.get(i).size() != 0) {
 						findBtnList.get(i).remove(0);
 					}
-					
+
 					findBtnList.get(i).add(1);
 					for (int j = 0; j < resultShow.get(i).size(); j++) {
 						resultShow.get(i).get(j).setSelected(false);
 					}
-					
-					if (saveCheckBox.size()!=0) {
+
+					if (saveCheckBox.size() != 0 && i < saveCheckBox.size()) {
 						for (int j = 0; j < saveCheckBox.get(i).size(); j++) {
 							if (saveCheckBox.get(i).get(j).isSelected()) {
 								resultShow.get(i).get(j).setSelected(true);
-								findBtnList.get(i).add(j+1);
+								findBtnList.get(i).add(j + 1);
+								labelCollection.get(i).setText("O");
+
 							}
 						}
 					}
-					
-					
+
 				}
 			}
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
