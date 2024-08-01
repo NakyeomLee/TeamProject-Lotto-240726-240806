@@ -33,7 +33,7 @@ public class DialogPnl extends JDialog {
 	int ballCount = 0;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
-
+	
 	class BallLabel extends JLabel {
 
 		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
@@ -196,10 +196,13 @@ public class DialogPnl extends JDialog {
 		// 메인창에서 사용자가 선택한 개수에 따라 로또 1 ~ 5개 펼쳐질 패널(밑바탕)
 		JPanel firstPageCenterPanel = new JPanel();
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
-
+		
+		List<List<JCheckBox>> saveCheckBox = new ArrayList<>();
 		List<List<Integer>> findBtnList = new ArrayList<>();
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
+		
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -495,6 +498,8 @@ public class DialogPnl extends JDialog {
 				if (functionList.checkAllSelected(resultShow)) {
 
 					setSize(750, 650);
+					
+					functionList.saveCheckBoxNum(saveCheckBox, resultShow);
 
 					// 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
 					cardLayout.show(centerPanel, "NumberCheck");
