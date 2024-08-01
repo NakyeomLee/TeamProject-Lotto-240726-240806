@@ -24,7 +24,7 @@ import javax.swing.Timer;
 public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
-	private List<List<JCheckBox>> saveCheckBox = new ArrayList<>();
+	private List<List<List<JCheckBox>>> saveCheckBox = new ArrayList<>();
 	
 	public MainPnl() {
 		super("인생 역전 로또");

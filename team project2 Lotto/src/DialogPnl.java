@@ -143,7 +143,7 @@ public class DialogPnl extends JDialog {
 	}
 
 	// 다이얼로그 창 생성자
-	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl, List<List<JCheckBox>> saveCheckBox) {
+	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl, List<List<List<JCheckBox>>> saveCheckBox) {
 
 		FunctionList functionList = new FunctionList();
 
@@ -185,11 +185,21 @@ public class DialogPnl extends JDialog {
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeSameButton);
 		if (lottoPlayCount == 1) {
-			beforeSameButton.setEnabled(false);
+			beforeSameButton.setVisible(false);
 		}
 		
-		String[] numbers = { "1", "2", "3" };
+		List<String> round = new ArrayList<>();
+		
+		String[] numbers = new String[lottoPlayCount-1];
+		for (int i = 0; i < lottoPlayCount-1; i++) {
+			round.add((i+1)+"회차");
+			numbers[i] = round.get(i);
+		}
+		
 		JComboBox<String> beforeLottoNum = new JComboBox<>(numbers);
+		if (lottoPlayCount == 1) {
+			beforeLottoNum.setVisible(false);
+		}
 		beforeLottoNum.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeLottoNum);
 
@@ -223,7 +233,7 @@ public class DialogPnl extends JDialog {
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
 
-		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection);
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection, beforeLottoNum);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {

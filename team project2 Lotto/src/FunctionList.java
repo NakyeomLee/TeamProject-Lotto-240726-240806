@@ -14,6 +14,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -315,48 +316,69 @@ public class FunctionList extends JFrame {
 	}
 
 	// 사용자가 제출한 번호 내용을 토대로 저장할 수 있는 saveCheckBox을 재구성
-	public void saveCheckBoxNum(List<List<JCheckBox>> saveCheckBox, List<List<JCheckBox>> resultShow) {
-		saveCheckBox.clear();
+	public void saveCheckBoxNum(List<List<List<JCheckBox>>> saveCheckBox, List<List<JCheckBox>> resultShow) {
+		
+		for (int i = 0; i < saveCheckBox.size() + 1; i++) {
+			if (i == saveCheckBox.size()) {
+				List<List<JCheckBox>> newBoxListList = new ArrayList<>();
+				for (int j = 0; j < resultShow.size(); j++) {
 
-		for (int j = 0; j < resultShow.size(); j++) {
-
-			List<JCheckBox> newBox = new ArrayList<>();
-			
-			for (int i = 0; i < 45; i++) {
-				JCheckBox checkBox = new JCheckBox();
-				
-				if (resultShow.get(j).get(i).isSelected()) {
-					checkBox.setSelected(true);
+					List<JCheckBox> newBoxList = new ArrayList<>();
+					for (int k = 0; k < 45; k++) {
+						JCheckBox checkBox = new JCheckBox();
+						
+						if (resultShow.get(j).get(k).isSelected()) {
+							checkBox.setSelected(true);
+						}
+						newBoxList.add(checkBox);
+					}
+					newBoxListList.add(newBoxList);
 				}
-				newBox.add(checkBox);
+				saveCheckBox.add(newBoxListList);
+				break;
 			}
-			saveCheckBox.add(newBox);
 		}
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
-	public void beforeBtnFunction(JButton beforeBtn, List<List<JCheckBox>> saveCheckBox,
-			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection) {
+	public void beforeBtnFunction(JButton beforeBtn, List<List<List<JCheckBox>>> saveCheckBox,
+			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum) {
 		
 		beforeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				//timer.stop();
 				for (int i = 0; i < resultShow.size(); i++) {
-					while (findBtnList.get(i).size() != 0) {
-						findBtnList.get(i).remove(0);
-					}
-
+					
 					findBtnList.get(i).add(1);
 					
 					for (int j = 0; j < resultShow.get(i).size(); j++) {
 						resultShow.get(i).get(j).setSelected(false);
 					}
 
-					if (saveCheckBox.size() != 0 && i < saveCheckBox.size()) {
-						for (int j = 0; j < saveCheckBox.get(i).size(); j++) {
+					
+					labelCollection.get(i).setText("X");
+					
+				}
+				
+				
+				String choose = beforeLottoNum.getItemAt(beforeLottoNum.getSelectedIndex());
+				String firstChar = choose.substring(0, 1);
+				int split = Integer.parseInt(firstChar);
+				if (saveCheckBox.size() != 0) {
+					
+					for (int i = 0; i < saveCheckBox.get(split-1).size(); i++) {
+						
+						for (int j = 0; j < saveCheckBox.get(split-1).get(i).size(); j++) {
 							
-							if (saveCheckBox.get(i).get(j).isSelected()) {
+							if (saveCheckBox.get(split-1).get(i).get(j).isSelected()) {
 								resultShow.get(i).get(j).setSelected(true);
 								findBtnList.get(i).add(j + 1);
 								labelCollection.get(i).setText("O");
@@ -376,10 +398,6 @@ public class FunctionList extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int count = 0;
-
-				for (int j = 0; j < lblList.size(); j++) {
-					lblList.get(j).setText("O");
-				}
 
 				for (int i = 0; i < checkBoxList.size(); i++) {
 					if (checkBoxList.get(i).isSelected()) {
@@ -418,6 +436,10 @@ public class FunctionList extends JFrame {
 						for (int j = 0; j < indexList.size(); j++) {
 							findBtnList.get(i).add(indexList.get(j) + 1);
 						}
+					}
+					
+					for (int j = 0; j < lblList.size(); j++) {
+						lblList.get(j).setText("O");
 					}
 
 				} else {
