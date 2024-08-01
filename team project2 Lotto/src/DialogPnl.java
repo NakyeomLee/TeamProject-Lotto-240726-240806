@@ -233,7 +233,7 @@ public class DialogPnl extends JDialog {
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
 
-		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection, beforeLottoNum);
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection, beforeLottoNum, timerCollection);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -308,7 +308,7 @@ public class DialogPnl extends JDialog {
 			// 반자동 버튼을 눌렀을 때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
 			// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
-			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection);
+			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection, timerCollection);
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 //			functionList
 
@@ -463,7 +463,7 @@ public class DialogPnl extends JDialog {
 									findBtn, printOorX);
 							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
 							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton,
-									labelCollection);
+									labelCollection, timerCollection);
 
 							pageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 							pageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
