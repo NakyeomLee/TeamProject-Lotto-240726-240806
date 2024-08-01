@@ -349,23 +349,21 @@ public class FunctionList extends JFrame {
 
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
 	public void beforeBtnFunction(JButton beforeBtn, List<List<List<JCheckBox>>> saveCheckBox,
-			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum) {
+			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum, Timer timer) {
 		
 		beforeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//timer.stop();
+				timer.stop();
 				for (int i = 0; i < resultShow.size(); i++) {
 					
 					findBtnList.get(i).add(1);
 					
 					for (int j = 0; j < resultShow.get(i).size(); j++) {
 						resultShow.get(i).get(j).setSelected(false);
+						resultShow.get(i).get(j).setEnabled(false);
 					}
-
-					
 					labelCollection.get(i).setText("X");
-					
 				}
 				
 				
@@ -392,13 +390,28 @@ public class FunctionList extends JFrame {
 
 	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
 	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection,
-			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList) {
+			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, Timer timer) {
 
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				timer.stop();
+				
+				for (int i = 0; i < checkBoxListCollection.size(); i++) {
+					for (int j = 0; j < checkBoxListCollection.get(i).size(); j++) {
+						checkBoxListCollection.get(i).get(j).setEnabled(false);
+					}
+				}
+				
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					if (checkBoxList.get(i).isSelected()) {
+						checkBoxList.get(i).setEnabled(true);
+					} else {
+						checkBoxList.get(i).setEnabled(false);
+					}
+				}
+				
 				int count = 0;
-
 				for (int i = 0; i < checkBoxList.size(); i++) {
 					if (checkBoxList.get(i).isSelected()) {
 						count++;
@@ -419,7 +432,6 @@ public class FunctionList extends JFrame {
 							
 							if (indexList.contains(i)) {
 								list.get(i).setSelected(true);
-								
 							} else {
 								list.get(i).setSelected(false);
 							}
