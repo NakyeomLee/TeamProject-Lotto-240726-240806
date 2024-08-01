@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+
 // 작업자 : 이나겸
 // 기본 구성요소 : 로또번호를 정하는 창, 로또의 결과값이 나오는 창, 결과를 출력하는 창
 // 로또번호를 정하는 창은 메인에서 1 ~ 5사이의 값을 받아와서 해당 개수만큼 구현해야 함.
@@ -35,6 +36,14 @@ public class DialogPnl extends JDialog {
 
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 
+	
+	private List<Integer> intList;// 재민수정
+	private List<List<Integer>> saveList = new ArrayList<>();// 재민수정
+	private List<JCheckBox> checkNumList;// 재민수정
+	private int buyLottoPageCount = 1;// 재민수정
+	private List<String> buyLottoPageCountList = new ArrayList<>(); //재민수정
+	private int lottoCountmultiple = 0;
+	
 	class BallLabel extends JLabel {
 
 		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
@@ -192,6 +201,15 @@ public class DialogPnl extends JDialog {
 		JPanel firstPageCenterPanel = new JPanel();
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
 
+		
+		JPanel buyLottoCenterPanel = new JPanel();
+		CardLayout buyLottoCenterCardLayout = new CardLayout();
+		buyLottoCenterPanel.setLayout(buyLottoCenterCardLayout);
+		buyLottoPanel.add(buyLottoCenterPanel, new BorderLayout().CENTER);
+		buyLottoCenterPanel.add(firstPageCenterPanel, "BuyPnl1");
+		buyLottoPageCountList.add("BuyPnl1");
+		
+		
 		List<List<Integer>> findBtnList = new ArrayList<>();
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
@@ -311,21 +329,144 @@ public class DialogPnl extends JDialog {
 
 		// 이전 장 버튼 눌렀을 때
 		// (로또를 여러 장 구매했을 경우 이전 장으로 넘기기)
-//		preButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
+		preButton.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (buyLottoPageCount > 1) {
+				buyLottoPageCount--;
+				buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
+			}
+			System.out.println(buyLottoPageCount);
+		}
+	});
 
 		// 다음 장 버튼 눌렀을 때
 		// (로또를 여러 장 구매했을 경우 다음 장으로 넘기기)
-//		nextButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lottoCountmultiple += lottoCountmultiple;
+//				int buyLottoCount = lottoCount - 5 * (buyLottoPageCount);
+//				System.out.println("buyLottoCount : " + buyLottoCount);
+
+				if (buyLottoPageCount < 11) {
+					buyLottoPageCount++;
+					if (buyLottoPageCountList.contains("BuyPnl" + (buyLottoPageCount + 1))) {
+					} else {
+						for (int i = 0; i < lottoCount; i++) {
+
+							// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
+							intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
+							Collections.sort(intList); // 순서대로 정렬
+							System.out.println(intList);
+							if (intList.size() != 0) {
+								saveList.add(intList);
+							}
+						}
+
+						System.out.println(saveList);
+
+						JPanel pageCenterPanel = new JPanel();
+						buyLottoCenterPanel.add(pageCenterPanel, "BuyPnl" + buyLottoPageCount);
+						buyLottoPageCountList.add("BuyPnl" + buyLottoPageCount);
+						// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
+
+						
+						for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
+
+							pageCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10)); // GridLayout
+
+							// 번호 선택 패널, 자동 수동 반자동 버튼들이 있는 패널이 포함될 패널
+							JPanel includeNumChoicePanel = new JPanel();
+							includeNumChoicePanel.setLayout(new BorderLayout());
+
+							// 자동 수동 반자동 버튼들이 있는 패널
+							JPanel includeButtonsPanel = new JPanel();
+							includeNumChoicePanel.add(includeButtonsPanel, "North");
+
+							// 번호 선택 체크박스들이 있는 번호 선택 패널
+							JPanel numChoicePanel = new JPanel();
+							numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
+							includeNumChoicePanel.add(numChoicePanel, "Center");
+
+							// printOorX 레이블이 포함될 패널
+							JPanel printOXPnl = new JPanel();
+							printOXPnl.setLayout(new BorderLayout());
+							includeNumChoicePanel.add(printOXPnl, "South");
+
+							JButton sameNumberButton = new JButton("위의 번호로 모두 선택"); // 위의 번호로 모두 선택 버튼
+							sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//							sameNumberButton.setEnabled(false); // 버튼 비활성화
+							printOXPnl.add(sameNumberButton, "North");
+
+							JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
+							labelCollection.add(printOorX);
+							printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 35));
+							printOorX.setHorizontalAlignment(JLabel.CENTER); // 텍스트 가운데 정렬
+							printOXPnl.add(printOorX, "Center");
+
+							sameNumberButton.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent e) {
+
+								}
+							});
+
+							// 번호 선택 체크박스를 담은 List
+							checkNumList = new ArrayList<>();
+
+							// 사용자가 선택할 번호 체크박스 (1 ~ 45)
+							for (int j = 1; j <= 45; j++) {
+								JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
+								checkNumBox.setFont(fontHolder.getUseFont(Font.BOLD, 15));
+								checkNumBox.setEnabled(false); // 체크박스 비활성화
+								checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 add
+								numChoicePanel.add(checkNumBox); // 번호 선택 체크박스를 패널에 add
+							}
+							resultShow.add(checkNumList); // 사용자가 선택한 번호를 담는 List에 번호 선택 체크박스를 담은 List를 add
+
+							JButton autoButton = new JButton("자동"); // 자동 버튼
+							autoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+							JButton selfButton = new JButton("수동"); // 수동 버튼
+							selfButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+							JButton halfAutoButton = new JButton("반자동"); // 반자동 버튼
+							halfAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+
+							includeButtonsPanel.add(autoButton);
+							includeButtonsPanel.add(selfButton);
+							includeButtonsPanel.add(halfAutoButton);
+
+							pageCenterPanel.add(includeNumChoicePanel);
+
+							// 자동 수동 반자동 버튼들을 담는 List
+							List<Integer> findBtn = new ArrayList<>();
+							findBtnList.add(findBtn);
+
+							Timer timer = functionList.makeTimer(checkNumList, printOorX);
+							timerCollection.add(timer);
+
+							// 자동 버튼을 눌렀을때 기능 메소드
+							functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn, printOorX);
+							// 수동 버튼을 눌렀을 때 기능 메소드
+							functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn, printOorX);
+							// 반자동 버튼을 눌렀을 때 기능 메소드
+							functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
+							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
+							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection);
+
+							pageCenterPanel.revalidate(); // 레이아웃을 다시 계산
+							pageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
+						}
+					}
+
+					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
+				} else {
+					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능해요");
+
+				}
+
+			}
+		});
 
 // <당첨 숫자 확인 창>------------------------------------------------------------------------------------------------
 
@@ -521,9 +662,12 @@ public class DialogPnl extends JDialog {
 						thirdPageCenterPanel.add(includeLabelsPanel);
 
 						// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
-						List<Integer> intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
+						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
 						Collections.sort(intList); // 순서대로 정렬
 
+						saveList.add(intList);//재민수정
+
+						
 						// 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
 						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ". ");
 						countLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18));
@@ -543,12 +687,10 @@ public class DialogPnl extends JDialog {
 							autoOrSemiautoLabelDeco(includeLabelsPanel, autoOrSemiautoLabel);
 						}
 
-						for (int j = 0; j < intList.size(); j++) {
-
-							BallLabel resultCheckLable = new BallLabel(intList.get(j), findBtnList.get(i), result,
-									intList);
+						for (int j = 0; j < saveList.get(i).size(); j++) {
+							BallLabel resultCheckLable = new BallLabel(saveList.get(i).get(j), findBtnList.get(i),
+									result, saveList.get(i));
 							includeLabelsPanel.add(resultCheckLable);
-
 						}
 
 						// n등 당첨, 낙첨 레이블 (당첨 여부에 따라 Label의 텍스트가 바뀜)
