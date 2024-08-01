@@ -67,7 +67,9 @@ public class DialogPnl extends JDialog {
 
 			setHorizontalTextPosition(JLabel.CENTER); // 레이블의 텍스트 가로 부분을 가운데로 고정
 			setVerticalTextPosition(JLabel.CENTER);// 레이블의 텍스트 세로 부분을 가운데로 고정
-			setFont(new Font("Serif", Font.BOLD, 20)); // 폰트 설정
+			setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//			setFont(new Font("Serif", Font.BOLD, 20)); // 폰트 설정
+//			textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 			setForeground(Color.WHITE); // 글자 색깔 설정
 			setText(String.valueOf(number)); // 글자 설정
 			setHorizontalAlignment(SwingConstants.CENTER); // 레이블 자체의 수평 위치를 중간으로
@@ -106,7 +108,7 @@ public class DialogPnl extends JDialog {
 
 				// 로또 구매 창에서 반자동 버튼 선택
 			} else if (findBtnList.get(0) == 3) {
-				
+
 				List<Integer> semiAutoList = new ArrayList<>();
 
 				for (int i = 1; i < findBtnList.size(); i++) {
@@ -138,9 +140,9 @@ public class DialogPnl extends JDialog {
 
 		FunctionList functionList = new FunctionList();
 
-		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
-
 		CardLayout cardLayout = new CardLayout();
+
+		setModal(true); // 다이얼로그 창 닫기 전까지 다른 동작 불가
 
 		// 다이얼로그 창에서 모든 페이지가 다 포함되는 패널(밑바탕)
 		JPanel centerPanel = new JPanel();
@@ -162,16 +164,24 @@ public class DialogPnl extends JDialog {
 		textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		northPanel.add(textLabel, "East");
 
-		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널 
+		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널
 		northPanel.add(spacePanel, "West");
-		
+
 		JLabel spaceLabel = new JLabel("   "); // 창 벽과 전체 자동 버튼의 사이를 띄우기 위한 레이블
 		spacePanel.add(spaceLabel);
-		
+
 		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
 		allAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(allAutoButton);
+
+		JButton beforeSameButton = new JButton("이전 회차 동일 적용"); // 이전 회차 동일 적용 버튼
+		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel.add(beforeSameButton);
 		
+//		JButton sameNumberButton = new JButton(); // 같은 번호 적용 버튼
+//		sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//		spacePanel.add(sameNumberButton);
+
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
 		westPanel.setPreferredSize(new Dimension(50, 500));
@@ -275,15 +285,35 @@ public class DialogPnl extends JDialog {
 		nextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		includeSendButtonPanel.add(nextButton);
 
-//		// 이전 장 버튼 눌렀을 때
+		// 이전 회차 동일 적용 버튼 눌렀을 때
+		// 각 게임 당 선택 번호 이전 회차와 동일하게 적용
+//		beforeSameButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
+		
+		// 같은 번호 적용 버튼을 눌렀을 때
+		// (게임을 여러개 선택하고 한 게임을 수동으로 번호를 찍은 상태에서 나머지 게임에도 같은 번호 적용)
+//		sameNumberButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				
+//			}
+//		});
+
+		// 이전 장 버튼 눌렀을 때
+		// (로또를 여러 장 구매했을 경우 이전 장으로 넘기기)
 //		preButton.addActionListener(new ActionListener() {
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
 //				
 //			}
 //		});
-//		
-//		// 다음 장 버튼 눌렀을 때
+
+		// 다음 장 버튼 눌렀을 때
+		// (로또를 여러 장 구매했을 경우 다음 장으로 넘기기)
 //		nextButton.addActionListener(new ActionListener() {
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
@@ -334,7 +364,8 @@ public class DialogPnl extends JDialog {
 		JPanel numberCheckBtnPanel = new JPanel();
 		numberCheckSouthPanel.add(numberCheckBtnPanel);
 
-		// "결과 추첨 중..." 레이블, 당첨 숫자가 다 나오고 나면 레이블에 적힌 텍스트가 바뀜
+		// "결과 추첨 중..." 레이블
+		// 당첨 숫자가 다 나오고 나면 레이블에 적힌 텍스트가 바뀜
 		JLabel loadingLabel = new JLabel("결과 추첨 중...");
 		loadingLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		numberCheckBtnPanel.add(loadingLabel);
@@ -486,7 +517,7 @@ public class DialogPnl extends JDialog {
 						Collections.sort(intList); // 순서대로 정렬
 
 						// 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
-						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ".");
+						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ". ");
 						countLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18));
 						includeLabelsPanel.add(countLabel);
 
@@ -528,7 +559,7 @@ public class DialogPnl extends JDialog {
 					}
 
 				} else {
-					// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하지 않고 번호 제출 버튼을 눌렀을 때 뜰 경고창
+					// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하지 않고 번호 제출 버튼을 눌렀을 때 뜰 메세지창
 					JOptionPane.showMessageDialog(DialogPnl.this, "각 로또 당 숫자를 6개 선택해주세요.");
 				}
 			}
