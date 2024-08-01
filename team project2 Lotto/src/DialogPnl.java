@@ -187,15 +187,15 @@ public class DialogPnl extends JDialog {
 		if (lottoPlayCount == 1) {
 			beforeSameButton.setVisible(false);
 		}
-		
+
 		List<String> round = new ArrayList<>();
-		
-		String[] numbers = new String[lottoPlayCount-1];
-		for (int i = 0; i < lottoPlayCount-1; i++) {
-			round.add((i+1)+"회차");
+
+		String[] numbers = new String[lottoPlayCount - 1];
+		for (int i = 0; i < lottoPlayCount - 1; i++) {
+			round.add((i + 1) + "회차");
 			numbers[i] = round.get(i);
 		}
-		
+
 		JComboBox<String> beforeLottoNum = new JComboBox<>(numbers);
 		if (lottoPlayCount == 1) {
 			beforeLottoNum.setVisible(false);
@@ -233,7 +233,8 @@ public class DialogPnl extends JDialog {
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
 
-		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection, beforeLottoNum, timerCollection);
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection,
+				beforeLottoNum, timerCollection);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -308,7 +309,8 @@ public class DialogPnl extends JDialog {
 			// 반자동 버튼을 눌렀을 때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
 			// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
-			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection, timerCollection, timer);
+			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection,
+					timerCollection, timer);
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 //			functionList
 
@@ -346,9 +348,9 @@ public class DialogPnl extends JDialog {
 					buyLottoPageCount--;
 					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
 					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
-					
+
 //					beforeSameButton.setEnabled(true);
-				} 
+				}
 			}
 		});
 
@@ -590,11 +592,23 @@ public class DialogPnl extends JDialog {
 
 		// 결과 확인 패널에 들어갈 요소들
 
+		JPanel northPanel2 = new JPanel();
+		northPanel2.setLayout(new BorderLayout());
+		resultCheckPanel.add(northPanel2, new BorderLayout().NORTH);
+
+		JButton preButton2 = new JButton("이전"); // 이전 버튼
+		preButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		northPanel2.add(preButton2, "East");
+
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
 		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
 		text2Label.setFont(fontHolder.getUseFont(Font.BOLD, 25));
-		resultCheckPanel.add(text2Label, new BorderLayout().NORTH);
-		text2Label.setHorizontalAlignment(JLabel.CENTER); // 레이블이 항상 북쪽의 중간에 위치
+		northPanel2.add(text2Label, "Center");
+		text2Label.setHorizontalAlignment(JLabel.CENTER);
+
+		JButton nextButton2 = new JButton("다음"); // 다음 버튼
+		nextButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		northPanel2.add(nextButton2, "West");
 
 		// winNumPanel, includeLabelsPanel이 포함될 패널
 		JPanel thirdPageCenterPanel = new JPanel();
@@ -627,17 +641,28 @@ public class DialogPnl extends JDialog {
 		winNumPanel.add(winNum6);
 		winNumPanel.add(bonusNum);
 
-		// 버튼들 포함될 패널
-		JPanel includeButtonsPanel2 = new JPanel();
-		resultCheckPanel.add(includeButtonsPanel2, new BorderLayout().SOUTH);
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new BorderLayout());
+		resultCheckPanel.add(southPanel, new BorderLayout().SOUTH);
+
+		JPanel spacePanel2 = new JPanel();
+		spacePanel2.setPreferredSize(new Dimension(170, 0));
+		southPanel.add(spacePanel2, "West");
+
+		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
+		southPanel.add(includeButtonsPanel2, "Center");
 
 		againButton = new JButton("다시하기"); // 다시하기 버튼
 		againButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		includeButtonsPanel2.add(againButton);
+
 		JButton closeButton = new JButton("종료"); // 종료 버튼
 		closeButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-
-		includeButtonsPanel2.add(againButton);
 		includeButtonsPanel2.add(closeButton);
+
+		JLabel infoLabel = new JLabel("점선 : 자동, 실선 : 수동   "); // 공 테두리 설명 레이블
+		infoLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		southPanel.add(infoLabel, "East");
 
 // --------------------------------------------------------------------------------------------------
 
