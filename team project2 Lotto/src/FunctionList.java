@@ -369,7 +369,6 @@ public class FunctionList extends JFrame {
 					labelCollection.get(i).setText("X");
 				}
 				
-				
 				String choose = beforeLottoNum.getItemAt(beforeLottoNum.getSelectedIndex());
 				String firstChar = choose.substring(0, 1);
 				int split = Integer.parseInt(firstChar);
@@ -379,11 +378,15 @@ public class FunctionList extends JFrame {
 						
 						for (int j = 0; j < saveCheckBox.get(split-1).get(i).size(); j++) {
 							
-							if (saveCheckBox.get(split-1).get(i).get(j).isSelected()) {
-								resultShow.get(i).get(j).setSelected(true);
-								findBtnList.get(i).add(j + 1);
-								labelCollection.get(i).setText("O");
+							try {
+								if (saveCheckBox.get(split-1).get(i).get(j).isSelected()) {
+									resultShow.get(i).get(j).setSelected(true);
+									findBtnList.get(i).add(j + 1);
+									labelCollection.get(i).setText("O");
+								}
+							} catch(Exception e1) {
 							}
+							
 						}
 					}
 				}
@@ -393,7 +396,7 @@ public class FunctionList extends JFrame {
 
 	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
 	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection,
-			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, List<Timer> timerCollection) {
+			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, List<Timer> timerCollection, Timer timer) {
 
 		btn.addActionListener(new ActionListener() {
 			@Override
@@ -401,13 +404,15 @@ public class FunctionList extends JFrame {
 				for (Timer timer : timerCollection) {
 					timer.stop();
 				}
-				
+				timer.start();
+				// 모든 체크박스 비활성화
 				for (int i = 0; i < checkBoxListCollection.size(); i++) {
 					for (int j = 0; j < checkBoxListCollection.get(i).size(); j++) {
 						checkBoxListCollection.get(i).get(j).setEnabled(false);
 					}
 				}
 				
+				// 버튼이 위치한 체크박스는 체크 위치에 따라 활성 및 비활성화
 				for (int i = 0; i < checkBoxList.size(); i++) {
 					if (checkBoxList.get(i).isSelected()) {
 						checkBoxList.get(i).setEnabled(true);

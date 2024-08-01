@@ -308,7 +308,7 @@ public class DialogPnl extends JDialog {
 			// 반자동 버튼을 눌렀을 때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
 			// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
-			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection, timerCollection);
+			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection, timerCollection, timer);
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 //			functionList
 
@@ -463,7 +463,7 @@ public class DialogPnl extends JDialog {
 									findBtn, printOorX);
 							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
 							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton,
-									labelCollection, timerCollection);
+									labelCollection, timerCollection, timer);
 
 							pageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 							pageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
