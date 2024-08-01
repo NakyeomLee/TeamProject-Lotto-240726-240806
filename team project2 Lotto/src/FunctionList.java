@@ -32,6 +32,7 @@ public class FunctionList extends JFrame {
 		while (list.size() < 7) {
 			Random random = new Random();
 			Integer num = random.nextInt(45) + 1;
+
 			if (!list.contains(num)) {
 				list.add(num);
 			}
@@ -51,24 +52,28 @@ public class FunctionList extends JFrame {
 	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
 			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn, JButton skipBtn) {
+
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, plusLbl, bonusLbl));
+
 		btn.setVisible(false);
+
 		for (JLabel lbl : list) {
 			lbl.setVisible(false);
 		}
 
 		list.get(0).setVisible(true);
+
 		Timer timer = new Timer(600, new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				for (JLabel lbl : list) {
-
 					if (!lbl.isVisible()) {
 						lbl.setVisible(true);
 						break;
 					}
 					boolean allVisible = true;
+
 					for (JLabel lbl1 : list) {
 						if (!lbl1.isVisible()) {
 							allVisible = false;
@@ -99,17 +104,15 @@ public class FunctionList extends JFrame {
 		if (option.equals("auto")) {
 
 			btn.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					autoChoose(timer, checkBoxList, findBtn, oxLabel);
 				}
-
 			});
 
 		} else if (option.equals("semiAuto")) {
-			btn.addActionListener(new ActionListener() {
 
+			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					timer.start();
@@ -127,9 +130,11 @@ public class FunctionList extends JFrame {
 						}
 						changecheckBoxEnableToTrue(checkBoxList);
 						oxLabel.setText("X");
+
 					} else {
 						// changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;
+
 						for (int i = 0; i < checkBoxList.size(); i++) {
 							if (checkBoxList.get(i).isSelected()) {
 								count++;
@@ -144,7 +149,6 @@ public class FunctionList extends JFrame {
 
 		} else if (option.equals("self")) {
 			btn.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					timer.start();
@@ -193,6 +197,7 @@ public class FunctionList extends JFrame {
 	// returnCheckBoxListToIntegerList메소드를 이용하여 Integer형 리스트를 반환 받아 사용하시면 됩니다.
 	public void setLabelTextToResult(JLabel lbl, List<Integer> userList, List<String> resultStrList) {
 		List<Integer> resultList = new ArrayList<>();
+
 		for (int i = 0; i < resultStrList.size() - 1; i++) {
 			resultList.add(Integer.valueOf(resultStrList.get(i)));
 		}
@@ -201,6 +206,7 @@ public class FunctionList extends JFrame {
 		boolean containBonusNum = userList.contains(bonusNum);
 
 		int count = 0;
+
 		for (Integer num : userList) {
 			if (resultList.contains(num)) {
 				count++;
@@ -230,11 +236,13 @@ public class FunctionList extends JFrame {
 	public boolean checkAllSelected(List<List<JCheckBox>> result) {
 		for (int i = 0; i < result.size(); i++) {
 			int count = 0;
+			
 			for (int j = 0; j < result.get(i).size(); j++) {
 				if (result.get(i).get(j).isSelected()) {
 					count++;
 				}
 			}
+			
 			if (count != 6) {
 				return false;
 			}
@@ -248,10 +256,13 @@ public class FunctionList extends JFrame {
 	// 2등의 경우 보너스 점수를 활용해야 하는 특이사항 발생으로 인하여 작성하였습니다.
 	public boolean check2ndPlace(List<String> winnerList, List<Integer> intList) {
 		List<Integer> changeList = new ArrayList<>();
+		
 		for (int i = 0; i < winnerList.size() - 1; i++) {
 			changeList.add(Integer.valueOf(winnerList.get(i)));
 		}
+		
 		int count = 0;
+		
 		for (int i = 0; i < intList.size(); i++) {
 			if (changeList.contains(intList.get(i))) {
 				count++;
@@ -269,26 +280,31 @@ public class FunctionList extends JFrame {
 	// 더 이상 선택할 수 없도록 체크박스를 비활성화 시킵니다.
 	public Timer makeTimer(List<JCheckBox> checkBoxList, JLabel oxLabel) {
 		Timer timer = new Timer(1, new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int count = 0;
+				
 				for (JCheckBox box : checkBoxList) {
 					if (box.isSelected()) {
 						count++;
 					}
 				}
+				
 				if (count == 6) {
 					oxLabel.setText("O");
+					
 					for (JCheckBox box : checkBoxList) {
 						if (box.isSelected()) {
 							box.setEnabled(true);
+							
 						} else {
 							box.setEnabled(false);
 						}
 					}
+					
 				} else {
 					oxLabel.setText("X");
+					
 					for (JCheckBox box : checkBoxList) {
 						box.setEnabled(true);
 					}
@@ -305,8 +321,10 @@ public class FunctionList extends JFrame {
 		for (int j = 0; j < resultShow.size(); j++) {
 
 			List<JCheckBox> newBox = new ArrayList<>();
+			
 			for (int i = 0; i < 45; i++) {
 				JCheckBox checkBox = new JCheckBox();
+				
 				if (resultShow.get(j).get(i).isSelected()) {
 					checkBox.setSelected(true);
 				}
@@ -319,8 +337,8 @@ public class FunctionList extends JFrame {
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
 	public void beforeBtnFunction(JButton beforeBtn, List<List<JCheckBox>> saveCheckBox,
 			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection) {
+		
 		beforeBtn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
@@ -330,82 +348,86 @@ public class FunctionList extends JFrame {
 					}
 
 					findBtnList.get(i).add(1);
+					
 					for (int j = 0; j < resultShow.get(i).size(); j++) {
 						resultShow.get(i).get(j).setSelected(false);
 					}
 
 					if (saveCheckBox.size() != 0 && i < saveCheckBox.size()) {
 						for (int j = 0; j < saveCheckBox.get(i).size(); j++) {
+							
 							if (saveCheckBox.get(i).get(j).isSelected()) {
 								resultShow.get(i).get(j).setSelected(true);
 								findBtnList.get(i).add(j + 1);
 								labelCollection.get(i).setText("O");
-
 							}
 						}
 					}
-
 				}
 			}
 		});
 	}
-	
+
 	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
-	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection, List<List<Integer>> findBtnList, JButton btn ) {
-		
+	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection,
+			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList) {
+
 		btn.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int count = 0;
-				
+
+				for (int j = 0; j < lblList.size(); j++) {
+					lblList.get(j).setText("O");
+				}
+
 				for (int i = 0; i < checkBoxList.size(); i++) {
 					if (checkBoxList.get(i).isSelected()) {
 						count++;
 					}
 				}
-				
-				
+
 				if (count == 6) {
 					List<Integer> indexList = new ArrayList<>();
-					
+
 					for (int i = 0; i < checkBoxList.size(); i++) {
 						if (checkBoxList.get(i).isSelected()) {
 							indexList.add(i);
 						}
 					}
-					
+
 					for (List<JCheckBox> list : checkBoxListCollection) {
 						for (int i = 0; i < list.size(); i++) {
+							
 							if (indexList.contains(i)) {
 								list.get(i).setSelected(true);
+								
 							} else {
 								list.get(i).setSelected(false);
 							}
 						}
 					}
-					
-					for (int i =0; i< findBtnList.size(); i++) {
+
+					for (int i = 0; i < findBtnList.size(); i++) {
 						while (findBtnList.get(i).size() != 0) {
 							findBtnList.get(i).remove(0);
 						}
+						
 						findBtnList.get(i).add(1);
+						
 						for (int j = 0; j < indexList.size(); j++) {
-							findBtnList.get(i).add(indexList.get(j)+1);
+							findBtnList.get(i).add(indexList.get(j) + 1);
 						}
 					}
-					
+
 				} else {
 					JOptionPane.showMessageDialog(FunctionList.this, "6개를 모두 선택하세요");
 				}
-				
-				
+
 			}
 		});
-		
-		
+
 	}
-	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
@@ -417,10 +439,13 @@ public class FunctionList extends JFrame {
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	// 추가 건의사항을 구현하기 위하여 반환 타입을 List<Integer>로 변경
 	private List<Integer> selectCheckBox(List<JCheckBox> checkBoxList, int count) {
+		
 		List<Integer> result = new ArrayList<>();
+		
 		while (count < 6) {
 			Random random = new Random();
 			int index = random.nextInt(45);
+			
 			if (!checkBoxList.get(index).isSelected()) {
 				checkBoxList.get(index).setSelected(true);
 				count++;
@@ -435,9 +460,9 @@ public class FunctionList extends JFrame {
 	private void listComposition(List<Integer> findBtn, List<Integer> list, int btnDivideNum) {
 		findBtn.clear();
 		findBtn.add(btnDivideNum);
+		
 		for (Integer num : list) {
 			findBtn.add(num);
 		}
 	}
-
 }

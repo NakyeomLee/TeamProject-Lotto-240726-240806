@@ -31,8 +31,9 @@ import javax.swing.Timer;
 public class DialogPnl extends JDialog {
 
 	int ballCount = 0;
-	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
+
+	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 
 	class BallLabel extends JLabel {
 
@@ -68,8 +69,6 @@ public class DialogPnl extends JDialog {
 			setHorizontalTextPosition(JLabel.CENTER); // 레이블의 텍스트 가로 부분을 가운데로 고정
 			setVerticalTextPosition(JLabel.CENTER);// 레이블의 텍스트 세로 부분을 가운데로 고정
 			setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//			setFont(new Font("Serif", Font.BOLD, 20)); // 폰트 설정
-//			textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 			setForeground(Color.WHITE); // 글자 색깔 설정
 			setText(String.valueOf(number)); // 글자 설정
 			setHorizontalAlignment(SwingConstants.CENTER); // 레이블 자체의 수평 위치를 중간으로
@@ -178,10 +177,6 @@ public class DialogPnl extends JDialog {
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeSameButton);
 
-//		JButton sameNumberButton = new JButton(); // 같은 번호 적용 버튼
-//		sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//		spacePanel.add(sameNumberButton);
-
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
 		westPanel.setPreferredSize(new Dimension(50, 500));
@@ -221,12 +216,28 @@ public class DialogPnl extends JDialog {
 			numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
 			includeNumChoicePanel.add(numChoicePanel, "Center");
 
-			JPanel printOXPnl = new JPanel(); // printOorX 레이블이 포함될 패널
+			// printOorX 레이블이 포함될 패널
+			JPanel printOXPnl = new JPanel();
+			printOXPnl.setLayout(new BorderLayout());
+			includeNumChoicePanel.add(printOXPnl, "South");
+
+			JButton sameNumberButton = new JButton("위의 번호로 모두 선택"); // 위의 번호로 모두 선택 버튼
+			sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//			sameNumberButton.setEnabled(false); // 버튼 비활성화
+			printOXPnl.add(sameNumberButton, "North");
+
 			JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
 			labelCollection.add(printOorX);
-			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 50));
-			printOXPnl.add(printOorX);
-			includeNumChoicePanel.add(printOXPnl, "South");
+			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 35));
+			printOorX.setHorizontalAlignment(JLabel.CENTER); // 텍스트 가운데 정렬
+			printOXPnl.add(printOorX, "Center");
+
+			sameNumberButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+				}
+			});
 
 			// 번호 선택 체크박스를 담은 List
 			List<JCheckBox> checkNumList = new ArrayList<>();
@@ -267,6 +278,8 @@ public class DialogPnl extends JDialog {
 			functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn, printOorX);
 			// 반자동 버튼을 눌렀을 때 기능 메소드
 			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
+			// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
+			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection);
 
 			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 			firstPageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
@@ -290,15 +303,6 @@ public class DialogPnl extends JDialog {
 		// 이전 회차 동일 적용 버튼 눌렀을 때
 		// 각 게임 당 선택 번호 이전 회차와 동일하게 적용
 //		beforeSameButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
-
-		// 같은 번호 적용 버튼을 눌렀을 때
-		// (게임을 여러개 선택하고 한 게임을 수동으로 번호를 찍은 상태에서 나머지 게임에도 같은 번호 적용)
-//		sameNumberButton.addActionListener(new ActionListener() {
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
 //				
@@ -492,7 +496,7 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하고 번호 제출 버튼을 눌렀을 때
 				if (functionList.checkAllSelected(resultShow)) {
 
