@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-
 
 // 작업자 : 이나겸
 // 기본 구성요소 : 로또번호를 정하는 창, 로또의 결과값이 나오는 창, 결과를 출력하는 창
@@ -36,14 +36,13 @@ public class DialogPnl extends JDialog {
 
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 
-	
 	private List<Integer> intList;// 재민수정
 	private List<List<Integer>> saveList = new ArrayList<>();// 재민수정
 	private List<JCheckBox> checkNumList;// 재민수정
 	private int buyLottoPageCount = 1;// 재민수정
-	private List<String> buyLottoPageCountList = new ArrayList<>(); //재민수정
+	private List<String> buyLottoPageCountList = new ArrayList<>(); // 재민수정
 	private int lottoCountmultiple = 0;
-	
+
 	class BallLabel extends JLabel {
 
 		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
@@ -164,7 +163,7 @@ public class DialogPnl extends JDialog {
 
 		// 로또 구매 창 패널에 들어갈 요소들
 
-		JPanel northPanel = new JPanel(); // 인생역전로또 레이블, 전체 자동 버튼 포함될 패널
+		JPanel northPanel = new JPanel();
 		buyLottoPanel.add(northPanel, new BorderLayout().NORTH);
 		northPanel.setLayout(new BorderLayout());
 
@@ -185,6 +184,18 @@ public class DialogPnl extends JDialog {
 		JButton beforeSameButton = new JButton("이전 회차 동일 적용"); // 이전 회차 동일 적용 버튼
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeSameButton);
+		if (lottoPlayCount == 1) {
+			beforeSameButton.setEnabled(false);
+		}
+		
+		String[] numbers = { "1", "2", "3" };
+		JComboBox<String> beforeLottoNum = new JComboBox<>(numbers);
+		beforeLottoNum.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel.add(beforeLottoNum);
+
+		JButton allCancelButton = new JButton("전체 취소"); // 전체 취소 버튼
+		allCancelButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel.add(allCancelButton);
 
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
@@ -201,15 +212,13 @@ public class DialogPnl extends JDialog {
 		JPanel firstPageCenterPanel = new JPanel();
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
 
-		
 		JPanel buyLottoCenterPanel = new JPanel();
 		CardLayout buyLottoCenterCardLayout = new CardLayout();
 		buyLottoCenterPanel.setLayout(buyLottoCenterCardLayout);
 		buyLottoPanel.add(buyLottoCenterPanel, new BorderLayout().CENTER);
 		buyLottoCenterPanel.add(firstPageCenterPanel, "BuyPnl1");
 		buyLottoPageCountList.add("BuyPnl1");
-		
-		
+
 		List<List<Integer>> findBtnList = new ArrayList<>();
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
@@ -241,7 +250,6 @@ public class DialogPnl extends JDialog {
 
 			JButton sameNumberButton = new JButton("위의 번호로 모두 선택"); // 위의 번호로 모두 선택 버튼
 			sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//			sameNumberButton.setEnabled(false); // 버튼 비활성화
 			printOXPnl.add(sameNumberButton, "North");
 
 			JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
@@ -249,13 +257,6 @@ public class DialogPnl extends JDialog {
 			printOorX.setFont(fontHolder.getUseFont(Font.BOLD, 35));
 			printOorX.setHorizontalAlignment(JLabel.CENTER); // 텍스트 가운데 정렬
 			printOXPnl.add(printOorX, "Center");
-
-			sameNumberButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-				}
-			});
 
 			// 번호 선택 체크박스를 담은 List
 			List<JCheckBox> checkNumList = new ArrayList<>();
@@ -298,6 +299,8 @@ public class DialogPnl extends JDialog {
 			functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
 			// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
 			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection);
+			// 전체 취소 버튼을 눌렀을 때 기능 메소드
+//			functionList
 
 			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 			firstPageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
@@ -318,38 +321,36 @@ public class DialogPnl extends JDialog {
 		nextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		includeSendButtonPanel.add(nextButton);
 
-		// 이전 회차 동일 적용 버튼 눌렀을 때
-		// 각 게임 당 선택 번호 이전 회차와 동일하게 적용
-//		beforeSameButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				
-//			}
-//		});
+		// 페이지 수 표시 레이블
+		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">");
+		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		includeSendButtonPanel.add(pageCountLabel);
 
 		// 이전 장 버튼 눌렀을 때
 		// (로또를 여러 장 구매했을 경우 이전 장으로 넘기기)
 		preButton.addActionListener(new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (buyLottoPageCount > 1) {
-				buyLottoPageCount--;
-				buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (buyLottoPageCount > 1) {
+					buyLottoPageCount--;
+					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
+					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
+					
+//					beforeSameButton.setEnabled(true);
+				} 
 			}
-			System.out.println(buyLottoPageCount);
-		}
-	});
+		});
 
 		// 다음 장 버튼 눌렀을 때
 		// (로또를 여러 장 구매했을 경우 다음 장으로 넘기기)
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lottoCountmultiple += lottoCountmultiple;
-//				int buyLottoCount = lottoCount - 5 * (buyLottoPageCount);
-//				System.out.println("buyLottoCount : " + buyLottoCount);
 
-				if (buyLottoPageCount < 11) {
+				lottoCountmultiple += lottoCountmultiple;
+
+				if (buyLottoPageCount < 10) {
 					buyLottoPageCount++;
 					if (buyLottoPageCountList.contains("BuyPnl" + (buyLottoPageCount + 1))) {
 					} else {
@@ -358,20 +359,16 @@ public class DialogPnl extends JDialog {
 							// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
 							intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
 							Collections.sort(intList); // 순서대로 정렬
-							System.out.println(intList);
 							if (intList.size() != 0) {
 								saveList.add(intList);
 							}
 						}
-
-						System.out.println(saveList);
 
 						JPanel pageCenterPanel = new JPanel();
 						buyLottoCenterPanel.add(pageCenterPanel, "BuyPnl" + buyLottoPageCount);
 						buyLottoPageCountList.add("BuyPnl" + buyLottoPageCount);
 						// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 
-						
 						for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 
 							pageCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10)); // GridLayout
@@ -446,20 +443,27 @@ public class DialogPnl extends JDialog {
 							timerCollection.add(timer);
 
 							// 자동 버튼을 눌렀을때 기능 메소드
-							functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn, printOorX);
+							functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn,
+									printOorX);
 							// 수동 버튼을 눌렀을 때 기능 메소드
-							functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn, printOorX);
+							functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn,
+									printOorX);
 							// 반자동 버튼을 눌렀을 때 기능 메소드
-							functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto", findBtn, printOorX);
+							functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto",
+									findBtn, printOorX);
 							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
-							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection);
+							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton,
+									labelCollection);
 
 							pageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 							pageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
 						}
 					}
 
+					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
+//					beforeSameButton.setEnabled(true);
 					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
+
 				} else {
 					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능해요");
 
@@ -665,9 +669,8 @@ public class DialogPnl extends JDialog {
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
 						Collections.sort(intList); // 순서대로 정렬
 
-						saveList.add(intList);//재민수정
+						saveList.add(intList);// 재민수정
 
-						
 						// 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
 						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ". ");
 						countLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18));
