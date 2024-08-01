@@ -1,27 +1,19 @@
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.IOException;
-import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.MediaTracker;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 // 메인 창
@@ -32,7 +24,8 @@ import javax.swing.Timer;
 public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
-
+	private List<List<JCheckBox>> saveCheckBox = new ArrayList<>();
+	
 	public MainPnl() {
 		super("인생 역전 로또");
 		
@@ -111,7 +104,7 @@ public class MainPnl extends JFrame {
 				if (combo.getSelectedIndex() != 0) {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
-					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this);
+					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox);
 					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
 
 						@Override

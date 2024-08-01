@@ -33,7 +33,7 @@ public class DialogPnl extends JDialog {
 	int ballCount = 0;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
-	
+
 	class BallLabel extends JLabel {
 
 		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
@@ -136,7 +136,7 @@ public class DialogPnl extends JDialog {
 	}
 
 	// 다이얼로그 창 생성자
-	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl) {
+	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl, List<List<JCheckBox>> saveCheckBox) {
 
 		FunctionList functionList = new FunctionList();
 
@@ -177,7 +177,7 @@ public class DialogPnl extends JDialog {
 		JButton beforeSameButton = new JButton("이전 회차 동일 적용"); // 이전 회차 동일 적용 버튼
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeSameButton);
-		
+
 //		JButton sameNumberButton = new JButton(); // 같은 번호 적용 버튼
 //		sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 //		spacePanel.add(sameNumberButton);
@@ -196,13 +196,12 @@ public class DialogPnl extends JDialog {
 		// 메인창에서 사용자가 선택한 개수에 따라 로또 1 ~ 5개 펼쳐질 패널(밑바탕)
 		JPanel firstPageCenterPanel = new JPanel();
 		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
-		
-		List<List<JCheckBox>> saveCheckBox = new ArrayList<>();
+
 		List<List<Integer>> findBtnList = new ArrayList<>();
 		List<JLabel> labelCollection = new ArrayList<>();
 		List<Timer> timerCollection = new ArrayList<>();
-		
-		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow);
+
+		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList);
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -296,7 +295,7 @@ public class DialogPnl extends JDialog {
 //				
 //			}
 //		});
-		
+
 		// 같은 번호 적용 버튼을 눌렀을 때
 		// (게임을 여러개 선택하고 한 게임을 수동으로 번호를 찍은 상태에서 나머지 게임에도 같은 번호 적용)
 //		sameNumberButton.addActionListener(new ActionListener() {
@@ -493,12 +492,12 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 				// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하고 번호 제출 버튼을 눌렀을 때
 				if (functionList.checkAllSelected(resultShow)) {
 
 					setSize(750, 650);
-					
+
 					functionList.saveCheckBoxNum(saveCheckBox, resultShow);
 
 					// 번호 제출 버튼을 누르면 당첨 숫자 확인 창으로 넘어감
