@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class FunctionList extends JFrame {
@@ -348,6 +349,63 @@ public class FunctionList extends JFrame {
 			}
 		});
 	}
+	
+	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
+	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection, List<List<Integer>> findBtnList, JButton btn ) {
+		
+		btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int count = 0;
+				
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					if (checkBoxList.get(i).isSelected()) {
+						count++;
+					}
+				}
+				
+				
+				if (count == 6) {
+					List<Integer> indexList = new ArrayList<>();
+					
+					for (int i = 0; i < checkBoxList.size(); i++) {
+						if (checkBoxList.get(i).isSelected()) {
+							indexList.add(i);
+						}
+					}
+					
+					for (List<JCheckBox> list : checkBoxListCollection) {
+						for (int i = 0; i < list.size(); i++) {
+							if (indexList.contains(i)) {
+								list.get(i).setSelected(true);
+							} else {
+								list.get(i).setSelected(false);
+							}
+						}
+					}
+					
+					for (int i =0; i< findBtnList.size(); i++) {
+						while (findBtnList.get(i).size() != 0) {
+							findBtnList.get(i).remove(0);
+						}
+						findBtnList.get(i).add(1);
+						for (int j = 0; j < indexList.size(); j++) {
+							findBtnList.get(i).add(indexList.get(j)+1);
+						}
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(FunctionList.this, "6개를 모두 선택하세요");
+				}
+				
+				
+			}
+		});
+		
+		
+	}
+	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
