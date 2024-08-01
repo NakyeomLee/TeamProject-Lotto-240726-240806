@@ -390,12 +390,14 @@ public class FunctionList extends JFrame {
 
 	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
 	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection,
-			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, Timer timer) {
+			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, List<Timer> timerCollection) {
 
 		btn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				timer.stop();
+				for (Timer timer : timerCollection) {
+					timer.stop();
+				}
 				
 				for (int i = 0; i < checkBoxListCollection.size(); i++) {
 					for (int j = 0; j < checkBoxListCollection.get(i).size(); j++) {
