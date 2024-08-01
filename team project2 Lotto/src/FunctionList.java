@@ -349,12 +349,15 @@ public class FunctionList extends JFrame {
 
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
 	public void beforeBtnFunction(JButton beforeBtn, List<List<List<JCheckBox>>> saveCheckBox,
-			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum, Timer timer) {
+			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum, List<Timer> timerCollection) {
 		
 		beforeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				timer.stop();
+				for (Timer timer : timerCollection) {
+					timer.stop();
+				}
+				
 				for (int i = 0; i < resultShow.size(); i++) {
 					
 					findBtnList.get(i).add(1);
