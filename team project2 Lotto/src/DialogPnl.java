@@ -539,22 +539,22 @@ public class DialogPnl extends JDialog {
 		skipButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		numberCheckBtnPanel.add(skipButton);
 
-		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
+		BallLabel winNumLabel1 = new BallLabel(Integer.parseInt(winningNumbers.get(0)), null, null, null);
 
-		BallLabel winNumLabel2 = new BallLabel(Integer.parseInt(result.get(1)), null, null, null);
+		BallLabel winNumLabel2 = new BallLabel(Integer.parseInt(winningNumbers.get(1)), null, null, null);
 
-		BallLabel winNumLabel3 = new BallLabel(Integer.parseInt(result.get(2)), null, null, null);
+		BallLabel winNumLabel3 = new BallLabel(Integer.parseInt(winningNumbers.get(2)), null, null, null);
 
-		BallLabel winNumLabel4 = new BallLabel(Integer.parseInt(result.get(3)), null, null, null);
+		BallLabel winNumLabel4 = new BallLabel(Integer.parseInt(winningNumbers.get(3)), null, null, null);
 
-		BallLabel winNumLabel5 = new BallLabel(Integer.parseInt(result.get(4)), null, null, null);
+		BallLabel winNumLabel5 = new BallLabel(Integer.parseInt(winningNumbers.get(4)), null, null, null);
 
-		BallLabel winNumLabel6 = new BallLabel(Integer.parseInt(result.get(5)), null, null, null);
+		BallLabel winNumLabel6 = new BallLabel(Integer.parseInt(winningNumbers.get(5)), null, null, null);
 
 		JLabel plusLabel = new JLabel();
 		plusLabel.setIcon(new ImageIcon(MainPnl.class.getResource("/image/plus.png")));// 레이블에 이미지 불러옴
 
-		BallLabel bonusNumLabel = new BallLabel(Integer.parseInt(result.get(6)), null, null, null);
+		BallLabel bonusNumLabel = new BallLabel(Integer.parseInt(winningNumbers.get(6)), null, null, null);
 
 		getContentPane().add(centerPanel); // 패널에 컴포넌트들을 붙임
 		numberCheckBallPanel.add(winNumLabel1);
