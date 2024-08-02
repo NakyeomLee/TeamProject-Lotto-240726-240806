@@ -165,16 +165,16 @@ public class DialogPnl extends JDialog {
 
 		// 로또 구매 창 패널에 들어갈 요소들
 
-		JPanel northPanel = new JPanel();
-		buyLottoPanel.add(northPanel, new BorderLayout().NORTH);
-		northPanel.setLayout(new BorderLayout());
+		JPanel buyNorthPanel = new JPanel();
+		buyLottoPanel.add(buyNorthPanel, new BorderLayout().NORTH);
+		buyNorthPanel.setLayout(new BorderLayout());
 
-		JLabel textLabel = new JLabel("인생 역전 로또   "); // "인생 역전 로또" 레이블
-		textLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		northPanel.add(textLabel, "East");
+		JLabel buyTitleLabel = new JLabel("인생 역전 로또   "); // "인생 역전 로또" 레이블
+		buyTitleLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		buyNorthPanel.add(buyTitleLabel, "East");
 
 		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널
-		northPanel.add(spacePanel, "West");
+		buyNorthPanel.add(spacePanel, "West");
 
 		JLabel spaceLabel = new JLabel("   ");
 		spacePanel.add(spaceLabel);
@@ -210,26 +210,27 @@ public class DialogPnl extends JDialog {
 		beforeLottoNum.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeLottoNum);
 
-		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 간격용 패널(서쪽)
-		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
-		westPanel.setPreferredSize(new Dimension(50, 500));
+		JPanel westSpacePanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 간격용 패널(서쪽)
+		buyLottoPanel.add(westSpacePanel, new BorderLayout().WEST);
+		westSpacePanel.setPreferredSize(new Dimension(50, 500));
 
-		JPanel eastPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 간격용 패널(동쪽)
-		buyLottoPanel.add(eastPanel, new BorderLayout().EAST);
-		eastPanel.setPreferredSize(new Dimension(50, 500));
+		JPanel eastSpacePanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 간격용 패널(동쪽)
+		buyLottoPanel.add(eastSpacePanel, new BorderLayout().EAST);
+		eastSpacePanel.setPreferredSize(new Dimension(50, 500));
 
 		// 사용자가 체크박스로 선택한 번호를 담는 List (결과 확인 창에서 사용)
 		List<List<JCheckBox>> resultShow = new ArrayList<>();
 
 		// 메인창에서 사용자가 선택한 개수에 따라 로또 1 ~ 5개 펼쳐질 패널(밑바탕)
-		JPanel firstPageCenterPanel = new JPanel();
-		buyLottoPanel.add(firstPageCenterPanel, new BorderLayout().CENTER);
+		JPanel buyCenterPanel = new JPanel();
+		buyLottoPanel.add(buyCenterPanel, new BorderLayout().CENTER);
 
+		// 로또를 여러 장 구매할 경우 이전 장, 다음 장 버튼을 이용해 볼 수 있는 패널
 		JPanel buyLottoCenterPanel = new JPanel();
 		CardLayout buyLottoCenterCardLayout = new CardLayout();
-		buyLottoCenterPanel.setLayout(buyLottoCenterCardLayout);
+		buyLottoCenterPanel.setLayout(buyLottoCenterCardLayout); // CardLayout
 		buyLottoPanel.add(buyLottoCenterPanel, new BorderLayout().CENTER);
-		buyLottoCenterPanel.add(firstPageCenterPanel, "BuyPnl1");
+		buyLottoCenterPanel.add(buyCenterPanel, "BuyPnl1");
 		buyLottoPageCountList.add("BuyPnl1");
 
 		List<List<Integer>> findBtnList = new ArrayList<>();
@@ -242,7 +243,7 @@ public class DialogPnl extends JDialog {
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
 
-			firstPageCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10)); // GridLayout
+			buyCenterPanel.setLayout(new GridLayout(0, lottoCount, 50, 10)); // GridLayout
 
 			// 번호 선택 패널, 자동 수동 반자동 버튼들이 있는 패널이 포함될 패널
 			JPanel includeNumChoicePanel = new JPanel();
@@ -296,7 +297,7 @@ public class DialogPnl extends JDialog {
 			includeButtonsPanel.add(selfButton);
 			includeButtonsPanel.add(halfAutoButton);
 
-			firstPageCenterPanel.add(includeNumChoicePanel);
+			buyCenterPanel.add(includeNumChoicePanel);
 
 			// 자동 수동 반자동 버튼들을 담는 List
 			List<Integer> findBtn = new ArrayList<>();
@@ -318,11 +319,22 @@ public class DialogPnl extends JDialog {
 			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection,
 					timerCollection, timer);
 
+			// 전체 자동 버튼을 눌렀을 때
+			allAutoButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					for (int i = 0; i < resultShow.size(); i++) {
+						functionList.autoChoose(timerCollection.get(i), resultShow.get(i), findBtnList.get(i),
+								labelCollection.get(i));
+					}
+				}
+			});
+
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 			functionList.cancelAll(allCancelButton, resultShow, timerCollection, labelCollection);
 
-			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
-			firstPageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
+			buyCenterPanel.revalidate(); // 레이아웃을 다시 계산
+			buyCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
 		}
 
 		JPanel southPanel = new JPanel();
@@ -461,15 +473,15 @@ public class DialogPnl extends JDialog {
 							// 자동 버튼을 눌렀을때 기능 메소드
 							functionList.autoOrSemiAutoBtnFuntion(timer, autoButton, checkNumList, "auto", findBtn,
 									printOorX);
-							
+
 							// 수동 버튼을 눌렀을 때 기능 메소드
 							functionList.autoOrSemiAutoBtnFuntion(timer, selfButton, checkNumList, "self", findBtn,
 									printOorX);
-							
+
 							// 반자동 버튼을 눌렀을 때 기능 메소드
 							functionList.autoOrSemiAutoBtnFuntion(timer, halfAutoButton, checkNumList, "semiAuto",
 									findBtn, printOorX);
-							
+
 							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
 							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton,
 									labelCollection, timerCollection, timer);
@@ -599,46 +611,46 @@ public class DialogPnl extends JDialog {
 		// 결과 확인 패널에 들어갈 요소들
 
 		// 몇 회 결과인지 표시하는 레이블, 이전 다음 버튼 포함될 패널
-		JPanel northPanel2 = new JPanel();
-		northPanel2.setLayout(new BorderLayout());
-		resultCheckPanel.add(northPanel2, new BorderLayout().NORTH);
+		JPanel resultNorthPanel = new JPanel();
+		resultNorthPanel.setLayout(new BorderLayout());
+		resultCheckPanel.add(resultNorthPanel, new BorderLayout().NORTH);
 
 		// 이전 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-		JPanel spacePanel2 = new JPanel();
-		northPanel2.add(spacePanel2, "West");
+		JPanel spacePanel2 = new JPanel(); // 이전 버튼, 간격 패널 포함될 패널
+		resultNorthPanel.add(spacePanel2, "West");
 
-		JLabel spaceLabel2 = new JLabel("   ");
+		JLabel spaceLabel2 = new JLabel("   "); // 간격 패널
 		spacePanel2.add(spaceLabel2);
 
-		JButton preButton2 = new JButton("이전");
-		preButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		spacePanel2.add(preButton2);
+		JButton resultPreButton = new JButton("이전"); // 이전 버튼
+		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel2.add(resultPreButton);
 
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
-		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
-		text2Label.setFont(fontHolder.getUseFont(Font.BOLD, 25));
-		northPanel2.add(text2Label);
-		text2Label.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
+		JLabel resultTitleLabel = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
+		resultTitleLabel.setFont(fontHolder.getUseFont(Font.BOLD, 25));
+		resultNorthPanel.add(resultTitleLabel);
+		resultTitleLabel.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 
 		// 다음 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-		JPanel spacePanel4 = new JPanel();
-		northPanel2.add(spacePanel4, "East");
+		JPanel spacePanel4 = new JPanel(); // 다음 버튼, 간격 패널 포함될 패널
+		resultNorthPanel.add(spacePanel4, "East");
 
-		JButton nextButton2 = new JButton("다음");
-		nextButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		spacePanel4.add(nextButton2);
+		JButton resultNextButton = new JButton("다음"); // 다음 버튼
+		resultNextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel4.add(resultNextButton);
 
-		JLabel spaceLabel4 = new JLabel("   ");
+		JLabel spaceLabel4 = new JLabel("   "); // 간격 패널
 		spacePanel4.add(spaceLabel4);
 
 		// winNumPanel, includeLabelsPanel이 포함될 패널
-		JPanel thirdPageCenterPanel = new JPanel();
-		thirdPageCenterPanel.setLayout(new GridLayout(6, 1));
-		resultCheckPanel.add(thirdPageCenterPanel);
+		JPanel resultCenterPanel = new JPanel();
+		resultCenterPanel.setLayout(new GridLayout(6, 1));
+		resultCheckPanel.add(resultCenterPanel);
 
 		// 당첨 숫자 레이블들 포함될 패널
 		JPanel winNumPanel = new JPanel();
-		thirdPageCenterPanel.add(winNumPanel);
+		resultCenterPanel.add(winNumPanel);
 
 		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
@@ -663,17 +675,17 @@ public class DialogPnl extends JDialog {
 		winNumPanel.add(bonusNum);
 
 		// 다시하기 종료 버튼, 공 테두리 설명 레이블 포함될 패널
-		JPanel southPanel2 = new JPanel();
-		southPanel2.setLayout(new BorderLayout());
-		resultCheckPanel.add(southPanel2, new BorderLayout().SOUTH);
+		JPanel resultSouthPanel = new JPanel();
+		resultSouthPanel.setLayout(new BorderLayout());
+		resultCheckPanel.add(resultSouthPanel, new BorderLayout().SOUTH);
 
 		// 창 벽과 버튼들 띄워놓기 위해서 간격용 패널 활용
 		JPanel spacePanel3 = new JPanel();
 		spacePanel3.setPreferredSize(new Dimension(200, 0));
-		southPanel2.add(spacePanel3, "West");
+		resultSouthPanel.add(spacePanel3, "West");
 
 		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
-		southPanel2.add(includeButtonsPanel2, "Center");
+		resultSouthPanel.add(includeButtonsPanel2, "Center");
 
 		againButton = new JButton("다시하기"); // 다시하기 버튼
 		againButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
@@ -685,7 +697,31 @@ public class DialogPnl extends JDialog {
 
 		JLabel infoLabel = new JLabel("점선 : 자동, 실선 : 수동   "); // 공 테두리 설명 레이블
 		infoLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		southPanel2.add(infoLabel, "East");
+		resultSouthPanel.add(infoLabel, "East");
+
+		// 이전 버튼 눌렀을 때
+		resultPreButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		// 다음 버튼 눌렀을 때
+		resultNextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+
+		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
+		closeButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0); // 기본 창 닫힘
+			}
+		});
 
 // --------------------------------------------------------------------------------------------------
 
@@ -721,7 +757,7 @@ public class DialogPnl extends JDialog {
 						// 로또 개수, 사용자 선택 번호, 당첨 결과 레이블들 포함될 패널
 						JPanel includeLabelsPanel = new JPanel();
 						includeLabelsPanel.setLayout(new FlowLayout());
-						thirdPageCenterPanel.add(includeLabelsPanel);
+						resultCenterPanel.add(includeLabelsPanel);
 
 						// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
@@ -729,7 +765,7 @@ public class DialogPnl extends JDialog {
 
 						saveList.add(intList);// 재민수정
 
-						// 로또 개수 표시 레이블 (1, 2, 3, 4, 5)
+						// 로또 개수 표시 레이블
 						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ". ");
 						countLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18));
 						includeLabelsPanel.add(countLabel);
@@ -765,8 +801,8 @@ public class DialogPnl extends JDialog {
 						// winLabel에 글자를 바꿔줄 메소드
 						functionList.setLabelTextToResult(winLabel, intList, result);
 
-						thirdPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
-						thirdPageCenterPanel.repaint(); // 바뀐 사항을 다시 그려줌
+						resultCenterPanel.revalidate(); // 레이아웃을 다시 계산
+						resultCenterPanel.repaint(); // 바뀐 사항을 다시 그려줌
 					}
 
 				} else {
@@ -785,28 +821,8 @@ public class DialogPnl extends JDialog {
 			}
 		});
 
-		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
-		closeButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0); // 기본 창 닫힘
-			}
-		});
-
-		allAutoButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < resultShow.size(); i++) {
-					functionList.autoChoose(timerCollection.get(i), resultShow.get(i), findBtnList.get(i),
-							labelCollection.get(i));
-				}
-			}
-		});
-
 		pack(); // 다이얼로그 창 크기 알아서 조절 되도록
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
 	}
 
 	// 필드로 만들어둔 다시하기 버튼(AgainButton)의 getter setter
