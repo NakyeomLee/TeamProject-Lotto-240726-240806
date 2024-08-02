@@ -195,9 +195,10 @@ public class DialogPnl extends JDialog {
 		List<String> round = new ArrayList<>();
 
 		String[] numbers = new String[lottoPlayCount - 1];
-		for (int i = 0; i < lottoPlayCount - 1; i++) {
-			round.add((i + 1) + "회차");
-			numbers[i] = round.get(i);
+		for (int i = lottoPlayCount-1, j = 0; i > 0; i--) {
+			round.add((i) + "회차");
+			numbers[j] = round.get(j);
+			j++;
 		}
 
 		JComboBox<String> beforeLottoNum = new JComboBox<>(numbers);
