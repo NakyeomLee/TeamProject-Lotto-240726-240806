@@ -23,6 +23,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
@@ -669,12 +671,31 @@ public class DialogPnl extends JDialog {
 
 		// winNumPanel, includeLabelsPanel이 포함될 패널
 		JPanel resultCenterPanel = new JPanel();
-		resultCenterPanel.setLayout(new GridLayout(6, 1));
-		resultCheckPanel.add(resultCenterPanel);
+//		resultCenterPanel.setLayout(new GridLayout(6, 1));
+//		resultCheckPanel.add(resultCenterPanel);
+//
+//		// 당첨 숫자 레이블들 포함될 패널
+//		JPanel winNumPanel = new JPanel();
+//		resultCenterPanel.add(winNumPanel);
+		resultCenterPanel.setLayout(new BorderLayout());//재민수정2
+
+		resultCheckPanel.add(resultCenterPanel, "Center");//재민수정2
+
+		JScrollPane resultScrollPanel = new JScrollPane();//재민수정2
+
+		resultScrollPanel.setLayout(new ScrollPaneLayout());//재민수정2
+		JPanel resultContainPanel = new JPanel();//재민수정2
+
+		resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));//재민수정2
 
 		// 당첨 숫자 레이블들 포함될 패널
 		JPanel winNumPanel = new JPanel();
-		resultCenterPanel.add(winNumPanel);
+		resultCenterPanel.add(winNumPanel, "North");//재민수정2
+		resultCenterPanel.add(resultScrollPanel, "Center");//재민수정2
+		resultScrollPanel.setViewportView(resultContainPanel);//재민수정2
+		
+		
+		
 
 		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
@@ -775,13 +796,15 @@ public class DialogPnl extends JDialog {
 							winNumLabel4, winNumLabel5, winNumLabel6, plusLabel, bonusNumLabel, resultCheckButton,
 							skipButton);
 
+					resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));//재민수정2
+					System.out.println(resultShow.size());
 					// 결과 확인 창에서 로또 개수(lottoCount)에 따라 includeLabelsPanel이 보여짐(1 ~ 5개)
-					for (int i = 0; i < lottoCount; i++) {
+					for (int i = 0; i < resultShow.size(); i++) {
 
 						// 로또 개수, 사용자 선택 번호, 당첨 결과 레이블들 포함될 패널
 						JPanel includeLabelsPanel = new JPanel();
 						includeLabelsPanel.setLayout(new FlowLayout());
-						resultCenterPanel.add(includeLabelsPanel);
+						resultContainPanel.add(includeLabelsPanel);//재민수정2
 
 						// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
@@ -825,8 +848,8 @@ public class DialogPnl extends JDialog {
 						// winLabel에 글자를 바꿔줄 메소드
 						functionList.setLabelTextToResult(winLabel, intList, result);
 
-						resultCenterPanel.revalidate(); // 레이아웃을 다시 계산
-						resultCenterPanel.repaint(); // 바뀐 사항을 다시 그려줌
+						resultContainPanel.revalidate(); // 레이아웃을 다시 계산
+						resultContainPanel.repaint(); // 바뀐 사항을 다시 그려줌
 					}
 
 				} else {
