@@ -180,6 +180,10 @@ public class DialogPnl extends JDialog {
 		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
 		allAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(allAutoButton);
+		
+		JButton allCancelButton = new JButton("전체 취소"); // 전체 취소 버튼
+		allCancelButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel.add(allCancelButton);
 
 		JButton beforeSameButton = new JButton("이전 회차 동일 적용"); // 이전 회차 동일 적용 버튼
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
@@ -202,10 +206,6 @@ public class DialogPnl extends JDialog {
 		}
 		beforeLottoNum.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		spacePanel.add(beforeLottoNum);
-
-		JButton allCancelButton = new JButton("전체 취소"); // 전체 취소 버튼
-		allCancelButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		spacePanel.add(allCancelButton);
 
 		JPanel westPanel = new JPanel(); // 창 벽과 패널의 사이를 띄우기 위한 패널(서쪽)
 		buyLottoPanel.add(westPanel, new BorderLayout().WEST);
@@ -312,7 +312,7 @@ public class DialogPnl extends JDialog {
 			functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton, labelCollection,
 					timerCollection, timer);
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
-//			functionList
+			functionList.cancelAll(allCancelButton, resultShow, timerCollection, labelCollection);
 
 			firstPageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 			firstPageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
@@ -463,7 +463,7 @@ public class DialogPnl extends JDialog {
 							// 위의 번호로 모두 선택 버튼을 눌렀을 때 기능 메소드
 							functionList.unityCheckBox(checkNumList, resultShow, findBtnList, sameNumberButton,
 									labelCollection, timerCollection, timer);
-
+							
 							pageCenterPanel.revalidate(); // 레이아웃을 다시 계산
 							pageCenterPanel.repaint(); // 바뀐 사항 새로 그려 줌
 						}

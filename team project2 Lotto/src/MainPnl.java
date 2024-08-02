@@ -54,13 +54,14 @@ public class MainPnl extends JFrame {
 
 		Timer timer = new Timer(50, new ActionListener() {
 			int count = 0;
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				count++;
-				if (count == 18) {
+				if (count == 17) {
 					ImageIcon jpgIcon = new ImageIcon(MainPnl.class.getResource("/image/background.jpg"));
 					gifLabel.setIcon(jpgIcon);
+					count = 0;
 					((Timer) e.getSource()).stop();
 				}
 			}
@@ -114,6 +115,8 @@ public class MainPnl extends JFrame {
 						}
 					});
 					dialogPnl.setVisible(true);
+					gifLabel.setIcon(gifIcon);
+					timer.start();
 					lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
 					revalidate();
 					repaint();

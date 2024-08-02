@@ -315,7 +315,7 @@ public class FunctionList extends JFrame {
 		return timer;
 	}
 
-	// 사용자가 제출한 번호 내용을 토대로 저장할 수 있는 saveCheckBox을 재구성
+	// 사용자가 제출한 번호 내용을 토대로 저장할 수 있는 saveCheckBox을 구성하는 메소드
 	public void saveCheckBoxNum(List<List<List<JCheckBox>>> saveCheckBox, List<List<JCheckBox>> resultShow) {
 		
 		for (int i = 0; i < saveCheckBox.size() + 1; i++) {
@@ -338,13 +338,6 @@ public class FunctionList extends JFrame {
 				break;
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
 	}
 
 	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
@@ -467,11 +460,34 @@ public class FunctionList extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(FunctionList.this, "6개를 모두 선택하세요");
 				}
-
 			}
 		});
-
 	}
+	
+	// 전체 취소 버튼 기능 할당 메소드
+	public void cancelAll(JButton cancelBtn, List<List<JCheckBox>> checkBoxList, List<Timer> timerCollection, List<JLabel> labelCollection) {
+		
+		cancelBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (Timer timer : timerCollection) {
+					timer.stop();
+				}
+				
+				for (int i = 0; i < checkBoxList.size(); i++) {
+					for (int j = 0; j < checkBoxList.get(i).size(); j++) {
+						checkBoxList.get(i).get(j).setEnabled(false);
+						checkBoxList.get(i).get(j).setSelected(false);
+					}
+					labelCollection.get(i).setText("X");
+				}
+			}
+		});
+		
+		
+	}
+	
 
 	// 체크박스를 선택하는 기능 중 중복된 내용을 메소드화
 	private void changecheckBoxEnableToTrue(List<JCheckBox> checkBoxList) {
