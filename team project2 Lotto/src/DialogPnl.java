@@ -174,7 +174,7 @@ public class DialogPnl extends JDialog {
 		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널
 		northPanel.add(spacePanel, "West");
 
-		JLabel spaceLabel = new JLabel("   "); // 창 벽과 전체 자동 버튼의 사이를 띄우기 위한 레이블
+		JLabel spaceLabel = new JLabel("   ");
 		spacePanel.add(spaceLabel);
 
 		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
@@ -348,8 +348,6 @@ public class DialogPnl extends JDialog {
 					buyLottoPageCount--;
 					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
 					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
-
-//					beforeSameButton.setEnabled(true);
 				}
 			}
 		});
@@ -405,7 +403,6 @@ public class DialogPnl extends JDialog {
 
 							JButton sameNumberButton = new JButton("위의 번호로 모두 선택"); // 위의 번호로 모두 선택 버튼
 							sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//							sameNumberButton.setEnabled(false); // 버튼 비활성화
 							printOXPnl.add(sameNumberButton, "North");
 
 							JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
@@ -595,20 +592,26 @@ public class DialogPnl extends JDialog {
 		JPanel northPanel2 = new JPanel();
 		northPanel2.setLayout(new BorderLayout());
 		resultCheckPanel.add(northPanel2, new BorderLayout().NORTH);
+		
+		JPanel spacePanel2 = new JPanel();
+		northPanel2.add(spacePanel2, "West");
+		
+		JLabel spaceLabel2 = new JLabel("   ");
+		spacePanel2.add(spaceLabel2);
 
-		JButton preButton2 = new JButton("이전"); // 이전 버튼
+		JButton preButton2 = new JButton("이전");
 		preButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		northPanel2.add(preButton2, "East");
+		spacePanel2.add(preButton2);
 
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
 		JLabel text2Label = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
 		text2Label.setFont(fontHolder.getUseFont(Font.BOLD, 25));
-		northPanel2.add(text2Label, "Center");
-		text2Label.setHorizontalAlignment(JLabel.CENTER);
+		northPanel2.add(text2Label);
+		text2Label.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 
-		JButton nextButton2 = new JButton("다음"); // 다음 버튼
+		JButton nextButton2 = new JButton("다음");
 		nextButton2.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		northPanel2.add(nextButton2, "West");
+		northPanel2.add(nextButton2, "East");
 
 		// winNumPanel, includeLabelsPanel이 포함될 패널
 		JPanel thirdPageCenterPanel = new JPanel();
@@ -645,9 +648,9 @@ public class DialogPnl extends JDialog {
 		southPanel.setLayout(new BorderLayout());
 		resultCheckPanel.add(southPanel, new BorderLayout().SOUTH);
 
-		JPanel spacePanel2 = new JPanel();
-		spacePanel2.setPreferredSize(new Dimension(170, 0));
-		southPanel.add(spacePanel2, "West");
+		JPanel spacePanel3 = new JPanel();
+		spacePanel3.setPreferredSize(new Dimension(200, 0));
+		southPanel.add(spacePanel3, "West");
 
 		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
 		southPanel.add(includeButtonsPanel2, "Center");
