@@ -190,17 +190,17 @@ public class DialogPnl extends JDialog {
 
 		JButton allAutoButton = new JButton("전체 자동"); // 전체 자동 버튼
 		allAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		allAutoButton.setBackground(new Color(235, 255, 255));
+//		allAutoButton.setBackground(new Color(235, 255, 255));
 		spacePanel.add(allAutoButton);
 
 		JButton allCancelButton = new JButton("전체 취소"); // 전체 취소 버튼
 		allCancelButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		allCancelButton.setBackground(new Color(255, 216, 216));
+//		allCancelButton.setBackground(new Color(255, 216, 216));
 		spacePanel.add(allCancelButton);
 
 		JButton beforeSameButton = new JButton("이전 회차 동일 적용"); // 이전 회차 동일 적용 버튼
 		beforeSameButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		beforeSameButton.setBackground(new Color(235, 255, 255));
+//		beforeSameButton.setBackground(new Color(235, 255, 255));
 		spacePanel.add(beforeSameButton);
 		if (lottoPlayCount == 1) {
 			beforeSameButton.setVisible(false);
@@ -275,13 +275,13 @@ public class DialogPnl extends JDialog {
 			JPanel printOXPnl = new JPanel();
 			printOXPnl.setLayout(new BorderLayout());
 			includeNumChoicePanel.add(printOXPnl, "South");
-			
-			JPanel includeButtonPanel = new JPanel(); // sameNumberButton 버튼이 포함될 패널 
+
+			JPanel includeButtonPanel = new JPanel(); // sameNumberButton 버튼이 포함될 패널
 			printOXPnl.add(includeButtonPanel, "North");
 
 			JButton sameNumberButton = new JButton("현재 선택 번호로 전체 적용"); // 현재 선택 번호로 전체 적용 버튼
 			sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-			sameNumberButton.setBackground(new Color(235, 255, 255));
+//			sameNumberButton.setBackground(new Color(235, 255, 255));
 			includeButtonPanel.add(sameNumberButton);
 
 			JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
@@ -308,13 +308,13 @@ public class DialogPnl extends JDialog {
 
 			JButton autoButton = new JButton("자동"); // 자동 버튼
 			autoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-			autoButton.setBackground(new Color(235, 255, 255));
+//			autoButton.setBackground(new Color(235, 255, 255));
 			JButton selfButton = new JButton("수동"); // 수동 버튼
 			selfButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-			selfButton.setBackground(new Color(235, 255, 255));
+//			selfButton.setBackground(new Color(235, 255, 255));
 			JButton halfAutoButton = new JButton("반자동"); // 반자동 버튼
 			halfAutoButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-			halfAutoButton.setBackground(new Color(235, 255, 255));
+//			halfAutoButton.setBackground(new Color(235, 255, 255));
 
 			includeButtonsPanel.add(autoButton);
 			includeButtonsPanel.add(selfButton);
@@ -370,17 +370,17 @@ public class DialogPnl extends JDialog {
 
 		JButton preButton = new JButton("이전 장"); // 이전 장 버튼
 		preButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		preButton.setBackground(new Color(235, 255, 255));
+//		preButton.setBackground(new Color(235, 255, 255));
 		includeSendButtonPanel.add(preButton);
 
 		JButton sendButton = new JButton("번호 제출"); // 번호 제출 버튼
 		sendButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		sendButton.setBackground(new Color(255, 216, 216));
+//		sendButton.setBackground(new Color(255, 216, 216));
 		includeSendButtonPanel.add(sendButton);
 
 		JButton nextButton = new JButton("다음 장"); // 다음 장 버튼
 		nextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		nextButton.setBackground(new Color(235, 255, 255));
+//		nextButton.setBackground(new Color(235, 255, 255));
 		includeSendButtonPanel.add(nextButton);
 
 		// 페이지 수 표시 레이블
@@ -417,15 +417,6 @@ public class DialogPnl extends JDialog {
 
 					} else {
 
-						for (int i = 0; i < lottoCount; i++) {
-							// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
-							intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
-							Collections.sort(intList); // 순서대로 정렬
-							if (intList.size() != 0) {
-								saveList.add(intList);
-							}
-						}
-
 						JPanel pageCenterPanel = new JPanel();
 						buyLottoCenterPanel.add(pageCenterPanel, "BuyPnl" + buyLottoPageCount);
 						buyLottoPageCountList.add("BuyPnl" + buyLottoPageCount);
@@ -448,14 +439,18 @@ public class DialogPnl extends JDialog {
 							numChoicePanel.setLayout(new GridLayout(0, 5, 10, 10)); // GridLayout
 							includeNumChoicePanel.add(numChoicePanel, "Center");
 
-							// printOorX 레이블이 포함될 패널
+							// sameNumberButton 버튼, printOorX 레이블이 포함될 패널
 							JPanel printOXPnl = new JPanel();
 							printOXPnl.setLayout(new BorderLayout());
 							includeNumChoicePanel.add(printOXPnl, "South");
 
-							JButton sameNumberButton = new JButton("위의 번호로 모두 선택"); // 위의 번호로 모두 선택 버튼
+							JPanel includeButtonPanel = new JPanel(); // sameNumberButton 버튼이 포함될 패널
+							printOXPnl.add(includeButtonPanel, "North");
+
+							JButton sameNumberButton = new JButton("현재 선택 번호로 전체 적용"); // 현재 선택 번호로 전체 적용 버튼
 							sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-							printOXPnl.add(sameNumberButton, "North");
+//							sameNumberButton.setBackground(new Color(235, 255, 255));
+							includeButtonPanel.add(sameNumberButton);
 
 							JLabel printOorX = new JLabel("X"); // 로또 번호 선택 완료 여부 나타내는 레이블
 							labelCollection.add(printOorX);
@@ -471,6 +466,7 @@ public class DialogPnl extends JDialog {
 								JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
 								checkNumBox.setFont(fontHolder.getUseFont(Font.BOLD, 15));
 								checkNumBox.setEnabled(false); // 체크박스 비활성화
+								checkNumBox.setBorderPainted(true); // 체크박스 테두리 적용
 								checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 add
 								numChoicePanel.add(checkNumBox); // 번호 선택 체크박스를 패널에 add
 							}
@@ -677,25 +673,22 @@ public class DialogPnl extends JDialog {
 //		// 당첨 숫자 레이블들 포함될 패널
 //		JPanel winNumPanel = new JPanel();
 //		resultCenterPanel.add(winNumPanel);
-		resultCenterPanel.setLayout(new BorderLayout());//재민수정2
+		resultCenterPanel.setLayout(new BorderLayout());// 재민수정2
 
-		resultCheckPanel.add(resultCenterPanel, "Center");//재민수정2
+		resultCheckPanel.add(resultCenterPanel, "Center");// 재민수정2
 
-		JScrollPane resultScrollPanel = new JScrollPane();//재민수정2
+		JScrollPane resultScrollPanel = new JScrollPane();// 재민수정2
 
-		resultScrollPanel.setLayout(new ScrollPaneLayout());//재민수정2
-		JPanel resultContainPanel = new JPanel();//재민수정2
+		resultScrollPanel.setLayout(new ScrollPaneLayout());// 재민수정2
+		JPanel resultContainPanel = new JPanel();// 재민수정2
 
-		resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));//재민수정2
+		resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));// 재민수정2
 
 		// 당첨 숫자 레이블들 포함될 패널
 		JPanel winNumPanel = new JPanel();
-		resultCenterPanel.add(winNumPanel, "North");//재민수정2
-		resultCenterPanel.add(resultScrollPanel, "Center");//재민수정2
-		resultScrollPanel.setViewportView(resultContainPanel);//재민수정2
-		
-		
-		
+		resultCenterPanel.add(winNumPanel, "North");// 재민수정2
+		resultCenterPanel.add(resultScrollPanel, "Center");// 재민수정2
+		resultScrollPanel.setViewportView(resultContainPanel);// 재민수정2
 
 		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
@@ -796,7 +789,7 @@ public class DialogPnl extends JDialog {
 							winNumLabel4, winNumLabel5, winNumLabel6, plusLabel, bonusNumLabel, resultCheckButton,
 							skipButton);
 
-					resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));//재민수정2
+					resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));// 재민수정2
 					System.out.println(resultShow.size());
 					// 결과 확인 창에서 로또 개수(lottoCount)에 따라 includeLabelsPanel이 보여짐(1 ~ 5개)
 					for (int i = 0; i < resultShow.size(); i++) {
@@ -804,7 +797,7 @@ public class DialogPnl extends JDialog {
 						// 로또 개수, 사용자 선택 번호, 당첨 결과 레이블들 포함될 패널
 						JPanel includeLabelsPanel = new JPanel();
 						includeLabelsPanel.setLayout(new FlowLayout());
-						resultContainPanel.add(includeLabelsPanel);//재민수정2
+						resultContainPanel.add(includeLabelsPanel);// 재민수정2
 
 						// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
