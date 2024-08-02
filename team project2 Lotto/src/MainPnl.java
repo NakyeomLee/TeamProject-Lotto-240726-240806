@@ -107,30 +107,31 @@ public class MainPnl extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String lottoCount = combo.getItemAt(combo.getSelectedIndex());
-				int lottoCountInteger = Integer.parseInt(lottoCount);
-				if (money < 1000*lottoCountInteger) {
-					JOptionPane.showMessageDialog(MainPnl.this, "금액이 부족합니다.");
-				} else if (combo.getSelectedIndex() != 0) {
-					
-					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox, money);
-					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
+				try {
+					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
+					int lottoCountInteger = Integer.parseInt(lottoCount);
+					if (money < 1000*lottoCountInteger) {
+						JOptionPane.showMessageDialog(MainPnl.this, "금액이 부족합니다.");
+					} else if (combo.getSelectedIndex() != 0) {
+						DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox, money);
+						dialogPnl.getAgainButton().addActionListener(new ActionListener() {
 
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							lottoPlayCount++;
-							money = dialogPnl.getNowMoney();
-							moneyLbl.setText("보유 금액 : " + money + "원");
-							dialogPnl.dispose();
-						}
-					});
-					dialogPnl.setVisible(true);
-					gifLabel.setIcon(gifIcon);
-					timer.start();
-					lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
-					revalidate();
-					repaint();
-				} else {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								lottoPlayCount++;
+								money = dialogPnl.getNowMoney();
+								moneyLbl.setText("보유 금액 : " + money + "원");
+								dialogPnl.dispose();
+							}
+						});
+						dialogPnl.setVisible(true);
+						gifLabel.setIcon(gifIcon);
+						timer.start();
+						lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
+						revalidate();
+						repaint();
+					} 
+				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainPnl.this, "숫자를 선택해주세요.");
 				}
 			}

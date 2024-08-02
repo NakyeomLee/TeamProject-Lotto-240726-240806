@@ -895,7 +895,19 @@ public class DialogPnl extends JDialog {
 
 				} else {
 					// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하지 않고 번호 제출 버튼을 눌렀을 때 뜰 메세지창
-					JOptionPane.showMessageDialog(DialogPnl.this, "각 로또 당 숫자를 6개 선택해주세요.");
+					int xlblNum = 0;
+					for (int j = 0; j < labelCollection.size(); j++) {
+						if (labelCollection.get(j).getText().equals("X")) {
+							xlblNum = j;
+						}
+					}
+					int count = 0;
+					while (xlblNum >= 0) {
+						xlblNum -= lottoCount;
+						count++;
+					}
+					String message = "각 로또 당 숫자를 6개 선택해주세요.   " + count + "페이지 확인";
+					JOptionPane.showMessageDialog(DialogPnl.this, message);
 				}
 			}
 
