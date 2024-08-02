@@ -588,6 +588,7 @@ public class DialogPnl extends JDialog {
 		resultCheckPanel.setLayout(new BorderLayout());
 
 		// 결과 확인 패널에 들어갈 요소들
+		// 이전 다음 버튼 추가
 
 		JPanel northPanel2 = new JPanel();
 		northPanel2.setLayout(new BorderLayout());
