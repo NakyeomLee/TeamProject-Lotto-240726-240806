@@ -154,7 +154,7 @@ public class DialogPnl extends JDialog {
 	}
 
 	// 다이얼로그 창 생성자
-	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl, List<List<List<JCheckBox>>> saveCheckBox) {
+	public DialogPnl(int lottoCount, int lottoPlayCount, JFrame mainPnl, List<List<List<JCheckBox>>> saveCheckBox, int money) {
 
 		FunctionList functionList = new FunctionList();
 
@@ -644,9 +644,9 @@ public class DialogPnl extends JDialog {
 		JLabel spaceLabel2 = new JLabel("   "); // 간격 패널
 		spacePanel2.add(spaceLabel2);
 
-		JButton resultPreButton = new JButton("이전"); // 이전 버튼
-		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		spacePanel2.add(resultPreButton);
+//		JButton resultPreButton = new JButton("이전"); // 이전 버튼
+//		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//		spacePanel2.add(resultPreButton);
 
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
 		JLabel resultTitleLabel = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
@@ -658,9 +658,9 @@ public class DialogPnl extends JDialog {
 		JPanel spacePanel4 = new JPanel(); // 다음 버튼, 간격 패널 포함될 패널
 		resultNorthPanel.add(spacePanel4, "East");
 
-		JButton resultNextButton = new JButton("다음"); // 다음 버튼
-		resultNextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		spacePanel4.add(resultNextButton);
+//		JButton resultNextButton = new JButton("다음"); // 다음 버튼
+//		resultNextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//		spacePanel4.add(resultNextButton);
 
 		JLabel spaceLabel4 = new JLabel("   "); // 간격 패널
 		spacePanel4.add(spaceLabel4);
@@ -738,20 +738,20 @@ public class DialogPnl extends JDialog {
 		resultSouthPanel.add(infoLabel, "East");
 
 		// 이전 버튼 눌렀을 때
-		resultPreButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+//		resultPreButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//			}
+//		});
 
 		// 다음 버튼 눌렀을 때
-		resultNextButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+//		resultNextButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//
+//			}
+//		});
 
 		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
 		closeButton.addActionListener(new ActionListener() {
@@ -790,7 +790,6 @@ public class DialogPnl extends JDialog {
 							skipButton);
 
 					resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));// 재민수정2
-					System.out.println(resultShow.size());
 					// 결과 확인 창에서 로또 개수(lottoCount)에 따라 includeLabelsPanel이 보여짐(1 ~ 5개)
 					for (int i = 0; i < resultShow.size(); i++) {
 

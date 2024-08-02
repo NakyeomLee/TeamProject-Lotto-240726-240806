@@ -20,11 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
+// 기능 모음 창
+// 작성자 : 박무현
+// 구성 : 로또 프로그램의 전반적인 기능들을 메소드로 작성 및 구현
 public class FunctionList extends JFrame {
 	private FontHolder fontHolder = new FontHolder();
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
-	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지를 따로 구분하여 작성해주세요.
+	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지나 이미지 파일을 따로 구분하여 작성해주세요.
 	public List<String> resultLottoNumber() {
 
 		List<Integer> list = new ArrayList<>();
@@ -45,12 +48,11 @@ public class FunctionList extends JFrame {
 		return result;
 	}
 
-	// 순차적으로 번호를 보여줄 수 있도록 visible이 false인 Label들을 true로 1초마다 바꾸어주는 메소드 입니다.
+	// 순차적으로 번호를 보여줄 수 있도록 visible이 false인 Label들을 true로 일정 시간마다 바꾸어주는 메소드 입니다.
 	// resultLottoNumber()메소드를 활용하여 7개의 Label을 구성한 뒤
 	// 첫 Label에는 결과메세지를 출력할 Label을 넣어주고,
 	// 이후 순차적으로 보여줄 7개의 Label을 순서대로 괄호 안에 넣어주세요.
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
-	// 반환 값은 작성 중 문제 발생으로 void로 변경하게 되었으니 참조 해주세요.
 	public void changeToLabelVisible(JLabel textLbl, JLabel lbl1, JLabel lbl2, JLabel lbl3, JLabel lbl4, JLabel lbl5,
 			JLabel lbl6, JLabel plusLbl, JLabel bonusLbl, JButton btn, JButton skipBtn) {
 
@@ -94,8 +96,8 @@ public class FunctionList extends JFrame {
 	}
 
 	// 자동 , 반자동, 수동 버튼을 눌렀을 때의 구현 기능 메소드 입니다.
-	// 괄호 안에는 makeTimer 메소드를 통해 반환 받은 타이머, 자동 버튼, List, 옵션을 넣습니다. (List는 체크박스들을 가지고
-	// 있어야 합니다.)
+	// 괄호 안에는 makeTimer 메소드를 통해 반환 받은 타이머, 버튼, 체크박스List, 옵션,
+	// (합의한 내용을 토대로 만든 Integer리스트(버튼 번호 + 자동숫자)), OX레이블 을 넣습니다. 
 	// 옵션은 String(문자열)로 작성하시면 되고, auto를 입력하시면 자동버튼의 기능,
 	// semiAuto를 입력하시면 반자동버튼의 기능을 가집니다.
 	// self를 입력하면 수동버튼 기능을 가집니다.
@@ -133,7 +135,6 @@ public class FunctionList extends JFrame {
 						oxLabel.setText("X");
 
 					} else {
-						// changecheckBoxEnableToTrue(checkBoxList);
 						int count = 0;
 
 						for (int i = 0; i < checkBoxList.size(); i++) {
@@ -166,6 +167,8 @@ public class FunctionList extends JFrame {
 		}
 	}
 
+	// 전체 자동 버튼 기능 구현을 위해
+	// 자동 버튼 기능 코드 내용을 메소드로 세분화 하였습니다.
 	public void autoChoose(Timer timer, List<JCheckBox> checkBoxList, List<Integer> findBtn, JLabel oxLabel) {
 		timer.stop();
 		for (int i = 0; i < checkBoxList.size(); i++) {
@@ -297,7 +300,6 @@ public class FunctionList extends JFrame {
 					for (JCheckBox box : checkBoxList) {
 						if (box.isSelected()) {
 							box.setEnabled(true);
-							
 						} else {
 							box.setEnabled(false);
 						}
@@ -315,7 +317,7 @@ public class FunctionList extends JFrame {
 		return timer;
 	}
 
-	// 사용자가 제출한 번호 내용을 토대로 저장할 수 있는 saveCheckBox을 구성하는 메소드
+	// 사용자가 제출한 번호 내용을 토대로 saveCheckBox를 구성 및 저장하는 메소드입니다.
 	public void saveCheckBoxNum(List<List<List<JCheckBox>>> saveCheckBox, List<List<JCheckBox>> resultShow) {
 		
 		for (int i = 0; i < saveCheckBox.size() + 1; i++) {
@@ -340,7 +342,7 @@ public class FunctionList extends JFrame {
 		}
 	}
 
-	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드
+	// 이전에 제출한 내용대로 체크란을 변경시켜주는 버튼의 기능 활성화 메소드입니다.
 	public void beforeBtnFunction(JButton beforeBtn, List<List<List<JCheckBox>>> saveCheckBox,
 			List<List<JCheckBox>> resultShow, List<List<Integer>> findBtnList, List<JLabel> labelCollection, JComboBox<String> beforeLottoNum, List<Timer> timerCollection) {
 		
@@ -379,7 +381,6 @@ public class FunctionList extends JFrame {
 								}
 							} catch(Exception e1) {
 							}
-							
 						}
 					}
 				}
@@ -387,7 +388,8 @@ public class FunctionList extends JFrame {
 		});
 	}
 
-	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드
+	// 현재의 체크 내용을 토대로 모든 체크 박스들을 체크하는 메소드입니다.
+	// 타이머는 "모든 타이머를 들고있는 리스트<타이머>, 현제 체크박스를 감시하는 타이머" 2가지 종류를 넣어주어야 합니다.
 	public void unityCheckBox(List<JCheckBox> checkBoxList, List<List<JCheckBox>> checkBoxListCollection,
 			List<List<Integer>> findBtnList, JButton btn, List<JLabel> lblList, List<Timer> timerCollection, Timer timer) {
 

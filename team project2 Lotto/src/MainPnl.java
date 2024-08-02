@@ -25,6 +25,7 @@ public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private List<List<List<JCheckBox>>> saveCheckBox = new ArrayList<>();
+	private int money = 100000;
 	
 	public MainPnl() {
 		super("인생 역전 로또");
@@ -84,11 +85,15 @@ public class MainPnl extends JFrame {
 		panel_1.add(combo);
 
 		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new BorderLayout());
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
 		JButton btnNewButton = new JButton("로또 사러 가기!");
 		btnNewButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		southPanel.add(btnNewButton);
+		southPanel.add(btnNewButton, "Center");
+		
+		JLabel moneyLbl = new JLabel("보유 금액 : " + money + "원");
+		southPanel.add(moneyLbl, "West");
 
 		JPanel northPanel = new JPanel();
 		getContentPane().add(northPanel, BorderLayout.NORTH);
@@ -105,7 +110,7 @@ public class MainPnl extends JFrame {
 				if (combo.getSelectedIndex() != 0) {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
-					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox);
+					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox, money);
 					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
 
 						@Override
