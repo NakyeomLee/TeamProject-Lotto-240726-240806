@@ -88,13 +88,17 @@ public class MainPnl extends JFrame {
 		southPanel.setLayout(new BorderLayout());
 		getContentPane().add(southPanel, BorderLayout.SOUTH);
 
+		JLabel moneyLbl = new JLabel("  보유 금액 : " + money + "원");
+		moneyLbl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		southPanel.add(moneyLbl, "West");
+		
+		JPanel includeButtonPanel = new JPanel();
+		southPanel.add(includeButtonPanel, "East");
+		
 		JButton btnNewButton = new JButton("로또 사러 가기!");
 		btnNewButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		southPanel.add(btnNewButton, "Center");
+		includeButtonPanel.add(btnNewButton);
 		
-		JLabel moneyLbl = new JLabel("보유 금액 : " + money + "원");
-		southPanel.add(moneyLbl, "West");
-
 		JPanel northPanel = new JPanel();
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BorderLayout(0, 0));

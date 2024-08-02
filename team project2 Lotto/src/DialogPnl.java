@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,12 +50,12 @@ public class DialogPnl extends JDialog {
 
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 
-	private List<Integer> intList;// 재민수정
-	private List<List<Integer>> saveList = new ArrayList<>();// 재민수정
-	private List<JCheckBox> checkNumList;// 재민수정
-	private int buyLottoPageCount = 1;// 재민수정
-	private List<String> buyLottoPageCountList = new ArrayList<>(); // 재민수정
-	private int lottoCountmultiple = 0;
+	private List<Integer> intList;
+	private List<List<Integer>> saveList = new ArrayList<>();
+	private List<JCheckBox> checkNumList;
+	private int buyLottoPageCount = 1;
+	private List<String> buyLottoPageCountList = new ArrayList<>();
+//	private int lottoCountmultiple = 0;
 	private int nowMoney;
 	private List<JPanel> pnlList = new ArrayList<>();
 	private List<JLabel> winLabelCollection = new ArrayList<>();
@@ -92,7 +93,7 @@ public class DialogPnl extends JDialog {
 
 			setHorizontalTextPosition(JLabel.CENTER); // 레이블의 텍스트 가로 부분을 가운데로 고정
 			setVerticalTextPosition(JLabel.CENTER);// 레이블의 텍스트 세로 부분을 가운데로 고정
-			setFont(fontHolder.getUseFont(Font.BOLD, 20));
+			setFont(fontHolder.getUseFont(Font.BOLD, 20)); // 폰트 설정
 			setForeground(Color.WHITE); // 글자 색깔 설정
 			setText(String.valueOf(number)); // 글자 설정
 			setHorizontalAlignment(SwingConstants.CENTER); // 레이블 자체의 수평 위치를 중간으로
@@ -255,8 +256,8 @@ public class DialogPnl extends JDialog {
 				beforeLottoNum, timerCollection);
 
 		// 지불 예정 금액 표시 레이블
-		JLabel paymentMoney = new JLabel("지불 예정 금액 : " + resultShow.size() * 1000 + "원    (1게임 = 1000원)");
-		paymentMoney.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		JLabel paymentMoney = new JLabel("지불 예정 금액 : " + resultShow.size() * 1000 + "원  (1게임 = 1000원)");
+		paymentMoney.setFont(fontHolder.getUseFont(Font.BOLD, 25));
 		buyNorthPanel.add(paymentMoney, "North");
 		paymentMoney.setHorizontalAlignment(JLabel.CENTER); // 텍스트 가운데 정렬
 
@@ -307,7 +308,7 @@ public class DialogPnl extends JDialog {
 				checkNumBox.setFont(fontHolder.getUseFont(Font.BOLD, 15)); // 체크박스 폰트
 //				checkNumBox.setBackground(new Color(250, 244, 192)); // 체크박스 배경색
 //				checkNumBox.setBorder(new LineBorder(Color.YELLOW)); // 체크박스 테두리
-				checkNumBox.setBorderPainted(true); // 체크박스 테두리 적용
+				checkNumBox.setBorderPainted(true); // 체크박스 테두리 적용 (테두리 색 없이 그림자 진것처럼 나타남)
 				checkNumBox.setEnabled(false); // 체크박스 비활성화
 				checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 add
 				numChoicePanel.add(checkNumBox); // 번호 선택 체크박스를 패널에 add
@@ -363,7 +364,7 @@ public class DialogPnl extends JDialog {
 				}
 			});
 
-			paymentMoney.setText("지불 예정 금액 : " + resultShow.size() * 1000 + "원    (1게임 = 1000원)");
+			paymentMoney.setText("지불 예정 금액 : " + resultShow.size() * 1000 + "원  (1게임 = 1000원)");
 
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 			functionList.cancelAll(allCancelButton, resultShow, timerCollection, labelCollection);
@@ -376,7 +377,7 @@ public class DialogPnl extends JDialog {
 		southPanel.setLayout(new BorderLayout());
 		buyLottoPanel.add(southPanel, new BorderLayout().SOUTH);
 
-		JLabel moneyLabel = new JLabel(" 보유금액 : " + money + " 원");
+		JLabel moneyLabel = new JLabel("  보유금액 : " + money + " 원");
 		moneyLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		southPanel.add(moneyLabel, "West");
 
@@ -400,7 +401,7 @@ public class DialogPnl extends JDialog {
 		includeSendButtonPanel.add(nextButton);
 
 		// 페이지 수 표시 레이블
-		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">   ");
+		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">  ");
 		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 30));
 		southPanel.add(pageCountLabel, "East");
 
@@ -412,7 +413,7 @@ public class DialogPnl extends JDialog {
 
 				if (buyLottoPageCount > 1) {
 					buyLottoPageCount--;
-					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">   ");
+					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">  ");
 					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
 				}
 			}
@@ -544,14 +545,14 @@ public class DialogPnl extends JDialog {
 					}
 					if (checkNextPageMake == 0) {
 
-						pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">   ");
+						pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">  ");
 						buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
 					}
 
 				} else {
 					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능해요");
 				}
-				paymentMoney.setText("지불 예정 금액 : " + resultShow.size() * 1000 + "원    (1게임 = 1000원)");
+				paymentMoney.setText("지불 예정 금액 : " + resultShow.size() * 1000 + "원  (1게임 = 1000원)");
 			}
 		});
 
@@ -598,7 +599,7 @@ public class DialogPnl extends JDialog {
 		JPanel numberCheckBtnPanel = new JPanel();
 		numberCheckSouthPanel.add(numberCheckBtnPanel);
 
-		// "결과 추첨 중..." 레이블
+		// '결과 추첨 중...' 레이블
 		// 당첨 숫자가 다 나오고 나면 레이블에 적힌 텍스트가 바뀜
 		JLabel loadingLabel = new JLabel("결과 추첨 중...");
 		loadingLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
@@ -668,50 +669,44 @@ public class DialogPnl extends JDialog {
 		resultNorthPanel.setLayout(new BorderLayout());
 		resultCheckPanel.add(resultNorthPanel, new BorderLayout().NORTH);
 
-		// 이전 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-		JPanel spacePanel2 = new JPanel(); // 이전 버튼, 간격 패널 포함될 패널
-		resultNorthPanel.add(spacePanel2, "West");
-
-		JLabel spaceLabel2 = new JLabel("   "); // 간격 패널
-		spacePanel2.add(spaceLabel2);
-
-//		JButton resultPreButton = new JButton("이전"); // 이전 버튼
-//		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//		spacePanel2.add(resultPreButton);
-
 		// 결과 확인 창에서 다시하기 버튼을 누르면 이 레이블에 포함된 숫자가 바뀜 (lottoPlayCount 이용)
 		JLabel resultTitleLabel = new JLabel("인생역전 로또 제 " + lottoPlayCount + "회 결과");
 		resultTitleLabel.setFont(fontHolder.getUseFont(Font.BOLD, 25));
 		resultNorthPanel.add(resultTitleLabel);
 		resultTitleLabel.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 
-		// 다음 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-		JPanel spacePanel4 = new JPanel(); // 다음 버튼, 간격 패널 포함될 패널
-		resultNorthPanel.add(spacePanel4, "East");
+		// 이전 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
+//		JPanel spacePanel2 = new JPanel(); // 이전 버튼, 간격 패널 포함될 패널
+//		resultNorthPanel.add(spacePanel2, "West");
+//
+//		JLabel spaceLabel2 = new JLabel("   "); // 간격 패널
+//		spacePanel2.add(spaceLabel2);
+//
+//		JButton resultPreButton = new JButton("이전"); // 이전 버튼
+//		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+//		spacePanel2.add(resultPreButton);
 
+		// 다음 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
+//		JPanel spacePanel4 = new JPanel(); // 다음 버튼, 간격 패널 포함될 패널
+//		resultNorthPanel.add(spacePanel4, "East");
+//
 //		JButton resultNextButton = new JButton("다음"); // 다음 버튼
 //		resultNextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 //		spacePanel4.add(resultNextButton);
-
-		JLabel spaceLabel4 = new JLabel("   "); // 간격 패널
-		spacePanel4.add(spaceLabel4);
+//
+//		JLabel spaceLabel4 = new JLabel("   "); // 간격 패널
+//		spacePanel4.add(spaceLabel4);
 
 		// winNumPanel, includeLabelsPanel이 포함될 패널
 		JPanel resultCenterPanel = new JPanel();
-//		resultCenterPanel.setLayout(new GridLayout(6, 1));
-//		resultCheckPanel.add(resultCenterPanel);
+		resultCenterPanel.setLayout(new BorderLayout());
+		resultCheckPanel.add(resultCenterPanel, "Center");
 
-//		// 당첨 숫자 레이블들 포함될 패널
-//		JPanel winNumPanel = new JPanel();
-//		resultCenterPanel.add(winNumPanel);
-		resultCenterPanel.setLayout(new BorderLayout()); // 재민수정2
-		resultCheckPanel.add(resultCenterPanel, "Center"); // 재민수정2
+		JScrollPane resultScrollPanel = new JScrollPane(); // 스크롤 바
+		resultScrollPanel.setLayout(new ScrollPaneLayout());
 
-		JScrollPane resultScrollPanel = new JScrollPane(); // 재민수정2
-		resultScrollPanel.setLayout(new ScrollPaneLayout()); // 재민수정2
-
-		JPanel resultContainPanel = new JPanel(); // 재민수정2
-		resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5)); // 재민수정2
+		JPanel resultContainPanel = new JPanel();
+		resultContainPanel.setLayout(new GridLayout(resultShow.size(), 0, 5, 5));
 		// 실제로 스크롤되는 컨텐츠 포함 (스크롤 하는 영역을 제한하고 스크롤 할 수 있게 해줌)
 		resultScrollPanel.setViewportView(resultContainPanel);
 
@@ -731,9 +726,9 @@ public class DialogPnl extends JDialog {
 
 		// 당첨 숫자 레이블들 포함될 패널
 		JPanel winNumPanel = new JPanel();
-		resultCenterPanel.add(winNumPanel, "North"); // 재민수정2
-		resultCenterPanel.add(resultScrollPanel, "Center"); // 재민수정2
-		resultScrollPanel.setViewportView(resultContainPanel); // 재민수정2
+		resultCenterPanel.add(winNumPanel, "North");
+		resultCenterPanel.add(resultScrollPanel, "Center");
+		resultScrollPanel.setViewportView(resultContainPanel);
 
 		BallLabel winNum1 = new BallLabel(Integer.parseInt(result.get(0)), null, null, null);
 
@@ -762,14 +757,17 @@ public class DialogPnl extends JDialog {
 		resultSouthPanel.setLayout(new BorderLayout());
 		resultCheckPanel.add(resultSouthPanel, new BorderLayout().SOUTH);
 
+		JPanel spacePanel2 = new JPanel(); // 창 벽과 당첨된 목록만 확인 버튼 사이 공간을 만들기 위한 패널
+		resultSouthPanel.add(spacePanel2, "West");
+
+		JButton printWinPnl = new JButton("당첨된 목록만 확인"); // 당첨된 목록만 확인 버튼
+		printWinPnl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		spacePanel2.add(printWinPnl);
+		functionList.printWinNumPnlBtnFunction(printWinPnl, resultContainPanel, pnlList, winLabelCollection);
+
 		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
 		resultSouthPanel.add(includeButtonsPanel2, "Center");
 
-		JButton printWinPnl = new JButton("당첨된 목록만 확인");
-		printWinPnl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		resultSouthPanel.add(printWinPnl, "West");
-		functionList.printWinNumPnlBtnFunction(printWinPnl, resultContainPanel, pnlList, winLabelCollection);
-		
 		againButton = new JButton("다시하기"); // 다시하기 버튼
 		againButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		includeButtonsPanel2.add(againButton);
@@ -805,9 +803,8 @@ public class DialogPnl extends JDialog {
 				System.exit(0); // 기본 창 닫힘
 			}
 		});
-		
 
-// --------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------
 
 		centerPanel.add(buyLottoPanel, "BuyLotto");
 		centerPanel.add(numberCheckPanel, "NumberCheck");
@@ -854,7 +851,7 @@ public class DialogPnl extends JDialog {
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
 						Collections.sort(intList); // 순서대로 정렬
 
-						saveList.add(intList);// 재민수정
+						saveList.add(intList);
 
 						// 로또 개수 표시 레이블
 						JLabel countLabel = new JLabel(String.valueOf(i + 1) + ". ");
@@ -910,17 +907,17 @@ public class DialogPnl extends JDialog {
 						xlblNum -= lottoCount;
 						count++;
 					}
-					String message = "각 로또 당 숫자를 6개 선택해주세요.   " + count + "페이지 확인";
+					String message = count + "페이지의 로또 번호가 제대로 선택되지 않았습니다.";
 					JOptionPane.showMessageDialog(DialogPnl.this, message);
 				}
 			}
 
 			// autoOrSemiautoLabel의 크기, 텍스트 정렬, 폰트 지정, 패널에 add 메소드
 			private void autoOrSemiautoLabelDeco(JPanel includeLabelsPanel, JLabel autoOrSemiautoLabel) {
-				autoOrSemiautoLabel.setPreferredSize(new Dimension(50, 40));
-				autoOrSemiautoLabel.setHorizontalTextPosition(JLabel.CENTER);
-				autoOrSemiautoLabel.setHorizontalAlignment(SwingConstants.CENTER);
-				autoOrSemiautoLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18));
+				autoOrSemiautoLabel.setPreferredSize(new Dimension(50, 40)); // 레이블 크기 설정 (고정하기 위해 일부러 설정)
+				autoOrSemiautoLabel.setHorizontalTextPosition(JLabel.CENTER); // 레이블의 텍스트 수평 가운데 정렬
+				autoOrSemiautoLabel.setHorizontalAlignment(SwingConstants.CENTER); // 레이블의 텍스트 수직 가운데 정렬
+				autoOrSemiautoLabel.setFont(fontHolder.getUseFont(Font.BOLD, 18)); // 폰트 설정
 				includeLabelsPanel.add(autoOrSemiautoLabel);
 			}
 		});

@@ -363,6 +363,7 @@ public class FunctionList extends JFrame {
 				String choose = beforeLottoNum.getItemAt(beforeLottoNum.getSelectedIndex());
 				String firstChar = choose.substring(0, 1);
 				int split = Integer.parseInt(firstChar);
+				
 				if (saveCheckBox.size() != 0) {
 					
 					for (int i = 0; i < saveCheckBox.get(split-1).size(); i++) {
