@@ -1,11 +1,6 @@
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 // 기능 모음 창
@@ -493,6 +489,23 @@ public class FunctionList extends JFrame {
 		money -= (resultShow.size()*1000);
 		
 		return money;
+	}
+	
+	// 패널안에 있는 레이블의 텍스트가 "망했습니다." 인 패널들을 삭제하고 당첨 된 패널만 출력하는 메소드입니다.
+	public void printWinNumPnlBtnFunction(JButton btn, JPanel resultMainPnl, List<JPanel> pnlList, List<JLabel> labelCollection) {
+		btn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < labelCollection.size(); i++) {
+					if(labelCollection.get(i).getText().equals("망했습니다.")) {
+						resultMainPnl.remove(pnlList.get(i));
+					}
+				}
+				resultMainPnl.revalidate();
+				resultMainPnl.repaint();
+			}
+		});
 	}
 	
 

@@ -33,7 +33,6 @@ import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
-import javafx.scene.layout.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.BevelBorder;
@@ -57,6 +56,8 @@ public class DialogPnl extends JDialog {
 	private List<String> buyLottoPageCountList = new ArrayList<>(); // 재민수정
 	private int lottoCountmultiple = 0;
 	private int nowMoney;
+	private List<JPanel> pnlList = new ArrayList<>();
+	private List<JLabel> winLabelCollection = new ArrayList<>();
 
 	class BallLabel extends JLabel {
 
@@ -761,14 +762,14 @@ public class DialogPnl extends JDialog {
 		resultSouthPanel.setLayout(new BorderLayout());
 		resultCheckPanel.add(resultSouthPanel, new BorderLayout().SOUTH);
 
-		// 창 벽과 버튼들 띄워놓기 위해서 간격용 패널 활용
-		JPanel spacePanel3 = new JPanel();
-		spacePanel3.setPreferredSize(new Dimension(200, 0));
-		resultSouthPanel.add(spacePanel3, "West");
-
 		JPanel includeButtonsPanel2 = new JPanel(); // 버튼들 포함될 패널
 		resultSouthPanel.add(includeButtonsPanel2, "Center");
 
+		JButton printWinPnl = new JButton("당첨된 목록만 확인");
+		printWinPnl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		resultSouthPanel.add(printWinPnl, "West");
+		functionList.printWinNumPnlBtnFunction(printWinPnl, resultContainPanel, pnlList, winLabelCollection);
+		
 		againButton = new JButton("다시하기"); // 다시하기 버튼
 		againButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		includeButtonsPanel2.add(againButton);
@@ -804,6 +805,7 @@ public class DialogPnl extends JDialog {
 				System.exit(0); // 기본 창 닫힘
 			}
 		});
+		
 
 // --------------------------------------------------------------------------------------------------
 
@@ -846,6 +848,7 @@ public class DialogPnl extends JDialog {
 						JPanel includeLabelsPanel = new JPanel();
 						includeLabelsPanel.setLayout(new FlowLayout());
 						resultContainPanel.add(includeLabelsPanel);// 재민수정2
+						pnlList.add(includeLabelsPanel);
 
 						// 체크박스들 중 체크가 되어있는 것들(사용자가 선택한 번호들)만 넣은 List
 						intList = functionList.returnCheckBoxListToIntegerList(resultShow.get(i));
@@ -880,6 +883,7 @@ public class DialogPnl extends JDialog {
 
 						// n등 당첨, 낙첨 레이블 (당첨 여부에 따라 Label의 텍스트가 바뀜)
 						JLabel winLabel = new JLabel();
+						winLabelCollection.add(winLabel);
 						winLabel.setPreferredSize(new Dimension(100, 50));
 						winLabel.setHorizontalTextPosition(JLabel.CENTER);
 						winLabel.setHorizontalAlignment(SwingConstants.CENTER);
