@@ -486,8 +486,13 @@ public class FunctionList extends JFrame {
 				}
 			}
 		});
+	}
+	
+	// 제출하기 버튼을 눌렀을 때 돈을 차감시키는 메소드 입니다.
+	public int payMoney(int money, List<List<JCheckBox>> resultShow) {
+		money -= (resultShow.size()*1000);
 		
-		
+		return money;
 	}
 	
 

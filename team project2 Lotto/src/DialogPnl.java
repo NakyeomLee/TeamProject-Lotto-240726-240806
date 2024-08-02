@@ -53,7 +53,7 @@ public class DialogPnl extends JDialog {
 	private int buyLottoPageCount = 1;// 재민수정
 	private List<String> buyLottoPageCountList = new ArrayList<>(); // 재민수정
 	private int lottoCountmultiple = 0;
-
+	private int nowMoney;
 	class BallLabel extends JLabel {
 
 		public BallLabel(int number, List<Integer> findBtnList, List<String> winnerList, List<Integer> intList) {
@@ -179,10 +179,6 @@ public class DialogPnl extends JDialog {
 		buyLottoPanel.add(buyNorthPanel, new BorderLayout().NORTH);
 		buyNorthPanel.setLayout(new BorderLayout());
 
-		JLabel buyTitleLabel = new JLabel("인생 역전 로또   "); // "인생 역전 로또" 레이블
-		buyTitleLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-		buyNorthPanel.add(buyTitleLabel, "East");
-
 		JPanel spacePanel = new JPanel(); // spaceLabel과 allAutoButton이 포함될 패널
 		buyNorthPanel.add(spacePanel, "West");
 
@@ -252,6 +248,10 @@ public class DialogPnl extends JDialog {
 
 		functionList.beforeBtnFunction(beforeSameButton, saveCheckBox, resultShow, findBtnList, labelCollection,
 				beforeLottoNum, timerCollection);
+		
+		JLabel paymentMoney = new JLabel("지불 예정 금액 : " + resultShow.size()*1000 +"원    (1게임 = 1000원)"); // "인생 역전 로또" 레이블
+		paymentMoney.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		buyNorthPanel.add(paymentMoney, "North");
 
 		// 메인 창에서 사용자가 선택한 로또 개수(lottoCount)대로 includeNumChoicePanel 나타냄
 		for (int i = 0; i < Integer.valueOf(lottoCount); i++) {
@@ -355,6 +355,8 @@ public class DialogPnl extends JDialog {
 					}
 				}
 			});
+			
+			paymentMoney.setText("지불 예정 금액 : " + resultShow.size()*1000 +"원    (1게임 = 1000원)");
 
 			// 전체 취소 버튼을 눌렀을 때 기능 메소드
 			functionList.cancelAll(allCancelButton, resultShow, timerCollection, labelCollection);
@@ -367,7 +369,7 @@ public class DialogPnl extends JDialog {
 		southPanel.setLayout(new BorderLayout());
 		buyLottoPanel.add(southPanel, new BorderLayout().SOUTH);
 		
-		JLabel moneyLabel = new JLabel("   가격 : " + money + " 원");
+		JLabel moneyLabel = new JLabel(" 보유금액 : " + money + " 원");
 		moneyLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		southPanel.add(moneyLabel, "West");
 
@@ -414,7 +416,7 @@ public class DialogPnl extends JDialog {
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
 				lottoCountmultiple += lottoCountmultiple;
 
 				if (buyLottoPageCount < 10) {
@@ -531,6 +533,8 @@ public class DialogPnl extends JDialog {
 				} else {
 					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능해요");
 				}
+				paymentMoney.setText("지불 예정 금액 : " + resultShow.size()*1000 +"원    (1게임 = 1000원)");
+				
 			}
 		});
 
@@ -783,9 +787,12 @@ public class DialogPnl extends JDialog {
 		sendButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
+				nowMoney = functionList.payMoney(money, resultShow);
 				// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하고 번호 제출 버튼을 눌렀을 때
-				if (functionList.checkAllSelected(resultShow)) {
+				if (nowMoney < 0) {
+					JOptionPane.showMessageDialog(DialogPnl.this, "보유 금액이 부족하여 구매할 수 없습니다.   창을 닫고 처음부터 다시 시도하세요");
+				} else if (functionList.checkAllSelected(resultShow)) {
 
 					setSize(750, 650);
 
@@ -882,4 +889,11 @@ public class DialogPnl extends JDialog {
 	public void setAgainButton(JButton againButton) {
 		this.againButton = againButton;
 	}
+
+	public int getNowMoney() {
+		return nowMoney;
+	}
+	
+	
+	
 }

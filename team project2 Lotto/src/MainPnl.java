@@ -107,15 +107,20 @@ public class MainPnl extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (combo.getSelectedIndex() != 0) {
-					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
-					int lottoCountInteger = Integer.parseInt(lottoCount);
+				String lottoCount = combo.getItemAt(combo.getSelectedIndex());
+				int lottoCountInteger = Integer.parseInt(lottoCount);
+				if (money < 1000*lottoCountInteger) {
+					JOptionPane.showMessageDialog(MainPnl.this, "금액이 부족합니다.");
+				} else if (combo.getSelectedIndex() != 0) {
+					
 					DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox, money);
 					dialogPnl.getAgainButton().addActionListener(new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							lottoPlayCount++;
+							money = dialogPnl.getNowMoney();
+							moneyLbl.setText("보유 금액 : " + money + "원");
 							dialogPnl.dispose();
 						}
 					});
