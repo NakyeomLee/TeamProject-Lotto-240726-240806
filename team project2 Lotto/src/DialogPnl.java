@@ -280,7 +280,7 @@ public class DialogPnl extends JDialog {
 			JPanel includeButtonPanel = new JPanel(); // sameNumberButton 버튼이 포함될 패널
 			printOXPnl.add(includeButtonPanel, "North");
 
-			JButton sameNumberButton = new JButton("현재 선택 번호로 전체 적용"); // 현재 선택 번호로 전체 적용 버튼
+			JButton sameNumberButton = new JButton("위의 번호로 전체 적용"); // 현재 선택 번호로 전체 적용 버튼
 			sameNumberButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 			sameNumberButton.setBackground(new Color(235, 255, 255));
 			includeButtonPanel.add(sameNumberButton);
