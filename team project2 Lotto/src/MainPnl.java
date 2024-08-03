@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -76,7 +77,7 @@ public class MainPnl extends JFrame {
 		centerPanel.add(panel_1, BorderLayout.NORTH);
 
 		JLabel lblLottoCount = new JLabel("알아서 사세요.  ");
-		lblLottoCount.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		lblLottoCount.setFont(fontHolder.getUseFont(Font.BOLD, 18));
 		panel_1.add(lblLottoCount);
 
 		String[] items = { "로또 수량을 선택하세요.", "1", "2", "3", "4", "5" };
@@ -97,6 +98,7 @@ public class MainPnl extends JFrame {
 		
 		JButton btnNewButton = new JButton("로또 사러 가기!");
 		btnNewButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		btnNewButton.setBackground(new Color(235, 255, 255));
 		includeButtonPanel.add(btnNewButton);
 		
 		JPanel northPanel = new JPanel();
@@ -148,7 +150,7 @@ public class MainPnl extends JFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 
 		JLabel lblNewLabel_1 = new JLabel("인생 역전 로또   ");
-		lblNewLabel_1.setFont(fontHolder.getUseFont(Font.BOLD, 20));
+		lblNewLabel_1.setFont(fontHolder.getUseFont(Font.BOLD, 18));
 		lblNewLabel_1.setHorizontalAlignment(JLabel.RIGHT);
 		panel_2.add(lblNewLabel_1);
 
