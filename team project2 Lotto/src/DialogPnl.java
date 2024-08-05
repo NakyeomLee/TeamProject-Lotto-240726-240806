@@ -413,7 +413,7 @@ public class DialogPnl extends JDialog {
 		// 페이지 수 표시 레이블
 		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">");
 		pageCountLabel.setPreferredSize(new Dimension(70, 50));
-		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 25));
+		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 23));
 		pageCountLabel.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 		southPanel.add(pageCountLabel, "East");
 
@@ -425,7 +425,7 @@ public class DialogPnl extends JDialog {
 
 				if (buyLottoPageCount > 1) {
 					buyLottoPageCount--;
-					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">  ");
+					pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
 					buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
 				}
 			}
@@ -568,7 +568,7 @@ public class DialogPnl extends JDialog {
 					}
 					if (checkNextPageMake == 0) {
 
-						pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">  ");
+						pageCountLabel.setText("<" + String.valueOf(buyLottoPageCount) + ">");
 						buyLottoCenterCardLayout.show(buyLottoCenterPanel, "BuyPnl" + buyLottoPageCount);
 					}
 
