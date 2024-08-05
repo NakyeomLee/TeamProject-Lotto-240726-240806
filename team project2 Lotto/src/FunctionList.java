@@ -35,12 +35,10 @@ public class FunctionList extends JFrame {
 
 			if (!list.contains(num)) {
 				list.add(num);
+				result.add(String.valueOf(num));
 			}
 		}
 
-		for (int i = 0; i < list.size(); i++) {
-			result.add(String.valueOf(list.get(i)));
-		}
 		return result;
 	}
 
@@ -63,6 +61,7 @@ public class FunctionList extends JFrame {
 		list.get(0).setVisible(true);
 
 		Timer timer = new Timer(600, new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				for (JLabel lbl : list) {
@@ -78,7 +77,6 @@ public class FunctionList extends JFrame {
 							break;
 						}
 					}
-
 					if (allVisible) {
 						textLbl.setText("결과를 확인해주세요");
 						skipBtn.setVisible(false);
@@ -204,6 +202,7 @@ public class FunctionList extends JFrame {
 
 		Integer bonusNum = Integer.valueOf(resultStrList.get(resultStrList.size() - 1));
 		boolean containBonusNum = userList.contains(bonusNum);
+
 		int count = 0;
 
 		for (Integer num : userList) {
@@ -317,7 +316,6 @@ public class FunctionList extends JFrame {
 
 		for (int i = 0; i < saveCheckBox.size() + 1; i++) {
 			if (i == saveCheckBox.size()) {
-
 				List<List<JCheckBox>> newBoxListList = new ArrayList<>();
 				for (int j = 0; j < resultShow.size(); j++) {
 
@@ -377,9 +375,7 @@ public class FunctionList extends JFrame {
 									findBtnList.get(i).add(j + 1);
 									labelCollection.get(i).setText("O");
 								}
-
 							} catch (Exception e1) {
-
 							}
 						}
 					}
@@ -401,7 +397,6 @@ public class FunctionList extends JFrame {
 					timer.stop();
 				}
 				timer.start();
-
 				// 모든 체크박스 비활성화
 				for (int i = 0; i < checkBoxListCollection.size(); i++) {
 					for (int j = 0; j < checkBoxListCollection.get(i).size(); j++) {
@@ -410,38 +405,25 @@ public class FunctionList extends JFrame {
 				}
 
 				// 버튼이 위치한 체크박스는 체크 위치에 따라 활성 및 비활성화
+				int count = 0;
+				List<Integer> indexList = new ArrayList<>();
 				for (int i = 0; i < checkBoxList.size(); i++) {
 					if (checkBoxList.get(i).isSelected()) {
 						checkBoxList.get(i).setEnabled(true);
-
+						indexList.add(i);
+						count++;
 					} else {
 						checkBoxList.get(i).setEnabled(false);
 					}
 				}
 
-				int count = 0;
-				for (int i = 0; i < checkBoxList.size(); i++) {
-					if (checkBoxList.get(i).isSelected()) {
-						count++;
-					}
-				}
-
 				if (count == 6) {
-
-					List<Integer> indexList = new ArrayList<>();
-
-					for (int i = 0; i < checkBoxList.size(); i++) {
-						if (checkBoxList.get(i).isSelected()) {
-							indexList.add(i);
-						}
-					}
 
 					for (List<JCheckBox> list : checkBoxListCollection) {
 						for (int i = 0; i < list.size(); i++) {
 
 							if (indexList.contains(i)) {
 								list.get(i).setSelected(true);
-
 							} else {
 								list.get(i).setSelected(false);
 							}
@@ -458,14 +440,12 @@ public class FunctionList extends JFrame {
 						for (int j = 0; j < indexList.size(); j++) {
 							findBtnList.get(i).add(indexList.get(j) + 1);
 						}
-					}
-
-					for (int j = 0; j < lblList.size(); j++) {
-						lblList.get(j).setText("O");
+						
+						lblList.get(i).setText("O");
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(FunctionList.this, "번호 6개를 모두 선택하세요.");
+					JOptionPane.showMessageDialog(FunctionList.this, "6개를 모두 선택하세요");
 				}
 			}
 		});
@@ -504,8 +484,8 @@ public class FunctionList extends JFrame {
 	// 패널안에 있는 레이블의 텍스트가 "망했습니다." 인 패널들을 삭제하고 당첨 된 패널만 출력하는 메소드입니다.
 	public void printWinNumPnlBtnFunction(JButton btn, JPanel resultMainPnl, List<JPanel> pnlList,
 			List<JLabel> labelCollection) {
-
 		btn.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for (int i = 0; i < labelCollection.size(); i++) {
