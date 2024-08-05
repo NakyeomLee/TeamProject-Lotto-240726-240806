@@ -45,18 +45,18 @@ import java.awt.SystemColor;
 
 public class DialogPnl extends JDialog {
 
+	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
+	
 	int ballCount = 0;
+	private int nowMoney; // 로또 구매 창에서 활용할 현재 보유 금액
+	private int buyLottoPageCount = 1;
+
 	private JButton againButton; // 결과 확인 창에서 쓰이는 다시하기 버튼
 
-	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
-
 	private List<Integer> intList;
-	private List<List<Integer>> saveList = new ArrayList<>();
 	private List<JCheckBox> checkNumList;
-	private int buyLottoPageCount = 1;
+	private List<List<Integer>> saveList = new ArrayList<>();
 	private List<String> buyLottoPageCountList = new ArrayList<>();
-//	private int lottoCountmultiple = 0;
-	private int nowMoney;
 	private List<JPanel> pnlList = new ArrayList<>();
 	private List<JLabel> winLabelCollection = new ArrayList<>();
 
@@ -284,8 +284,6 @@ public class DialogPnl extends JDialog {
 			JPanel includeNumChoicePanel = new JPanel();
 			includeNumChoicePanel.setLayout(new BorderLayout());
 			centerPanel2.add(includeNumChoicePanel, "Center");
-//			includeNumChoicePanel.setBorder(new LineBorder(new Color(140, 172, 178)));
-//			buyCenterPanel.add(includeNumChoicePanel);
 
 			// 자동 수동 반자동 버튼들이 있는 패널
 			JPanel includeButtonsPanel = new JPanel();
@@ -322,8 +320,6 @@ public class DialogPnl extends JDialog {
 			for (int j = 1; j <= 45; j++) {
 				JCheckBox checkNumBox = new JCheckBox(String.valueOf(j));
 				checkNumBox.setFont(fontHolder.getUseFont(Font.BOLD, 15)); // 체크박스 폰트
-//				checkNumBox.setBackground(new Color(250, 244, 192)); // 체크박스 배경색
-//				checkNumBox.setBorder(new LineBorder(Color.YELLOW)); // 체크박스 테두리
 				checkNumBox.setBorderPainted(true); // 체크박스 테두리 적용 (테두리 색 없이 그림자 진것처럼 나타남)
 				checkNumBox.setEnabled(false); // 체크박스 비활성화
 				checkNumList.add(checkNumBox); // 번호 선택 체크박스를 List에 add
@@ -415,8 +411,10 @@ public class DialogPnl extends JDialog {
 		includeSendButtonPanel.add(nextButton);
 
 		// 페이지 수 표시 레이블
-		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">  ");
-		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 30));
+		JLabel pageCountLabel = new JLabel("<" + String.valueOf(buyLottoPageCount) + ">");
+		pageCountLabel.setPreferredSize(new Dimension(70, 50));
+		pageCountLabel.setFont(fontHolder.getUseFont(Font.BOLD, 25));
+		pageCountLabel.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 		southPanel.add(pageCountLabel, "East");
 
 		// 이전 장 버튼 눌렀을 때
@@ -439,7 +437,6 @@ public class DialogPnl extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int checkNextPageMake = 0;
-//				lottoCountmultiple += lottoCountmultiple;
 
 				if (buyLottoPageCount < 10) {
 					buyLottoPageCount++;
@@ -576,7 +573,7 @@ public class DialogPnl extends JDialog {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능해요");
+					JOptionPane.showMessageDialog(DialogPnl.this, "최대 10페이지까지만 가능합니다."); // 다이얼로그 메세지 창
 				}
 				paymentMoneyLabel.setText("지불 예정 금액 : " + resultShow.size() * 1000 + "원  (1게임 = 1000원)");
 			}
@@ -700,28 +697,6 @@ public class DialogPnl extends JDialog {
 		resultNorthPanel.add(resultTitleLabel);
 		resultTitleLabel.setHorizontalAlignment(JLabel.CENTER); // 레이블의 텍스트 중간 정렬
 
-		// 이전 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-//		JPanel spacePanel2 = new JPanel(); // 이전 버튼, 간격 패널 포함될 패널
-//		resultNorthPanel.add(spacePanel2, "West");
-//
-//		JLabel spaceLabel2 = new JLabel("   "); // 간격 패널
-//		spacePanel2.add(spaceLabel2);
-//
-//		JButton resultPreButton = new JButton("이전"); // 이전 버튼
-//		resultPreButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//		spacePanel2.add(resultPreButton);
-
-		// 다음 버튼 (창 벽과 띄워놓기 위해서 간격용 패널과 레이블 활용)
-//		JPanel spacePanel4 = new JPanel(); // 다음 버튼, 간격 패널 포함될 패널
-//		resultNorthPanel.add(spacePanel4, "East");
-//
-//		JButton resultNextButton = new JButton("다음"); // 다음 버튼
-//		resultNextButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
-//		spacePanel4.add(resultNextButton);
-//
-//		JLabel spaceLabel4 = new JLabel("   "); // 간격 패널
-//		spacePanel4.add(spaceLabel4);
-
 		// winNumPanel, includeLabelsPanel이 포함될 패널
 		JPanel resultCenterPanel = new JPanel();
 		resultCenterPanel.setLayout(new BorderLayout());
@@ -735,12 +710,12 @@ public class DialogPnl extends JDialog {
 		// 실제로 스크롤되는 컨텐츠 포함 (스크롤 하는 영역을 제한하고 스크롤 할 수 있게 해줌)
 		resultScrollPanel.setViewportView(resultContainPanel);
 
-		// 마우스 휠 리스너를 활용한 스크롤 속도 조정
+		// 마우스 휠 리스너를 이용한 스크롤 속도 조정
 		resultScrollPanel.addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				int scrollAmount = e.getScrollAmount();
-				int scrollSpeed = 7; // 스크롤 속도 배수 조정 (7배)
+				int scrollSpeed = 9; // 스크롤 속도 배수 조정 (9배)
 				if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 					JScrollBar verticalBar = resultScrollPanel.getVerticalScrollBar();
 					int scroll = e.getUnitsToScroll() * verticalBar.getUnitIncrement() * scrollSpeed;
@@ -808,22 +783,6 @@ public class DialogPnl extends JDialog {
 		infoLabel.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		resultSouthPanel.add(infoLabel, "East");
 
-		// 이전 버튼 눌렀을 때
-//		resultPreButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
-//			}
-//		});
-
-		// 다음 버튼 눌렀을 때
-//		resultNextButton.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//
-//			}
-//		});
-
 		// 종료 버튼 누르면 다이얼로그 창, 기본 창 같이 닫힘
 		closeButton.addActionListener(new ActionListener() {
 			@Override
@@ -846,9 +805,10 @@ public class DialogPnl extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 
 				nowMoney = functionList.payMoney(money, resultShow);
+				
 				// 로또 구매 창에서 사용자가 로또 당 체크 박스를 6개 선택하고 번호 제출 버튼을 눌렀을 때
 				if (nowMoney < 0) {
-					JOptionPane.showMessageDialog(DialogPnl.this, "보유 금액이 부족하여 구매할 수 없습니다. 창을 닫고 처음부터 다시 시도하세요");
+					JOptionPane.showMessageDialog(DialogPnl.this, "보유 금액이 부족하여 구매할 수 없습니다. 창을 닫고 처음부터 다시 시도해주세요.");
 
 				} else if (functionList.checkAllSelected(resultShow)) {
 
@@ -936,7 +896,7 @@ public class DialogPnl extends JDialog {
 						count++;
 					}
 					String message = count + "페이지에 번호가 제대로 선택되지않은 로또가 있습니다.";
-					JOptionPane.showMessageDialog(DialogPnl.this, message);
+					JOptionPane.showMessageDialog(DialogPnl.this, message); // 다이얼로그 메세지 창
 				}
 			}
 
@@ -963,6 +923,7 @@ public class DialogPnl extends JDialog {
 		this.againButton = againButton;
 	}
 
+	// nowMoney(로또 구매 창에서 활용할 현재 보유 금액)의 getter
 	public int getNowMoney() {
 		return nowMoney;
 	}

@@ -21,16 +21,15 @@ import javax.swing.Timer;
 // 작업자 : 이재민
 // 기본 구성요소 : 콤보박스, 텍스트, DialogPnl을 호출하는 버튼
 
-
 public class MainPnl extends JFrame {
 	private int lottoPlayCount = 1;
 	private FontHolder fontHolder = new FontHolder(); // 폰트 활용을 위한 class 참조
 	private List<List<List<JCheckBox>>> saveCheckBox = new ArrayList<>();
 	private int money = 100000;
-	
+
 	public MainPnl() {
 		super("인생 역전 로또");
-		
+
 		setSize(500, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -56,7 +55,7 @@ public class MainPnl extends JFrame {
 
 		Timer timer = new Timer(50, new ActionListener() {
 			int count = 0;
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				count++;
@@ -92,15 +91,15 @@ public class MainPnl extends JFrame {
 		JLabel moneyLbl = new JLabel("  보유 금액 : " + money + "원");
 		moneyLbl.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		southPanel.add(moneyLbl, "West");
-		
+
 		JPanel includeButtonPanel = new JPanel();
 		southPanel.add(includeButtonPanel, "East");
-		
+
 		JButton btnNewButton = new JButton("로또 사러 가기!");
 		btnNewButton.setFont(fontHolder.getUseFont(Font.BOLD, 20));
 		btnNewButton.setBackground(new Color(235, 255, 255));
 		includeButtonPanel.add(btnNewButton);
-		
+
 		JPanel northPanel = new JPanel();
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BorderLayout(0, 0));
@@ -116,12 +115,14 @@ public class MainPnl extends JFrame {
 				try {
 					String lottoCount = combo.getItemAt(combo.getSelectedIndex());
 					int lottoCountInteger = Integer.parseInt(lottoCount);
-					if (money < 1000*lottoCountInteger) {
+					
+					if (money < 1000 * lottoCountInteger) {
 						JOptionPane.showMessageDialog(MainPnl.this, "금액이 부족합니다.");
+						
 					} else if (combo.getSelectedIndex() != 0) {
-						DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this, saveCheckBox, money);
+						DialogPnl dialogPnl = new DialogPnl(lottoCountInteger, lottoPlayCount, MainPnl.this,
+								saveCheckBox, money);
 						dialogPnl.getAgainButton().addActionListener(new ActionListener() {
-
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								lottoPlayCount++;
@@ -136,7 +137,8 @@ public class MainPnl extends JFrame {
 						lblNewLabel.setText("제 " + lottoPlayCount + "회 인생 역전 로또");
 						revalidate();
 						repaint();
-					} 
+					}
+					
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainPnl.this, "숫자를 선택해주세요.");
 				}
