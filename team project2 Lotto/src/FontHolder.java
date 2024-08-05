@@ -11,7 +11,7 @@ public class FontHolder {
 
 		// 폰트 사용중에 발생할 예외 처리
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, DialogPnl.class.getResourceAsStream("/fonts/BMHANNAPro.ttf"));
+			font = Font.createFont(Font.TRUETYPE_FONT, DialogPnl.class.getResourceAsStream("/fonts/발표자료 글꼴.ttf"));
 
 		} catch (FontFormatException e) {
 			e.printStackTrace();
