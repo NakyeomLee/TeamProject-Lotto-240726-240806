@@ -20,30 +20,31 @@ import javax.swing.Timer;
 // 작성자 : 박무현
 // 구성 : 로또 프로그램의 전반적인 기능들을 메소드로 작성 및 구현
 public class FunctionList extends JFrame {
+	
 	private FontHolder fontHolder = new FontHolder();
 
 	// 실행시 7개의 중복되지 않는 번호를 list로 반환합니다.
 	// 마지막 번호는 보너스 번호로 활용하시면 되며 보너스 번호는 출력메세지나 이미지 파일을 따로 구분하여 작성해주세요.
-	public List<String> resultLottoNumber() {
+	public List<String> resultLottoNumber() { 
 
-		List<Integer> list = new ArrayList<>();
-		List<String> result = new ArrayList<>();
+		List<Integer> list = new ArrayList<>(); // 당첨 번호들끼리 비교하기 위한 리스트
+		List<String> result = new ArrayList<>(); // 실질적으로 당첨 번호들을 반환하는 리스트
 
-		while (list.size() < 7) {
+		while (list.size() < 7) { 
 			Random random = new Random();
 			Integer num = random.nextInt(45) + 1;
 
-			if (!list.contains(num)) {
+			// 랜덤으로 받는 당첨 번호들 중복 방지
+			if (!list.contains(num)) { 
 				list.add(num);
 				result.add(String.valueOf(num));
 			}
 		}
-
 		return result;
 	}
 
 	// 순차적으로 번호를 보여줄 수 있도록 visible이 false인 Label들을 true로 일정 시간마다 바꾸어주는 메소드 입니다.
-	// resultLottoNumber()메소드를 활용하여 7개의 Label을 구성한 뒤
+	// resultLottoNumber()메소드를 활용하여 7개의 Label(당첨번호)을 구성한 뒤
 	// 첫 Label에는 결과메세지를 출력할 Label을 넣어주고,
 	// 이후 순차적으로 보여줄 7개의 Label을 순서대로 괄호 안에 넣어주세요.
 	// 마지막에는 모든 Label이 출력된 후 visible을 true로 변환시킬 버튼을 넣어주세요.
@@ -52,14 +53,16 @@ public class FunctionList extends JFrame {
 
 		List<JLabel> list = new ArrayList<>(Arrays.asList(lbl1, lbl2, lbl3, lbl4, lbl5, lbl6, plusLbl, bonusLbl));
 
-		btn.setVisible(false);
+		btn.setVisible(false); // 결과 확인하기 버튼 (당첨 번호 확인 페이지)
 
+		// 당첨 번호 레이블들 (리스트에 넣어놓음)
 		for (JLabel lbl : list) {
-			lbl.setVisible(false);
+			lbl.setVisible(false); // 타이머에 의해서 하나씩 나타날거라서 처음엔 안 보이게
 		}
 
-		list.get(0).setVisible(true);
+		list.get(0).setVisible(true); // 첫번째 당첨 번호는 당첨번호 확인 페이지로 넘어오자마자 바로 보이게
 
+		// 타이머 (당첨 번호가 적혀있는 공이 하나씩 띄워질 수 있도록), 0.6초마다 하나씩
 		Timer timer = new Timer(600, new ActionListener() {
 
 			@Override
@@ -69,7 +72,7 @@ public class FunctionList extends JFrame {
 						lbl.setVisible(true);
 						break;
 					}
-					boolean allVisible = true;
+					boolean allVisible = true; // 첫번째 공부터 보너스 번호 공까지 7개가 다 나타났을때 allVisible의 값을 변동시키지 않음
 
 					for (JLabel lbl1 : list) {
 						if (!lbl1.isVisible()) {
@@ -81,12 +84,12 @@ public class FunctionList extends JFrame {
 						textLbl.setText("결과를 확인해주세요");
 						skipBtn.setVisible(false);
 						btn.setVisible(true);
-						((Timer) arg0.getSource()).stop();
+						((Timer) arg0.getSource()).stop(); // 타이머 멈춤
 					}
 				}
 			}
 		});
-		timer.start();
+		timer.start(); // 타이머 스타트
 	}
 
 	// 자동 , 반자동, 수동 버튼을 눌렀을 때의 구현 기능 메소드 입니다.
@@ -98,35 +101,37 @@ public class FunctionList extends JFrame {
 	public void autoOrSemiAutoBtnFuntion(Timer timer, JButton btn, List<JCheckBox> checkBoxList, String option,
 			List<Integer> findBtn, JLabel oxLabel) {
 
-		if (option.equals("auto")) {
+		if (option.equals("auto")) { // 자동 버튼
 
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					autoChoose(timer, checkBoxList, findBtn, oxLabel);
+					autoChoose(timer, checkBoxList, findBtn, oxLabel); // 전체 자동 버튼에도 활용할 수 있도록 메소드 생성해서 호출
 				}
 			});
 
-		} else if (option.equals("semiAuto")) {
+		} else if (option.equals("semiAuto")) { // 반자동 버튼
 
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					// 체크박스 선택을 감시하기 위한 타이머 켜짐 (번호 6개 선택을 완료하면 선택된 체크박스 이외에 나머지를 비활성화시켜야하기때문)
 					timer.start();
+					
 					int check = 0;
 
 					for (int i = 0; i < checkBoxList.size(); i++) {
-						if (checkBoxList.get(i).isEnabled()) {
+						if (checkBoxList.get(i).isEnabled()) { // 체크박스 활성화 상태
 							check++;
 						}
 					}
 
-					if (check == 0) {
+					if (check == 0) { // 모든 체크박스가 비활성화 상태라면
 						for (JCheckBox box : checkBoxList) {
-							box.setSelected(false);
+							box.setSelected(false); // 모든 체크박스 선택 해제
 						}
 						changecheckBoxEnableToTrue(checkBoxList);
-						oxLabel.setText("X");
+						oxLabel.setText("X"); // 사용자가 번호 6개를 제대로 선택 안 한 상태
 
 					} else {
 						int count = 0;
@@ -138,22 +143,24 @@ public class FunctionList extends JFrame {
 						}
 						List<Integer> list = selectCheckBox(checkBoxList, count);
 						listComposition(findBtn, list, 3);
-						oxLabel.setText("O");
+						oxLabel.setText("O"); // 사용자가 번호 6개를 모두 선택한 상태
 					}
 				}
 			});
 
-		} else if (option.equals("self")) {
+		} else if (option.equals("self")) { // 수동 버튼
 			btn.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					timer.start();
+					// 체크박스 선택을 감시하기 위한 타이머 켜짐 (번호 6개 선택을 완료하면 선택된 체크박스 이외에 나머지를 비활성화시켜야하기때문)
+					timer.start(); 
+					
 					changecheckBoxEnableToTrue(checkBoxList);
 
 					for (int i = 0; i < checkBoxList.size(); i++) {
-						checkBoxList.get(i).setSelected(false);
+						checkBoxList.get(i).setSelected(false); // 체크 박스 선택 해제
 					}
-					findBtn.clear();
+					findBtn.clear(); // 이전 기록과 상관없이 다른 버튼을 누르면 각 버튼의 역할을 알려주는 리스트를 비움 (다시 구성하기위해)
 					findBtn.add(2);
 					oxLabel.setText("X");
 				}
@@ -164,13 +171,17 @@ public class FunctionList extends JFrame {
 	// 전체 자동 버튼 기능 구현을 위해
 	// 자동 버튼 기능 코드 내용을 메소드로 세분화 하였습니다.
 	public void autoChoose(Timer timer, List<JCheckBox> checkBoxList, List<Integer> findBtn, JLabel oxLabel) {
+		// 여기서 타이머는 번호 선택을 감시하는 역할
+		// 자동 버튼을 누르면 번호가 6개가 한꺼번에 선택이 됨
+		// 모든 체크박스들을 비활성화 시켜야 하나, 타이머가 켜져있으면 모든 체크박스들을 비활성화 시킬 수 없기 때문에 타이머를 멈춤
 		timer.stop();
+		
 		for (int i = 0; i < checkBoxList.size(); i++) {
-			checkBoxList.get(i).setSelected(false);
-			checkBoxList.get(i).setEnabled(false);
+			checkBoxList.get(i).setSelected(false); // 모든 체크박스 해제
+			checkBoxList.get(i).setEnabled(false); // 모든 체크박스 비활성화
 		}
 
-		List<Integer> list = selectCheckBox(checkBoxList, 0);
+		List<Integer> list = selectCheckBox(checkBoxList, 0); // 자동으로 선택된 번호들을 가지고 있는 리스트(자동은 랜덤 선택)
 		listComposition(findBtn, list, 1);
 		oxLabel.setText("O");
 	}
@@ -196,7 +207,7 @@ public class FunctionList extends JFrame {
 	public void setLabelTextToResult(JLabel lbl, List<Integer> userList, List<String> resultStrList) {
 		List<Integer> resultList = new ArrayList<>();
 
-		for (int i = 0; i < resultStrList.size() - 1; i++) {
+		for (int i = 0; i < resultStrList.size() - 1; i++) { // 보너스 당첨 번호 제외
 			resultList.add(Integer.valueOf(resultStrList.get(i)));
 		}
 
@@ -294,6 +305,7 @@ public class FunctionList extends JFrame {
 					for (JCheckBox box : checkBoxList) {
 						if (box.isSelected()) {
 							box.setEnabled(true);
+							
 						} else {
 							box.setEnabled(false);
 						}
@@ -312,10 +324,12 @@ public class FunctionList extends JFrame {
 	}
 
 	// 사용자가 제출한 번호 내용을 토대로 saveCheckBox를 구성 및 저장하는 메소드입니다.
+	// 이전 기록들을 전부 저장하기 위한 saveCheckBox 리스트 구성
 	public void saveCheckBoxNum(List<List<List<JCheckBox>>> saveCheckBox, List<List<JCheckBox>> resultShow) {
 
 		for (int i = 0; i < saveCheckBox.size() + 1; i++) {
 			if (i == saveCheckBox.size()) {
+				
 				List<List<JCheckBox>> newBoxListList = new ArrayList<>();
 				for (int j = 0; j < resultShow.size(); j++) {
 
@@ -445,7 +459,7 @@ public class FunctionList extends JFrame {
 					}
 
 				} else {
-					JOptionPane.showMessageDialog(FunctionList.this, "6개를 모두 선택하세요");
+					JOptionPane.showMessageDialog(FunctionList.this, "번호 6개를 모두 선택해주세요.");
 				}
 			}
 		});
@@ -516,19 +530,19 @@ public class FunctionList extends JFrame {
 			Random random = new Random();
 			int index = random.nextInt(45);
 
-			if (!checkBoxList.get(index).isSelected()) {
-				checkBoxList.get(index).setSelected(true);
-				count++;
+			if (!checkBoxList.get(index).isSelected()) { // 체크박스가 선택되어있지않으면
+				checkBoxList.get(index).setSelected(true); // 체크박스를 선택함
+				count++; // 체크박스를 선택할때마다 count 증가
 				result.add(index + 1);
 			}
 		}
-		Collections.sort(result);
+		Collections.sort(result); // 리스트 정렬
 		return result;
 	}
 
-	// 버튼 기능을 구현하는 메소드 내용 중 중복된 내용을 메소드 화
+	// 버튼(자동, 수동, 반자동) 기능을 구현하는 메소드 내용 중 중복된 내용을 메소드 화
 	private void listComposition(List<Integer> findBtn, List<Integer> list, int btnDivideNum) {
-		findBtn.clear();
+		findBtn.clear(); // 이전 기록과 상관없이 다른 버튼을 누르면 각 버튼의 역할을 알려주는 리스트를 비움 (다시 구성하기위해)
 		findBtn.add(btnDivideNum);
 
 		for (Integer num : list) {
