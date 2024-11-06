@@ -111,7 +111,7 @@
 <br>
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/126a279e-b62f-41bb-81b0-e4858b809a44" width="1000">
+  <img src="https://github.com/user-attachments/assets/f0d0c3a3-1c1a-4400-8afd-663c19e6c3a1" width="600">
 </div>
 
 <br>
